@@ -19,6 +19,27 @@
 
 > **Warning**: This project is `v0`: the protocol, schemas, and APIs are subject to breaking changes without notice until a formal release.
 
+## Status: archived
+
+This repository is archived as of 2026-10-10. The specification, the Go apply engine, and the eval corpus remain available and usable under their existing licenses, but the project is no longer under active development.
+
+**Why.** Since GAP was published, the industry has converged on a closely similar mechanism for artifact updates.
+
+| Date | Event |
+|---|---|
+| 2026-02-26 | First GAP commit |
+| 2026-03-29 | GAP `v0.1.0` |
+| 2026-06-18 | Claude Code Artifacts launches in beta |
+
+Claude Code Artifacts, like GAP, keeps the artifact body in a store, publishes it by reference instead of re-emitting it, applies small targeted edits through the harness, and versions each publish. This note claims convergence on a similar design, not derivation.
+
+**What still differs.**
+
+- **Addressing.** GAP edits name a target by ID (`<gap:target>`) or JSON Pointer. String-replace edits quote the existing text. In two informal edits observed on 2026-10-10, the quoted text was a small share of edit output (roughly 2 to 3 percent), so the token margin between the two approaches is small for small edits.
+- **Openness.** GAP is a provider-neutral spec with a small standalone engine. It runs with any model and needs no vendor harness.
+
+**How to read the committed measurements.** The results under [`assets/evals/`](assets/evals/experiments/EXPERIMENT.md) compare GAP against full regeneration of the artifact. They do not compare GAP against string-replace editing, which is now the common baseline. Treat the savings figures as GAP versus full regeneration only.
+
 Generative Artifact Protocol (GAP) lets LLMs update structured text artifacts by emitting small JSON envelopes instead of regenerating full files. The native implementation is now Go-only: protocol types, `<gap:target>` marker resolution, JSON Pointer edits, a stateless apply engine, and a versioned in-memory store live in the root Go package.
 
 ## Features
