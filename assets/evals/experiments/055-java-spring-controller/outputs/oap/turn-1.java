@@ -1,7 +1,7 @@
-<oap:target id="product-management-module">
+<gap:target id="product-management-module">
 package com.example.productmanagement;
 
-<oap:target id="controller-section">
+<gap:target id="controller-section">
     /**
      * Export all products as CSV.
      *
@@ -20,7 +20,7 @@ package com.example.productmanagement;
  * REST controller for product management operations.
  */
 @RestController
-@RequestMapping("<oap:target id="product-base-path">/api/products</oap:target>")
+@RequestMapping("<gap:target id="product-base-path">/api/products</gap:target>")
 @Validated
 public class ProductController {
 
@@ -66,10 +66,10 @@ public class ProductController {
      */
     @GetMapping
     public ResponseEntity<PagedResponse<ProductResponse>> getAllProducts(
-            @RequestParam(defaultValue = "<oap:target id="default-page-number">0</oap:target>") int page,
-            @RequestParam(defaultValue = "<oap:target id="default-page-size">10</oap:target>") int size,
-            @RequestParam(defaultValue = "<oap:target id="default-sort-field">name</oap:target>") String sortBy,
-            @RequestParam(defaultValue = "<oap:target id="default-sort-direction">asc</oap:target>") String sortDir) {
+            @RequestParam(defaultValue = "<gap:target id="default-page-number">0</gap:target>") int page,
+            @RequestParam(defaultValue = "<gap:target id="default-page-size">10</gap:target>") int size,
+            @RequestParam(defaultValue = "<gap:target id="default-sort-field">name</gap:target>") String sortBy,
+            @RequestParam(defaultValue = "<gap:target id="default-sort-direction">asc</gap:target>") String sortDir) {
         return ResponseEntity.ok(productService.getAllProducts(page, size, sortBy, sortDir));
     }
 
@@ -111,9 +111,9 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 }
-</oap:target>
+</gap:target>
 
-<oap:target id="service-section">
+<gap:target id="service-section">
 /**
  * Business service for product operations.
  */
@@ -133,7 +133,7 @@ public class ProductService {
      * @param request the product request
      * @return product response
      */
-    @CacheEvict(value = "<oap:target id="product-cache-name">products</oap:target>", allEntries = true)
+    @CacheEvict(value = "<gap:target id="product-cache-name">products</gap:target>", allEntries = true)
     public ProductResponse createProduct(@Valid ProductRequest request) {
         validateSkuUniqueness(request.getSku(), null);
         Product product = mapToEntity(request);
@@ -286,9 +286,9 @@ public class ProductService {
         );
     }
 }
-</oap:target>
+</gap:target>
 
-<oap:target id="repository-section">
+<gap:target id="repository-section">
 /**
  * JPA repository for product persistence operations.
  */
@@ -353,9 +353,9 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
                                  @Param("maxPrice") BigDecimal maxPrice,
                                  Pageable pageable);
 }
-</oap:target>
+</gap:target>
 
-<oap:target id="dto-section">
+<gap:target id="dto-section">
 /**
  * Request DTO for product data.
  */
@@ -522,9 +522,9 @@ public class PagedResponse<T> {
     public int getTotalPages() { return totalPages; }
     public boolean isLast() { return last; }
 }
-</oap:target>
+</gap:target>
 
-<oap:target id="exception-section">
+<gap:target id="exception-section">
 /**
  * Global exception handler for REST APIs.
  */
@@ -534,7 +534,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ErrorResponse("<oap:target id="not-found-error-code">NOT_FOUND</oap:target>", ex.getMessage()));
+                .body(new ErrorResponse("<gap:target id="not-found-error-code">NOT_FOUND</gap:target>", ex.getMessage()));
     }
 
     @ExceptionHandler(BadRequestException.class)
@@ -594,9 +594,9 @@ public class BadRequestException extends RuntimeException {
         super(message);
     }
 }
-</oap:target>
+</gap:target>
 
-<oap:target id="entity-section">
+<gap:target id="entity-section">
 @Entity
 @Table(name = "products")
 public class Product {
@@ -643,6 +643,6 @@ public class Product {
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
 }
-</oap:target>
+</gap:target>
 
-</oap:target>
+</gap:target>

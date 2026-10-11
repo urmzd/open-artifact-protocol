@@ -6,7 +6,7 @@
   "meta": {},
   "content": [
     {
-      "content": "\n<oap:target id=\"profile-bench-block\">\n[profile.bench]\n<oap:target id=\"bench-debug\">debug = true</oap:target>\n</oap:target>",
+      "content": "\n<gap:target id=\"profile-bench-block\">\n[profile.bench]\n<gap:target id=\"bench-debug\">debug = true</gap:target>\n</gap:target>",
       "op": "insert_after",
       "target": {
         "type": "id",
@@ -14,7 +14,7 @@
       }
     },
     {
-      "content": "\n<oap:target id=\"release-codegen-units\">codegen-units = 1</oap:target>",
+      "content": "\n<gap:target id=\"release-codegen-units\">codegen-units = 1</gap:target>",
       "op": "insert_before",
       "target": {
         "type": "id",

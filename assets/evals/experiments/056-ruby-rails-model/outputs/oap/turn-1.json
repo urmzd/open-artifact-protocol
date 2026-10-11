@@ -6,7 +6,7 @@
   "meta": {},
   "content": [
     {
-      "content": "    has_many <oap:target id=\"refunds-association\">:refunds</oap:target>",
+      "content": "    has_many <gap:target id=\"refunds-association\">:refunds</gap:target>",
       "op": "insert_after",
       "target": {
         "type": "id",
@@ -14,7 +14,7 @@
       }
     },
     {
-      "content": "\n    def <oap:target id=\"refund-method-name\">refund!</oap:target>\n      <oap:target id=\"refund-method-body\">refunds.create!\\n      update!(status: :refunded)</oap:target>\n    end",
+      "content": "\n    def <gap:target id=\"refund-method-name\">refund!</gap:target>\n      <gap:target id=\"refund-method-body\">refunds.create!\\n      update!(status: :refunded)</gap:target>\n    end",
       "op": "insert_after",
       "target": {
         "type": "id",

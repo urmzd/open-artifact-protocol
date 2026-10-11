@@ -1,67 +1,67 @@
-<oap:target id="cargo-toml">
+<gap:target id="cargo-toml">
 [workspace]
-<oap:target id="workspace-members">
+<gap:target id="workspace-members">
 members = [
-  <oap:target id="workspace-member-cli">"cli"</oap:target>,
-  <oap:target id="workspace-member-core">"core"</oap:target>,
-  <oap:target id="workspace-member-utils">"utils"</oap:target>
+  <gap:target id="workspace-member-cli">"cli"</gap:target>,
+  <gap:target id="workspace-member-core">"core"</gap:target>,
+  <gap:target id="workspace-member-utils">"utils"</gap:target>
 ]
-</oap:target>
+</gap:target>
 
-<oap:target id="package-metadata">
+<gap:target id="package-metadata">
 [package]
-<oap:target id="package-name">name = "dataforge"</oap:target>
-<oap:target id="package-version">version = "0.1.0"</oap:target>
-<oap:target id="package-edition">edition = "2021"</oap:target>
-<oap:target id="package-description">description = "A data processing CLI and library workspace"</oap:target>
-<oap:target id="package-license">license = "MIT OR Apache-2.0"</oap:target>
-<oap:target id="package-authors">authors = ["Your Name &lt;you@example.com&gt;"]</oap:target>
-<oap:target id="package-repository">repository = "https://github.com/your-org/dataforge"</oap:target>
-</oap:target>
+<gap:target id="package-name">name = "dataforge"</gap:target>
+<gap:target id="package-version">version = "0.1.0"</gap:target>
+<gap:target id="package-edition">edition = "2021"</gap:target>
+<gap:target id="package-description">description = "A data processing CLI and library workspace"</gap:target>
+<gap:target id="package-license">license = "MIT OR Apache-2.0"</gap:target>
+<gap:target id="package-authors">authors = ["Your Name &lt;you@example.com&gt;"]</gap:target>
+<gap:target id="package-repository">repository = "https://github.com/your-org/dataforge"</gap:target>
+</gap:target>
 
-<oap:target id="package-targets">
+<gap:target id="package-targets">
 [[bin]]
-<oap:target id="binary-name">name = "dataforge"</oap:target>
-<oap:target id="binary-path">path = "cli/src/main.rs"</oap:target>
+<gap:target id="binary-name">name = "dataforge"</gap:target>
+<gap:target id="binary-path">path = "cli/src/main.rs"</gap:target>
 
 [[lib]]
-<oap:target id="library-name">name = "dataforge"</oap:target>
-<oap:target id="library-path">path = "core/src/lib.rs"</oap:target>
-</oap:target>
+<gap:target id="library-name">name = "dataforge"</gap:target>
+<gap:target id="library-path">path = "core/src/lib.rs"</gap:target>
+</gap:target>
 
-<oap:target id="dependencies-block">
+<gap:target id="dependencies-block">
 [dependencies]
-<oap:target id="dependency-clap">clap = { version = "4", features = ["derive"] }</oap:target>
-<oap:target id="dependency-serde">serde = { version = "1", features = ["derive"] }</oap:target>
-<oap:target id="dependency-tokio">tokio = { version = "1", features = ["rt-multi-thread", "macros"] }</oap:target>
-<oap:target id="dependency-anyhow">anyhow = "1"</oap:target>
-<oap:target id="dependency-tracing">tracing = "0.1"</oap:target>
-<oap:target id="dependency-reqwest">reqwest = { version = "0.12", features = ["json", "rustls-tls"] }sqlx = { version = "0.8", features = ["postgres", "runtime-tokio"] }
-sea-orm = { version = "0.12", features = ["sqlx-postgres", "runtime-tokio-rustls"] }</oap:target>
-</oap:target>
+<gap:target id="dependency-clap">clap = { version = "4", features = ["derive"] }</gap:target>
+<gap:target id="dependency-serde">serde = { version = "1", features = ["derive"] }</gap:target>
+<gap:target id="dependency-tokio">tokio = { version = "1", features = ["rt-multi-thread", "macros"] }</gap:target>
+<gap:target id="dependency-anyhow">anyhow = "1"</gap:target>
+<gap:target id="dependency-tracing">tracing = "0.1"</gap:target>
+<gap:target id="dependency-reqwest">reqwest = { version = "0.12", features = ["json", "rustls-tls"] }sqlx = { version = "0.8", features = ["postgres", "runtime-tokio"] }
+sea-orm = { version = "0.12", features = ["sqlx-postgres", "runtime-tokio-rustls"] }</gap:target>
+</gap:target>
 
-<oap:target id="dev-dependencies-block">
+<gap:target id="dev-dependencies-block">
 [dev-dependencies]
-<oap:target id="dev-dependency-criterion">criterion = "0.5"</oap:target>
-<oap:target id="dev-dependency-tempfile">tempfile = "3"</oap:target>
-<oap:target id="dev-dependency-mockito">mockito = "1"</oap:target>
-</oap:target>
+<gap:target id="dev-dependency-criterion">criterion = "0.5"</gap:target>
+<gap:target id="dev-dependency-tempfile">tempfile = "3"</gap:target>
+<gap:target id="dev-dependency-mockito">mockito = "1"</gap:target>
+</gap:target>
 
-<oap:target id="features-block">
+<gap:target id="features-block">
 [features]
-<oap:target id="feature-default">default = ["full"]</oap:target>
-<oap:target id="feature-full">full = ["clap", "serde", "tokio", "anyhow", "tracing", "reqwest"]</oap:target>
-<oap:target id="feature-minimal">minimal = []</oap:target>
-</oap:target>
+<gap:target id="feature-default">default = ["full"]</gap:target>
+<gap:target id="feature-full">full = ["clap", "serde", "tokio", "anyhow", "tracing", "reqwest"]</gap:target>
+<gap:target id="feature-minimal">minimal = []</gap:target>
+</gap:target>
 
-<oap:target id="profile-release-block">
+<gap:target id="profile-release-block">
 [profile.release]
-<oap:target id="release-lto">lto = "thin"</oap:target>
-<oap:target id="release-strip">
-<oap:target id="release-codegen-units">codegen-units = 1</oap:target>strip = true</oap:target>
+<gap:target id="release-lto">lto = "thin"</gap:target>
+<gap:target id="release-strip">
+<gap:target id="release-codegen-units">codegen-units = 1</gap:target>strip = true</gap:target>
 
-<oap:target id="profile-bench-block">
+<gap:target id="profile-bench-block">
 [profile.bench]
-<oap:target id="bench-debug">debug = true</oap:target>
-</oap:target></oap:target>
-</oap:target>
+<gap:target id="bench-debug">debug = true</gap:target>
+</gap:target></gap:target>
+</gap:target>

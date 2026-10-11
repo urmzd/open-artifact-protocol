@@ -1,6 +1,6 @@
 # Open Artifact Protocol
 
-> Open protocol and Go implementation for token-efficient artifact generation and updates by LLMs. Producers emit JSON envelopes targeting `<oap:target>` markers or JSON Pointers; the stateless Go apply engine resolves them without regenerating the whole artifact.
+> Archived 2026-10-10. Formerly Generative Artifact Protocol (GAP). Open protocol and Go implementation for token-efficient artifact generation and updates by LLMs. Producers emit JSON envelopes targeting `<oap:target>` markers or JSON Pointers; the stateless Go apply engine resolves them without regenerating the whole artifact.
 
 ## Docs
 

@@ -1,4 +1,4 @@
-<oap:target id="file">
+<gap:target id="file">
 package main
 
 import (
@@ -20,12 +20,12 @@ import (
 	"time"
 )
 
-<oap:target id="config-block">
+<gap:target id="config-block">
 type Config struct {
-	<oap:target id="server-address">Addr</oap:target>            string
-	<oap:target id="shutdown-timeout">ShutdownTimeout</oap:target> time.Duration
-	<oap:target id="rate-limit-rps">RateLimitRPS</oap:target>      float64
-	<oap:target id="rate-limit-burst">RateLimitBurst</oap:target>  float64
+	<gap:target id="server-address">Addr</gap:target>            string
+	<gap:target id="shutdown-timeout">ShutdownTimeout</gap:target> time.Duration
+	<gap:target id="rate-limit-rps">RateLimitRPS</gap:target>      float64
+	<gap:target id="rate-limit-burst">RateLimitBurst</gap:target>  float64
 }
 
 func loadConfig() Config {
@@ -67,31 +67,31 @@ func getEnvFloat(key string, fallback float64) float64 {
 	}
 	return f
 }
-</oap:target>
+</gap:target>
 
-<oap:target id="model-block">
+<gap:target id="model-block">
 type URL struct {
-	<oap:target id="url-code">Code</oap:target>        string    `json:"code"`
-	<oap:target id="url-original">OriginalURL</oap:target> string    `json:"original_url"`
-	<oap:target id="url-short">ShortURL</oap:target>    string    `json:"short_url"`
-	<oap:target id="url-created">CreatedAt</oap:target>  time.Time `json:"created_at"`
-	<oap:target id="url-clicks">Clicks</oap:target>     int64     `json:"clicks"`
+	<gap:target id="url-code">Code</gap:target>        string    `json:"code"`
+	<gap:target id="url-original">OriginalURL</gap:target> string    `json:"original_url"`
+	<gap:target id="url-short">ShortURL</gap:target>    string    `json:"short_url"`
+	<gap:target id="url-created">CreatedAt</gap:target>  time.Time `json:"created_at"`
+	<gap:target id="url-clicks">Clicks</gap:target>     int64     `json:"clicks"`
 }
 
 type CreateRequest struct {
-	<oap:target id="create-original-url">OriginalURL</oap:target> string `json:"original_url"`
+	<gap:target id="create-original-url">OriginalURL</gap:target> string `json:"original_url"`
 }
 
 type StatsResponse struct {
-	<oap:target id="stats-code">Code</oap:target>        string    `json:"code"`
-	<oap:target id="stats-original">OriginalURL</oap:target> string    `json:"original_url"`
-	<oap:target id="stats-short">ShortURL</oap:target>    string    `json:"short_url"`
-	<oap:target id="stats-created">CreatedAt</oap:target>  time.Time `json:"created_at"`
-	<oap:target id="stats-clicks">Clicks</oap:target>     int64     `json:"clicks"`
+	<gap:target id="stats-code">Code</gap:target>        string    `json:"code"`
+	<gap:target id="stats-original">OriginalURL</gap:target> string    `json:"original_url"`
+	<gap:target id="stats-short">ShortURL</gap:target>    string    `json:"short_url"`
+	<gap:target id="stats-created">CreatedAt</gap:target>  time.Time `json:"created_at"`
+	<gap:target id="stats-clicks">Clicks</gap:target>     int64     `json:"clicks"`
 }
-</oap:target>
+</gap:target>
 
-<oap:target id="store-block">
+<gap:target id="store-block">
 type Store struct {
 	mu   sync.RWMutex
 	urls map[string]*URL
@@ -162,9 +162,9 @@ func (s *Store) List() []URL {
 	}
 	return out
 }
-</oap:target>
+</gap:target>
 
-<oap:target id="helpers-block">
+<gap:target id="helpers-block">
 func generateCode(n int) string {
 	b := make([]byte, n)
 	if _, err := rand.Read(b); err != nil {
@@ -190,9 +190,9 @@ func getCodeFromPath(path string) string {
 	}
 	return parts[len(parts)-1]
 }
-</oap:target>
+</gap:target>
 
-<oap:target id="rate-limiter-block">
+<gap:target id="rate-limiter-block">
 type tokenBucket struct {
 	tokens float64
 	last   time.Time
@@ -228,9 +228,9 @@ func (tb *tokenBucket) allow() bool {
 	tb.tokens -= 1
 	return true
 }
-</oap:target>
+</gap:target>
 
-<oap:target id="middleware-block">
+<gap:target id="middleware-block">
 func requestIDMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		id := r.Header.Get("X-Request-ID")
@@ -277,9 +277,9 @@ func rateLimitMiddleware(tb *tokenBucket) func(http.Handler) http.Handler {
 }
 
 type requestIDKey struct{}
-</oap:target>
+</gap:target>
 
-<oap:target id="handler-block">
+<gap:target id="handler-block">
 type Handler struct {
 	store   *Store
 	baseURL string
@@ -368,9 +368,9 @@ func (h *Handler) DeleteURL(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(http.StatusNoContent)
 }
-</oap:target>
+</gap:target>
 
-<oap:target id="routing-block">
+<gap:target id="routing-block">
 func main() {
 	cfg := loadConfig()
 	store := NewStore()
@@ -455,5 +455,5 @@ func signalNotify(ch chan<- os.Signal, sig ...os.Signal) {
 	_ = sig
 	_ = ch
 }
-</oap:target>
-</oap:target>
+</gap:target>
+</gap:target>

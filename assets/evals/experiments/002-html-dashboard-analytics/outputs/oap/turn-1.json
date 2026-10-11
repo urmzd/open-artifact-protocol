@@ -1,5 +1,5 @@
 {
-  "protocol": "oap/0.1",
+  "protocol": "gap/0.1",
   "id": "artifact-id",
   "version": 2,
   "name": "edit",
@@ -24,7 +24,7 @@
         "type": "id",
         "value": "bounce-rate-value"
       },
-      "content": "<span class=\"kpi-trend\" style=\"font-size: 0.8em; margin-top: 5px; display: block; color: #28a745;\"><oap:target id=\"bounce-rate-trend\">(-5.1% improvement)</oap:target></span>"
+      "content": "<span class=\"kpi-trend\" style=\"font-size: 0.8em; margin-top: 5px; display: block; color: #28a745;\"><gap:target id=\"bounce-rate-trend\">(-5.1% improvement)</gap:target></span>"
     }
   ]
 }

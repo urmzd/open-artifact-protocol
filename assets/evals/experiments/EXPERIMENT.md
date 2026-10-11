@@ -1,5 +1,7 @@
 # OAP Conversation Benchmark
 
+> **Archived 2026-10-10.** These measurements compare OAP against full regeneration only. They do not compare it against string-replace editing, and the OAP flow always received the full artifact, so context-isolated editing was not evaluated. Recorded model outputs keep the original `gap` identifiers. See the [README](../../../README.md#evaluation-limitations).
+
 This suite measures the Open Artifact Protocol against full-regeneration
 baselines on real, multi-turn LLM edit sessions. Each experiment is a directory;
 the `evalset` Go package materializes those directories as `github.com/urmzd/saige/eval`
@@ -18,13 +20,13 @@ and can be scored offline through SAIGE scorers.
 
 ### Three flows, identical edits
 
-Every experiment runs the same turn-0 creation and the same edit instructions through up to three flows (`--flow base|stateless|gap|both|abc|all`):
+Every experiment runs the same turn-0 creation and the same edit instructions through up to three flows (`--flow base|stateless|oap|both|abc|all`):
 
 | Flow | Scenario | Context per edit turn | Output |
 |---|---|---|---|
 | **base** | **A** | full conversation history (all prior artifacts + messages accumulate) | full artifact, regenerated |
 | **stateless** | **B** | `system + current artifact + edit` (fresh each turn) | full artifact, regenerated |
-| **gap** | **C** | `OAP maintain prompt + current artifact + edit` (fresh each turn) | a JSON **edit envelope**, applied by the engine |
+| **oap** | **C** | `OAP maintain prompt + current artifact + edit` (fresh each turn) | a JSON **edit envelope**, applied by the engine |
 
 This separates the two effects that a naive "OAP vs base" comparison conflates:
 
@@ -33,7 +35,7 @@ This separates the two effects that a naive "OAP vs base" comparison conflates:
 
 The report renders this as the **A/B/C decomposition** (only when the stateless flow is run, i.e. `--flow abc`/`all`).
 
-> **Turn 0.** The `base` and `stateless` flows operate on the same plain creation artifact. The `gap` flow's turn-0 carries `<oap:target>` markers (or is structured for JSON-Pointer targeting), so it is a slightly larger, instrumented variant — that marker overhead is reported honestly, not hidden.
+> **Turn 0.** The `base` and `stateless` flows operate on the same plain creation artifact. The `oap` flow's turn-0 carries `<oap:target>` markers (or is structured for JSON-Pointer targeting), so it is a slightly larger, instrumented variant — that marker overhead is reported honestly, not hidden.
 
 ### The system prompt is the independent variable
 

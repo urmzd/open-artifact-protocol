@@ -1,14 +1,14 @@
-<oap:target id="rust-csv-cli-tool">
+<gap:target id="rust-csv-cli-tool">
 use clap::Parser;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::{self, BufReader, BufWriter};
 
-<oap:target id="error-module">
+<gap:target id="error-module">
 use thiserror::Error;
 
-<oap:target id="app-error-type">
+<gap:target id="app-error-type">
 #[derive(Debug, Error)]
 pub enum AppError {
     #[error("I/O error: {0}")]
@@ -29,11 +29,11 @@ pub enum AppError {
     #[error("Unknown column: {0}")]
     UnknownColumn(String),
 }
-</oap:target>
-</oap:target>
+</gap:target>
+</gap:target>
 
-<oap:target id="cli-arguments-module">
-<oap:target id="cli-args-struct">#[derive(Parser, Debug)]
+<gap:target id="cli-arguments-module">
+<gap:target id="cli-args-struct">#[derive(Parser, Debug)]
 #[command(name = "csv-tool", version, about = "Process and analyze CSV files")]
 pub struct CliArgs {
     #[arg(short, long)]
@@ -56,10 +56,10 @@ pub struct CliArgs {
 
     #[arg(long, default_value_t = 10)]
     pub head: usize,
-}</oap:target>
-</oap:target>
+}</gap:target>
+</gap:target>
 
-<oap:target id="data-models-module">pub enum AggregationMode {
+<gap:target id="data-models-module">pub enum AggregationMode {
     Count,
     Sum,
     Avg,
@@ -77,9 +77,9 @@ pub struct AggregationResult {
     pub min: Option<f64>,
     pub max: Option<f64>,
     pub distinct_count: Option<usize>,
-}</oap:target>
+}</gap:target>
 
-<oap:target id="filter-expression-module">
+<gap:target id="filter-expression-module">
 #[derive(Debug, Clone)]
 pub enum Operator {
     Eq,
@@ -91,16 +91,16 @@ pub enum Operator {
     Contains,
 }
 
-<oap:target id="filter-ast-struct">
+<gap:target id="filter-ast-struct">
 #[derive(Debug, Clone)]
 pub struct FilterExpr {
     pub column: String,
     pub op: Operator,
     pub value: String,
 }
-</oap:target>
+</gap:target>
 
-<oap:target id="filter-parser-function">
+<gap:target id="filter-parser-function">
 pub fn parse_filter_expr(input: &str) -> Result<FilterExpr, AppError> {
     let ops = [
         (" contains ", Operator::Contains),
@@ -125,9 +125,9 @@ pub fn parse_filter_expr(input: &str) -> Result<FilterExpr, AppError> {
 
     Err(AppError::InvalidFilter(input.to_string()))
 }
-</oap:target>
+</gap:target>
 
-<oap:target id="filter-evaluator-function">
+<gap:target id="filter-evaluator-function">
 pub fn matches_filter(record: &Record, expr: &FilterExpr) -> Result<bool, AppError> {
     let left = record
         .fields
@@ -153,16 +153,16 @@ pub fn matches_filter(record: &Record, expr: &FilterExpr) -> Result<bool, AppErr
 
     Ok(result)
 }
-</oap:target>
-</oap:target>
+</gap:target>
+</gap:target>
 
-<oap:target id="csv-processor-module">
+<gap:target id="csv-processor-module">
 pub struct CsvProcessor {
     pub headers: Vec<String>,
     pub records: Vec<Record>,
 }
 
-<oap:target id="csv-processor-impl">    pub fn aggregate_by_group(
+<gap:target id="csv-processor-impl">    pub fn aggregate_by_group(
         &self,
         group_column: &str,
         value_column: &str,
@@ -209,10 +209,10 @@ pub struct CsvProcessor {
         }
 
         Ok(out)
-    }</oap:target>
-</oap:target>
+    }</gap:target>
+</gap:target>
 
-<oap:target id="output-formatters-module">pub fn print_table(records: &[Record], headers: &[String]) {
+<gap:target id="output-formatters-module">pub fn print_table(records: &[Record], headers: &[String]) {
     let widths = headers
         .iter()
         .map(|h| {
@@ -311,22 +311,22 @@ pub fn print_aggregation_results(results: &[AggregationResult]) {
             .unwrap_or_default();
         println!("| {} | {} | {} |", result.group_key, result.count, distinct_count);
     }
-}</oap:target>
+}</gap:target>
 
-<oap:target id="main-function-module">    if let Some(limit) = args.limit {
+<gap:target id="main-function-module">    if let Some(limit) = args.limit {
         processor = processor.limit(limit);
     }
 
     processor = processor.limit(args.head);
 
-    match args.output_format.as_str() {</oap:target>
+    match args.output_format.as_str() {</gap:target>
 
-<oap:target id="unit-tests-module">
+<gap:target id="unit-tests-module">
 #[cfg(test)]
 mod tests {
     use super::*;
 
-    <oap:target id="filter-parser-tests">
+    <gap:target id="filter-parser-tests">
     #[test]
     fn parses_equality_filter() {
         let expr = parse_filter_expr("age == 30").unwrap();
@@ -342,9 +342,9 @@ mod tests {
         assert!(matches!(expr.op, Operator::Contains));
         assert_eq!(expr.value, "John");
     }
-    </oap:target>
+    </gap:target>
 
-    <oap:target id="filter-evaluator-tests">
+    <gap:target id="filter-evaluator-tests">
     #[test]
     fn evaluates_numeric_filter() {
         let mut fields = HashMap::new();
@@ -410,7 +410,7 @@ mod tests {
         assert_eq!(results[1].group_key, "B");
         assert_eq!(results[1].count, 1);
         assert_eq!(results[1].distinct_count, Some(1));
-    }</oap:target>
+    }</gap:target>
 }
-</oap:target>
-</oap:target>
+</gap:target>
+</gap:target>
