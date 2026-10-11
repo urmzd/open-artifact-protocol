@@ -58,11 +58,11 @@ func TestCommittedMetricsRunThroughSAIGEScorers(t *testing.T) {
 	if err := saigeeval.Populate(context.Background(), observations, CommittedMetricsSubject()); err != nil {
 		t.Fatalf("Populate metrics: %v", err)
 	}
-	result, err := saigeeval.Run(context.Background(), "gap-committed-metrics", observations, MetricsScorers())
+	result, err := saigeeval.Run(context.Background(), "oap-committed-metrics", observations, MetricsScorers())
 	if err != nil {
 		t.Fatalf("Run metrics suite: %v", err)
 	}
-	for _, metric := range []string{"output_token_savings", "gap_envelope_parse_rate", "gap_apply_success_rate"} {
+	for _, metric := range []string{"output_token_savings", "oap_envelope_parse_rate", "oap_apply_success_rate"} {
 		if _, ok := result.Aggregate[metric]; !ok {
 			t.Fatalf("missing aggregate %q: %#v", metric, result.Aggregate)
 		}

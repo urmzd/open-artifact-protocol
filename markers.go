@@ -1,4 +1,4 @@
-package gap
+package oap
 
 import (
 	"fmt"
@@ -7,17 +7,17 @@ import (
 )
 
 const (
-	openPrefix = "<gap:target "
-	closeTag   = "</gap:target>"
+	openPrefix = "<oap:target "
+	closeTag   = "</oap:target>"
 )
 
-var targetOpenRE = regexp.MustCompile(`<gap:target\b[^>]*\sid="([^"]+)"[^>]*>`)
+var targetOpenRE = regexp.MustCompile(`<oap:target\b[^>]*\sid="([^"]+)"[^>]*>`)
 
 func MarkersFor(targetID, format string) (string, string, error) {
 	if format == "application/json" {
 		return "", "", fmt.Errorf("JSON does not support text-based markers; use pointer addressing instead")
 	}
-	return fmt.Sprintf(`<gap:target id="%s">`, targetID), closeTag, nil
+	return fmt.Sprintf(`<oap:target id="%s">`, targetID), closeTag, nil
 }
 
 func FindTargetRange(content, targetID, format string) (int, int, error) {
@@ -65,7 +65,7 @@ func ExtractTargets(content, format string) []string {
 }
 
 func findOpenMarker(content, targetID string) (int, int) {
-	re := regexp.MustCompile(`<gap:target\b[^>]*\sid="` + regexp.QuoteMeta(targetID) + `"[^>]*>`)
+	re := regexp.MustCompile(`<oap:target\b[^>]*\sid="` + regexp.QuoteMeta(targetID) + `"[^>]*>`)
 	loc := re.FindStringIndex(content)
 	if loc == nil {
 		return -1, -1

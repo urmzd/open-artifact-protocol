@@ -14,15 +14,15 @@ import (
 	"github.com/urmzd/saige/eval/harness"
 )
 
-func TestRunGAPFlowWithMockProvider(t *testing.T) {
+func TestRunOAPFlowWithMockProvider(t *testing.T) {
 	root := t.TempDir()
 	expDir := filepath.Join(root, "001-html-smoke")
 	writeFixture(t, filepath.Join(expDir, "README.md"), "# Experiment: smoke\n\n**Format:** text/html | **Size:** small | **Edits:** 1\n\n**Expected sections:** msg\n")
 	writeFixture(t, filepath.Join(expDir, "inputs/base/system.md"), "You produce HTML.")
 	writeFixture(t, filepath.Join(expDir, "inputs/base/turn-0.md"), "Create greeting.")
 	writeFixture(t, filepath.Join(expDir, "inputs/base/turn-1.md"), "Change hello to world.")
-	writeFixture(t, filepath.Join(expDir, "inputs/gap/init-system.md"), "Create marked HTML.")
-	writeFixture(t, filepath.Join(expDir, "inputs/gap/maintain-system.md"), "Return a GAP edit envelope.")
+	writeFixture(t, filepath.Join(expDir, "inputs/oap/init-system.md"), "Create marked HTML.")
+	writeFixture(t, filepath.Join(expDir, "inputs/oap/maintain-system.md"), "Return a OAP edit envelope.")
 
 	var calls atomic.Int64
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -36,12 +36,12 @@ func TestRunGAPFlowWithMockProvider(t *testing.T) {
 		call := calls.Add(1)
 		switch call {
 		case 1:
-			writeChatResponse(t, w, `<gap:target id="msg">hello</gap:target>`, 10, 8)
+			writeChatResponse(t, w, `<oap:target id="msg">hello</oap:target>`, 10, 8)
 		case 2:
 			if _, ok := req["response_format"]; !ok {
-				t.Fatal("GAP edit request missing response_format")
+				t.Fatal("OAP edit request missing response_format")
 			}
-			writeChatResponse(t, w, `{"protocol":"gap/0.1","id":"001-html-smoke","version":2,"name":"edit","meta":{"format":"text/html"},"content":[{"op":"replace","target":{"type":"id","value":"msg"},"content":"world"}]}`, 12, 6)
+			writeChatResponse(t, w, `{"protocol":"oap/0.1","id":"001-html-smoke","version":2,"name":"edit","meta":{"format":"text/html"},"content":[{"op":"replace","target":{"type":"id","value":"msg"},"content":"world"}]}`, 12, 6)
 		default:
 			t.Fatalf("unexpected call %d", call)
 		}
@@ -50,7 +50,7 @@ func TestRunGAPFlowWithMockProvider(t *testing.T) {
 
 	err := Run(context.Background(), Config{
 		ExperimentsDir: root,
-		Flow:           "gap",
+		Flow:           "oap",
 		Model:          "mock",
 		APIBase:        server.URL,
 		APIKey:         "test-key",
@@ -60,7 +60,7 @@ func TestRunGAPFlowWithMockProvider(t *testing.T) {
 		t.Fatalf("Run: %v", err)
 	}
 
-	output, err := os.ReadFile(filepath.Join(expDir, "outputs/gap/turn-1.html"))
+	output, err := os.ReadFile(filepath.Join(expDir, "outputs/oap/turn-1.html"))
 	if err != nil {
 		t.Fatalf("read output: %v", err)
 	}
@@ -76,15 +76,15 @@ func TestRunGAPFlowWithMockProvider(t *testing.T) {
 	}
 }
 
-func TestRunGAPFlowRepairsInvalidTarget(t *testing.T) {
+func TestRunOAPFlowRepairsInvalidTarget(t *testing.T) {
 	root := t.TempDir()
 	expDir := filepath.Join(root, "001-html-smoke")
 	writeFixture(t, filepath.Join(expDir, "README.md"), "# Experiment: smoke\n\n**Format:** text/html | **Size:** small | **Edits:** 1\n\n**Expected sections:** msg\n")
 	writeFixture(t, filepath.Join(expDir, "inputs/base/system.md"), "You produce HTML.")
 	writeFixture(t, filepath.Join(expDir, "inputs/base/turn-0.md"), "Create greeting.")
 	writeFixture(t, filepath.Join(expDir, "inputs/base/turn-1.md"), "Change hello to world.")
-	writeFixture(t, filepath.Join(expDir, "inputs/gap/init-system.md"), "Create marked HTML.")
-	writeFixture(t, filepath.Join(expDir, "inputs/gap/maintain-system.md"), "Return a GAP edit envelope.")
+	writeFixture(t, filepath.Join(expDir, "inputs/oap/init-system.md"), "Create marked HTML.")
+	writeFixture(t, filepath.Join(expDir, "inputs/oap/maintain-system.md"), "Return a OAP edit envelope.")
 
 	var calls atomic.Int64
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -95,21 +95,21 @@ func TestRunGAPFlowRepairsInvalidTarget(t *testing.T) {
 		call := calls.Add(1)
 		switch call {
 		case 1:
-			writeChatResponse(t, w, `<gap:target id="msg">hello</gap:target>`, 10, 8)
+			writeChatResponse(t, w, `<oap:target id="msg">hello</oap:target>`, 10, 8)
 		case 2:
 			messages := req["messages"].([]any)
 			last := messages[len(messages)-1].(map[string]any)["content"].(string)
 			if !strings.Contains(last, "list_targets() returned") || !strings.Contains(last, "- msg: hello") {
 				t.Fatalf("edit request missing target inventory: %s", last)
 			}
-			writeChatResponse(t, w, `{"protocol":"gap/0.1","id":"001-html-smoke","version":2,"name":"edit","meta":{"format":"text/html"},"content":[{"op":"replace","target":{"type":"id","value":"missing"},"content":"world"}]}`, 12, 6)
+			writeChatResponse(t, w, `{"protocol":"oap/0.1","id":"001-html-smoke","version":2,"name":"edit","meta":{"format":"text/html"},"content":[{"op":"replace","target":{"type":"id","value":"missing"},"content":"world"}]}`, 12, 6)
 		case 3:
 			messages := req["messages"].([]any)
 			last := messages[len(messages)-1].(map[string]any)["content"].(string)
 			if !strings.Contains(last, "Supervisor Tool Error") || !strings.Contains(last, `validate_target("missing") failed`) {
 				t.Fatalf("repair request missing validation error: %s", last)
 			}
-			writeChatResponse(t, w, `{"protocol":"gap/0.1","id":"001-html-smoke","version":2,"name":"edit","meta":{"format":"text/html"},"content":[{"op":"replace","target":{"type":"id","value":"msg"},"content":"world"}]}`, 14, 7)
+			writeChatResponse(t, w, `{"protocol":"oap/0.1","id":"001-html-smoke","version":2,"name":"edit","meta":{"format":"text/html"},"content":[{"op":"replace","target":{"type":"id","value":"msg"},"content":"world"}]}`, 14, 7)
 		default:
 			t.Fatalf("unexpected call %d", call)
 		}
@@ -118,7 +118,7 @@ func TestRunGAPFlowRepairsInvalidTarget(t *testing.T) {
 
 	err := Run(context.Background(), Config{
 		ExperimentsDir: root,
-		Flow:           "gap",
+		Flow:           "oap",
 		Model:          "mock",
 		APIBase:        server.URL,
 		APIKey:         "test-key",
@@ -128,7 +128,7 @@ func TestRunGAPFlowRepairsInvalidTarget(t *testing.T) {
 		t.Fatalf("Run: %v", err)
 	}
 
-	output, err := os.ReadFile(filepath.Join(expDir, "outputs/gap/turn-1.html"))
+	output, err := os.ReadFile(filepath.Join(expDir, "outputs/oap/turn-1.html"))
 	if err != nil {
 		t.Fatalf("read output: %v", err)
 	}
@@ -151,7 +151,7 @@ func TestFillDerivedReportsMissEconomics(t *testing.T) {
 	reason := "apply failed: missing target msg"
 	metrics := Metrics{
 		BaseTurn0: &TurnMetrics{InputTokens: 50, OutputTokens: 50},
-		GAPTurn0:  &TurnMetrics{InputTokens: 60, OutputTokens: 60},
+		OAPTurn0:  &TurnMetrics{InputTokens: 60, OutputTokens: 60},
 		DefaultFlow: &FlowMetrics{
 			PerTurn: []TurnResult{
 				{InputTokens: 100, OutputTokens: 100},
@@ -160,7 +160,7 @@ func TestFillDerivedReportsMissEconomics(t *testing.T) {
 			TotalInputTokens:  200,
 			TotalOutputTokens: 200,
 		},
-		GAPFlow: &GapFlowMetrics{
+		OAPFlow: &OapFlowMetrics{
 			FlowMetrics: FlowMetrics{
 				PerTurn: []TurnResult{
 					{InputTokens: 20, OutputTokens: 10},

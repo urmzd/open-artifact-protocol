@@ -1,0 +1,17 @@
+{
+  "protocol": "gap",
+  "id": "edit",
+  "version": 1,
+  "name": "edit",
+  "meta": {},
+  "content": [
+    {
+      "content": "          <oap:target id=\"recent-activity-section\">\n            <section class=\"section\">\n              <div class=\"section-head\">\n                <div>\n                  <h2>Recent Activity</h2>\n                  <div class=\"sub\">Last 10 user actions</div>\n                </div>\n                <div class=\"sub\">Updated in real time</div>\n              </div>\n              <div class=\"table-wrap\">\n                <table>\n                  <thead>\n                    <tr>\n                      <th>Time</th>\n                      <th>User</th>\n                      <th>Action</th>\n                      <th>Details</th>\n                      <th>Status</th>\n                    </tr>\n                  </thead>\n                  <tbody>\n                    <tr><td class=\"date\">09:40 AM</td><td>Sarah Rivera</td><td>Updated product</td><td>Changed price for Nova Tee</td><td><span class=\"badge badge-success\">Saved</span></td></tr>\n                    <tr><td class=\"date\">09:32 AM</td><td>Daniel Kim</td><td>Processed order</td><td>Order #ORD-2055 marked completed</td><td><span class=\"badge badge-success\">Done</span></td></tr>\n                    <tr><td class=\"date\">09:18 AM</td><td>Ava Patel</td><td>Restocked item</td><td>Added 120 units of Pulse Cap</td><td><span class=\"badge badge-success\">Synced</span></td></tr>\n                    <tr><td class=\"date\">09:05 AM</td><td>Marcus Lee</td><td>Checked inventory</td><td>Reviewed low stock products</td><td><span class=\"badge badge-info\">Viewed</span></td></tr>\n                    <tr><td class=\"date\">08:57 AM</td><td>Emma Wilson</td><td>Issued refund</td><td>Refunded order #ORD-2045</td><td><span class=\"badge badge-warning\">Pending</span></td></tr>\n                    <tr><td class=\"date\">08:43 AM</td><td>Sarah Rivera</td><td>Edited settings</td><td>Enabled weekly summary email</td><td><span class=\"badge badge-success\">Saved</span></td></tr>\n                    <tr><td class=\"date\">08:31 AM</td><td>Liam Chen</td><td>Created discount</td><td>Launched 15% off spring sale</td><td><span class=\"badge badge-success\">Active</span></td></tr>\n                    <tr><td class=\"date\">08:20 AM</td><td>Olivia Garcia</td><td>Added customer</td><td>New customer profile created</td><td><span class=\"badge badge-success\">Added</span></td></tr>\n                    <tr><td class=\"date\">08:08 AM</td><td>Noah Brown</td><td>Updated shipping</td><td>Changed shipping method on #ORD-2052</td><td><span class=\"badge badge-info\">Processing</span></td></tr>\n                    <tr><td class=\"date\">07:54 AM</td><td>Mia Thompson</td><td>Published product</td><td>Published Halo Webcam to store</td><td><span class=\"badge badge-success\">Live</span></td></tr>\n                  </tbody>\n                </table>\n              </div>\n            </section>\n          </oap:target>",
+      "op": "insert_after",
+      "target": {
+        "type": "id",
+        "value": "stats-section"
+      }
+    }
+  ]
+}

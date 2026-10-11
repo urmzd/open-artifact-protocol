@@ -1,0 +1,299 @@
+<oap:target id="app-file">
+const <oap:target id="express-import">express</oap:target> = require('<oap:target id="express-package">express</oap:target>');
+const <oap:target id="cors-import">cors</oap:target> = require('<oap:target id="cors-package">cors</oap:target>');
+const <oap:target id="morgan-import">morgan</oap:target> = require('<oap:target id="morgan-package">morgan</oap:target>');
+const <oap:target id="express-rate-limit-import">rateLimit</oap:target> = require('<oap:target id="express-rate-limit-package">express-rate-limit</oap:target>');
+
+const <oap:target id="app-instance">app</oap:target> = <oap:target id="express-factory">express()</oap:target>;
+const <oap:target id="port-const">PORT</oap:target> = <oap:target id="port-value">3000</oap:target>;
+
+<oap:target id="middleware-block">
+app.use(<oap:target id="cors-middleware-call">cors()</oap:target>);
+app.use(<oap:target id="json-parser-call">express.json()</oap:target>);
+app.use(<oap:target id="request-logging-call">morgan('combined')</oap:target>);
+
+const <oap:target id="rate-limiter-instance">apiLimiter</oap:target> = <oap:target id="rate-limiter-factory">rateLimit</oap:target>({
+  <oap:target id="rate-window-ms-key">windowMs</oap:target>: <oap:target id="rate-window-ms-value">15 * 60 * 1000</oap:target>,
+  <oap:target id="rate-max-key">max</oap:target>: <oap:target id="rate-max-value">100</oap:target>,
+  <oap:target id="rate-standard-headers-key">standardHeaders</oap:target>: <oap:target id="rate-standard-headers-value">true</oap:target>,
+  <oap:target id="rate-legacy-headers-key">legacyHeaders</oap:target>: <oap:target id="rate-legacy-headers-value">false</oap:target>
+});
+
+app.use(<oap:target id="api-limiter-call">apiLimiter</oap:target>);
+
+const <oap:target id="auth-middleware-name">verifyAuthToken</oap:target> = (<oap:target id="auth-req-param">req</oap:target>, <oap:target id="auth-res-param">res</oap:target>, <oap:target id="auth-next-param">next</oap:target>) => {
+  const <oap:target id="auth-header-name">authHeader</oap:target> = <oap:target id="auth-req-headers-access">req.headers['authorization']</oap:target>;
+  const <oap:target id="auth-token-prefix">tokenPrefix</oap:target> = '<oap:target id="auth-bearer-prefix">Bearer </oap:target>';
+  const <oap:target id="expected-token">expectedToken</oap:target> = <oap:target id="expected-token-value">secrettoken</oap:target>;
+
+  if (!<oap:target id="auth-header-present-check">authHeader</oap:target> || !<oap:target id="auth-header-prefix-check">authHeader.startsWith(tokenPrefix)</oap:target>) {
+    return <oap:target id="auth-missing-return">res.status(401).json({ message: 'Missing or invalid authorization token' })</oap:target>;
+  }
+
+  const <oap:target id="provided-token">providedToken</oap:target> = <oap:target id="auth-token-slice">authHeader.slice(tokenPrefix.length)</oap:target>;
+  if (<oap:target id="auth-token-match-check">providedToken !== expectedToken</oap:target>) {
+    return <oap:target id="auth-invalid-return">res.status(401).json({ message: 'Unauthorized' })</oap:target>;
+  }
+
+  <oap:target id="auth-next-call">next()</oap:target>;
+};
+
+app.use(<oap:target id="auth-middleware-call">verifyAuthToken</oap:target>);
+</oap:target>
+
+<oap:target id="error-class-block">
+class <oap:target id="api-error-class-name">ApiError</oap:target> extends <oap:target id="api-error-base">Error</oap:target> {
+  constructor(<oap:target id="api-error-message-param">message</oap:target>, <oap:target id="api-error-status-param">statusCode</oap:target> = <oap:target id="default-error-status">500</oap:target>) {
+    super(<oap:target id="api-error-message-arg">message</oap:target>);
+    this.<oap:target id="api-error-status-prop">statusCode</oap:target> = <oap:target id="api-error-status-assign">statusCode</oap:target>;
+  }
+}
+</oap:target>
+
+<oap:target id="data-models-block">
+let <oap:target id="task-id-seq">taskIdSeq</oap:target> = <oap:target id="task-id-start-value">1</oap:target>;
+let <oap:target id="project-id-seq">projectIdSeq</oap:target> = <oap:target id="project-id-start-value">1</oap:target>;
+let <oap:target id="user-id-seq">userIdSeq</oap:target> = <oap:target id="userIdSeq-start-value">1</oap:target>;
+
+const <oap:target id="users-store">users</oap:target> = [
+  { <oap:target id="user-1-id-key">id</oap:target>: <oap:target id="user-1-id-value">1</oap:target>, <oap:target id="user-1-name-key">name</oap:target>: '<oap:target id="user-1-name-value">Admin User</oap:target>', <oap:target id="user-1-email-key">email</oap:target>: '<oap:target id="user-1-email-value">admin@example.com</oap:target>' }
+];
+
+const <oap:target id="projects-store">projects</oap:target> = [];
+const <oap:target id="tasks-store">tasks</oap:target> = [];
+
+const <oap:target id="task-model">Task</oap:target> = {
+  <oap:target id="task-create-method">create</oap:target>(<oap:target id="task-create-data-param">data</oap:target>) {
+    const <oap:target id="new-task-object">task</oap:target> = {
+      <oap:target id="task-id-key">id</oap:target>: <oap:target id="task-id-generate">taskIdSeq++</oap:target>,
+      <oap:target id="task-title-key">title</oap:target>: <oap:target id="task-title-assign">data.title</oap:target>,
+      <oap:target id="task-description-key">description</oap:target>: <oap:target id="task-description-assign">data.description || ''</oap:target>,
+      <oap:target id="task-status-key">status</oap:target>: <oap:target id="task-status-default">'todo'</oap:target>,
+      <oap:target id="task-project-id-key">projectId</oap:target>: <oap:target id="task-project-id-assign">data.projectId || null</oap:target>,
+      <oap:target id="task-assignee-id-key">assigneeId</oap:target>: <oap:target id="task-assignee-id-assign">null</oap:target>,
+      <oap:target id="task-comments-key">comments</oap:target>: <oap:target id="task-comments-default">[]</oap:target>,
+      <oap:target id="task-created-at-key">createdAt</oap:target>: <oap:target id="task-created-at-value">new Date().toISOString()</oap:target>,
+      <oap:target id="task-updated-at-key">updatedAt</oap:target>: <oap:target id="task-updated-at-value">new Date().toISOString()</oap:target>
+    };
+    <oap:target id="task-push-call">tasks.push(task)</oap:target>;
+    return <oap:target id="task-return-value">task</oap:target>;
+  },
+  <oap:target id="task-find-all-method">findAll</oap:target>() { return <oap:target id="task-find-all-return">tasks</oap:target>; },
+  <oap:target id="task-find-by-id-method">findById</oap:target>(<oap:target id="task-find-by-id-param">id</oap:target>) { return <oap:target id="task-find-by-id-return">tasks.find(t =&gt; t.id === Number(id))</oap:target>; },
+  <oap:target id="task-update-method">update</oap:target>(<oap:target id="task-update-id-param">id</oap:target>, <oap:target id="task-update-data-param">data</oap:target>) {
+    const <oap:target id="task-update-target">task</oap:target> = <oap:target id="task-update-find-call">Task.findById(id)</oap:target>;
+    if (!<oap:target id="task-update-found-check">task</oap:target>) return <oap:target id="task-update-null-return">null</oap:target>;
+    Object.assign(<oap:target id="task-update-assign-target">task</oap:target>, <oap:target id="task-update-assign-source">data</oap:target>, { <oap:target id="task-update-time-key">updatedAt</oap:target>: <oap:target id="task-update-time-value">new Date().toISOString()</oap:target> });
+    return <oap:target id="task-update-return">task</oap:target>;
+  }
+};
+
+const <oap:target id="project-model">Project</oap:target> = {
+  <oap:target id="project-create-method">create</oap:target>(<oap:target id="project-create-data-param">data</oap:target>) {
+    const <oap:target id="new-project-object">project</oap:target> = {
+      <oap:target id="project-id-key">id</oap:target>: <oap:target id="project-id-generate">projectIdSeq++</oap:target>,
+      <oap:target id="project-name-key">name</oap:target>: <oap:target id="project-name-assign">data.name</oap:target>,
+      <oap:target id="project-description-key">description</oap:target>: <oap:target id="project-description-assign">data.description || ''</oap:target>,
+      <oap:target id="project-members-key">members</oap:target>: <oap:target id="project-members-default">data.members || []</oap:target>,
+      <oap:target id="project-created-at-key">createdAt</oap:target>: <oap:target id="project-created-at-value">new Date().toISOString()</oap:target>,
+      <oap:target id="project-updated-at-key">updatedAt</oap:target>: <oap:target id="project-updated-at-value">new Date().toISOString()</oap:target>
+    };
+    <oap:target id="project-push-call">projects.push(project)</oap:target>;
+    return <oap:target id="project-return-value">project</oap:target>;
+  },
+  <oap:target id="project-find-all-method">findAll</oap:target>() { return <oap:target id="project-find-all-return">projects</oap:target>; },
+  <oap:target id="project-find-by-id-method">findById</oap:target>(<oap:target id="project-find-by-id-param">id</oap:target>) { return <oap:target id="project-find-by-id-return">projects.find(p =&gt; p.id === Number(id))</oap:target>; },
+  <oap:target id="project-update-method">update</oap:target>(<oap:target id="project-update-id-param">id</oap:target>, <oap:target id="project-update-data-param">data</oap:target>) {
+    const <oap:target id="project-update-target">project</oap:target> = <oap:target id="project-update-find-call">Project.findById(id)</oap:target>;
+    if (!<oap:target id="project-update-found-check">project</oap:target>) return <oap:target id="project-update-null-return">null</oap:target>;
+    Object.assign(<oap:target id="project-update-assign-target">project</oap:target>, <oap:target id="project-update-assign-source">data</oap:target>, { <oap:target id="project-update-time-key">updatedAt</oap:target>: <oap:target id="project-update-time-value">new Date().toISOString()</oap:target> });
+    return <oap:target id="project-update-return">project</oap:target>;
+  }
+};
+
+const <oap:target id="user-model">User</oap:target> = {
+  <oap:target id="user-find-by-id-method">findById</oap:target>(<oap:target id="user-find-by-id-param">id</oap:target>) { return <oap:target id="user-find-by-id-return">users.find(u =&gt; u.id === Number(id))</oap:target>; },
+  <oap:target id="user-create-method">create</oap:target>(<oap:target id="user-create-data-param">data</oap:target>) {
+    const <oap:target id="new-user-object">user</oap:target> = {
+      <oap:target id="user-id-key">id</oap:target>: <oap:target id="user-id-generate">userIdSeq++</oap:target>,
+      <oap:target id="user-name-key">name</oap:target>: <oap:target id="user-name-assign">data.name</oap:target>,
+      <oap:target id="user-email-key">email</oap:target>: <oap:target id="user-email-assign">data.email</oap:target>
+    };
+    <oap:target id="user-push-call">users.push(user)</oap:target>;
+    return <oap:target id="user-return-value">user</oap:target>;
+  }
+};
+</oap:target>
+
+<oap:target id="validation-block">
+const <oap:target id="require-string-name">requireString</oap:target> = (<oap:target id="require-string-value-param">value</oap:target>, <oap:target id="require-string-field-param">field</oap:target>) => {
+  if (typeof <oap:target id="require-string-type-check-value">value</oap:target> !== 'string' || !<oap:target id="require-string-trim-check">value.trim()</oap:target>) {
+    throw new <oap:target id="require-string-error">ApiError</oap:target>(`<oap:target id="require-string-message">Field ${field} is required and must be a non-empty string</oap:target>`, <oap:target id="bad-request-status-string">400</oap:target>);
+  }
+};
+
+const <oap:target id="validate-id-name">validateId</oap:target> = (<oap:target id="validate-id-param">id</oap:target>) => {
+  if (!<oap:target id="validate-id-number-check">Number.isInteger(Number(id))</oap:target> || Number(id) &lt;= <oap:target id="validate-id-min-value">0</oap:target>) {
+    throw new <oap:target id="validate-id-error">ApiError</oap:target>('<oap:target id="validate-id-message">Invalid id</oap:target>', <oap:target id="bad-request-status-id">400</oap:target>);
+  }
+};
+</oap:target>
+
+<oap:target id="routes-block">
+const <oap:target id="router-instance">router</oap:target> = <oap:target id="express-router-call">express.Router()</oap:target>();
+
+<oap:target id="task-routes-block">
+router.get('<oap:target id="tasks-list-path">/tasks</oap:target>', (<oap:target id="tasks-list-req">req</oap:target>, <oap:target id="tasks-list-res">res</oap:target>) => {
+  return <oap:target id="tasks-list-response">res.json(Task.findAll())</oap:target>;
+});
+
+router.get('<oap:target id="task-by-id-path">/tasks/:id</oap:target>', (<oap:target id="task-by-id-req">req</oap:target>, <oap:target id="task-by-id-res">res</oap:target>, <oap:target id="task-by-id-next">next</oap:target>) => {
+  try {
+    <oap:target id="task-by-id-validate-call">validateId(req.params.id)</oap:target>;
+    const <oap:target id="task-by-id-task">task</oap:target> = <oap:target id="task-by-id-find-call">Task.findById(req.params.id)</oap:target>;
+    if (!<oap:target id="task-by-id-found-check">task</oap:target>) throw new <oap:target id="task-not-found-error">ApiError</oap:target>('<oap:target id="task-not-found-message">Task not found</oap:target>', <oap:target id="not-found-status-task">404</oap:target>);
+    return <oap:target id="task-by-id-response">res.json(task)</oap:target>;
+  } catch (<oap:target id="task-by-id-catch">err</oap:target>) { return <oap:target id="task-by-id-next-call">next(err)</oap:target>; }
+});
+
+router.post('<oap:target id="task-create-path">/tasks</oap:target>', (<oap:target id="task-create-req">req</oap:target>, <oap:target id="task-create-res">res</oap:target>, <oap:target id="task-create-next">next</oap:target>) => {
+  try {
+    <oap:target id="task-create-title-validate">requireString(req.body.title, 'title')</oap:target>;
+    const <oap:target id="created-task">task</oap:target> = <oap:target id="task-create-model-call">Task.create({ title: req.body.title, description: req.body.description, projectId: req.body.projectId })</oap:target>;
+    return <oap:target id="task-create-response">res.status(201).json(task)</oap:target>;
+  } catch (<oap:target id="task-create-catch">err</oap:target>) { return <oap:target id="task-create-next-call">next(err)</oap:target>; }
+});
+
+router.put('<oap:target id="task-update-path">/tasks/:id</oap:target>', (<oap:target id="task-update-req">req</oap:target>, <oap:target id="task-update-res">res</oap:target>, <oap:target id="task-update-next">next</oap:target>) => {
+  try {
+    <oap:target id="task-update-validate-id">validateId(req.params.id)</oap:target>;
+    const <oap:target id="updated-task">task</oap:target> = <oap:target id="task-update-model-call">Task.update(req.params.id, req.body)</oap:target>;
+    if (!<oap:target id="task-update-not-found-check">task</oap:target>) throw new <oap:target id="task-update-not-found-error">ApiError</oap:target>('<oap:target id="task-update-not-found-message">Task not found</oap:target>', <oap:target id="not-found-status-task-update">404</oap:target>);
+    return <oap:target id="task-update-response">res.json(task)</oap:target>;
+  } catch (<oap:target id="task-update-catch">err</oap:target>) { return <oap:target id="task-update-next-call">next(err)</oap:target>; }
+});
+
+router.delete('<oap:target id="task-delete-path">/tasks/:id</oap:target>', (<oap:target id="task-delete-req">req</oap:target>, <oap:target id="task-delete-res">res</oap:target>, <oap:target id="task-delete-next">next</oap:target>) => {
+  try {
+    <oap:target id="task-delete-validate-id">validateId(req.params.id)</oap:target>;
+    const <oap:target id="task-delete-index">index</oap:target> = <oap:target id="task-delete-find-index">tasks.findIndex(t =&gt; t.id === Number(req.params.id))</oap:target>;
+    if (<oap:target id="task-delete-index-check">index === -1</oap:target>) throw new <oap:target id="task-delete-not-found-error">ApiError</oap:target>('<oap:target id="task-delete-not-found-message">Task not found</oap:target>', <oap:target id="not-found-status-task-delete">404</oap:target>);
+    <oap:target id="task-delete-splice-call">tasks.splice(index, 1)</oap:target>;
+    return <oap:target id="task-delete-response">res.status(204).send()</oap:target>;
+  } catch (<oap:target id="task-delete-catch">err</oap:target>) { return <oap:target id="task-delete-next-call">next(err)</oap:target>; }
+});
+
+router.post('<oap:target id="assign-task-path">/tasks/:id/assign</oap:target>', (<oap:target id="assign-task-req">req</oap:target>, <oap:target id="assign-task-res">res</oap:target>, <oap:target id="assign-task-next">next</oap:target>) => {
+  try {
+    <oap:target id="assign-task-validate-id">validateId(req.params.id)</oap:target>;
+    <oap:target id="assign-task-user-validate">validateId(req.body.userId)</oap:target>;
+    const <oap:target id="assign-task-task">task</oap:target> = <oap:target id="assign-task-find-task">Task.findById(req.params.id)</oap:target>;
+    const <oap:target id="assign-task-user">user</oap:target> = <oap:target id="assign-task-find-user">User.findById(req.body.userId)</oap:target>;
+    if (!<oap:target id="assign-task-task-found-check">task</oap:target>) throw new <oap:target id="assign-task-task-not-found-error">ApiError</oap:target>('<oap:target id="assign-task-task-not-found-message">Task not found</oap:target>', <oap:target id="not-found-status-assign-task">404</oap:target>);
+    if (!<oap:target id="assign-task-user-found-check">user</oap:target>) throw new <oap:target id="assign-task-user-not-found-error">ApiError</oap:target>('<oap:target id="assign-task-user-not-found-message">User not found</oap:target>', <oap:target id="not-found-status-user">404</oap:target>);
+    <oap:target id="assign-task-assign">task.assigneeId = user.id</oap:target>;
+    return <oap:target id="assign-task-response">res.json(task)</oap:target>;
+  } catch (<oap:target id="assign-task-catch">err</oap:target>) { return <oap:target id="assign-task-next-call">next(err)</oap:target>; }
+});
+
+router.post('<oap:target id="task-status-path">/tasks/:id/status</oap:target>', (<oap:target id="task-status-req">req</oap:target>, <oap:target id="task-status-res">res</oap:target>, <oap:target id="task-status-next">next</oap:target>) => {
+  try {
+    <oap:target id="task-status-validate-id">validateId(req.params.id)</oap:target>;
+    <oap:target id="task-status-validate-value">requireString(req.body.status, 'status')</oap:target>;
+    const <oap:target id="task-status-allowed-values">allowedStatuses</oap:target> = <oap:target id="status-array">['todo', 'in-progress', 'done']</oap:target>;
+    if (!<oap:target id="task-status-includes-check">allowedStatuses.includes(req.body.status)</oap:target>) throw new <oap:target id="task-status-invalid-error">ApiError</oap:target>('<oap:target id="task-status-invalid-message">Invalid status</oap:target>', <oap:target id="bad-request-status-task-status">400</oap:target>);
+    const <oap:target id="task-status-task">task</oap:target> = <oap:target id="task-status-find-task">Task.findById(req.params.id)</oap:target>;
+    if (!<oap:target id="task-status-found-check">task</oap:target>) throw new <oap:target id="task-status-not-found-error">ApiError</oap:target>('<oap:target id="task-status-not-found-message">Task not found</oap:target>', <oap:target id="not-found-status-task-status">404</oap:target>);
+    <oap:target id="task-status-assign">task.status = req.body.status</oap:target>;
+    <oap:target id="task-status-touch">task.updatedAt = new Date().toISOString()</oap:target>;
+    return <oap:target id="task-status-response">res.json(task)</oap:target>;
+  } catch (<oap:target id="task-status-catch">err</oap:target>) { return <oap:target id="task-status-next-call">next(err)</oap:target>; }
+});
+
+router.post('<oap:target id="task-comment-path">/tasks/:id/comments</oap:target>', (<oap:target id="task-comment-req">req</oap:target>, <oap:target id="task-comment-res">res</oap:target>, <oap:target id="task-comment-next">next</oap:target>) => {
+  try {
+    <oap:target id="task-comment-validate-id">validateId(req.params.id)</oap:target>;
+    <oap:target id="task-comment-validate-text">requireString(req.body.text, 'text')</oap:target>;
+    const <oap:target id="task-comment-task">task</oap:target> = <oap:target id="task-comment-find-task">Task.findById(req.params.id)</oap:target>;
+    if (!<oap:target id="task-comment-found-check">task</oap:target>) throw new <oap:target id="task-comment-not-found-error">ApiError</oap:target>('<oap:target id="task-comment-not-found-message">Task not found</oap:target>', <oap:target id="not-found-status-task-comment">404</oap:target>);
+    const <oap:target id="new-comment-object">comment</oap:target> = { <oap:target id="comment-text-key">text</oap:target>: <oap:target id="comment-text-value">req.body.text</oap:target>, <oap:target id="comment-created-at-key">createdAt</oap:target>: <oap:target id="comment-created-at-value">new Date().toISOString()</oap:target> };
+    <oap:target id="comment-push-call">task.comments.push(comment)</oap:target>;
+    return <oap:target id="task-comment-response">res.status(201).json(comment)</oap:target>;
+  } catch (<oap:target id="task-comment-catch">err</oap:target>) { return <oap:target id="task-comment-next-call">next(err)</oap:target>; }
+});
+</oap:target>
+
+<oap:target id="project-routes-block">
+router.get('<oap:target id="projects-list-path">/projects</oap:target>', (<oap:target id="projects-list-req">req</oap:target>, <oap:target id="projects-list-res">res</oap:target>) => {
+  return <oap:target id="projects-list-response">res.json(Project.findAll())</oap:target>;
+});
+
+router.get('<oap:target id="project-by-id-path">/projects/:id</oap:target>', (<oap:target id="project-by-id-req">req</oap:target>, <oap:target id="project-by-id-res">res</oap:target>, <oap:target id="project-by-id-next">next</oap:target>) => {
+  try {
+    <oap:target id="project-by-id-validate-call">validateId(req.params.id)</oap:target>;
+    const <oap:target id="project-by-id-project">project</oap:target> = <oap:target id="project-by-id-find-call">Project.findById(req.params.id)</oap:target>;
+    if (!<oap:target id="project-by-id-found-check">project</oap:target>) throw new <oap:target id="project-not-found-error">ApiError</oap:target>('<oap:target id="project-not-found-message">Project not found</oap:target>', <oap:target id="not-found-status-project">404</oap:target>);
+    return <oap:target id="project-by-id-response">res.json(project)</oap:target>;
+  } catch (<oap:target id="project-by-id-catch">err</oap:target>) { return <oap:target id="project-by-id-next-call">next(err)</oap:target>; }
+});
+
+router.post('<oap:target id="project-create-path">/projects</oap:target>', (<oap:target id="project-create-req">req</oap:target>, <oap:target id="project-create-res">res</oap:target>, <oap:target id="project-create-next">next</oap:target>) => {
+  try {
+    <oap:target id="project-create-name-validate">requireString(req.body.name, 'name')</oap:target>;
+    const <oap:target id="created-project">project</oap:target> = <oap:target id="project-create-model-call">Project.create({ name: req.body.name, description: req.body.description, members: req.body.members })</oap:target>;
+    return <oap:target id="project-create-response">res.status(201).json(project)</oap:target>;
+  } catch (<oap:target id="project-create-catch">err</oap:target>) { return <oap:target id="project-create-next-call">next(err)</oap:target>; }
+});
+
+router.put('<oap:target id="project-update-path">/projects/:id</oap:target>', (<oap:target id="project-update-req">req</oap:target>, <oap:target id="project-update-res">res</oap:target>, <oap:target id="project-update-next">next</oap:target>) => {
+  try {
+    <oap:target id="project-update-validate-id">validateId(req.params.id)</oap:target>;
+    const <oap:target id="project-updated-project">project</oap:target> = <oap:target id="project-update-model-call">Project.update(req.params.id, req.body)</oap:target>;
+    if (!<oap:target id="project-update-not-found-check">project</oap:target>) throw new <oap:target id="project-update-not-found-error">ApiError</oap:target>('<oap:target id="project-update-not-found-message">Project not found</oap:target>', <oap:target id="not-found-status-project-update">404</oap:target>);
+    return <oap:target id="project-update-response">res.json(project)</oap:target>;
+  } catch (<oap:target id="project-update-catch">err</oap:target>) { return <oap:target id="project-update-next-call">next(err)</oap:target>; }
+});
+
+router.delete('<oap:target id="project-delete-path">/projects/:id</oap:target>', (<oap:target id="project-delete-req">req</oap:target>, <oap:target id="project-delete-res">res</oap:target>, <oap:target id="project-delete-next">next</oap:target>) => {
+  try {
+    <oap:target id="project-delete-validate-id">validateId(req.params.id)</oap:target>;
+    const <oap:target id="project-delete-index">index</oap:target> = <oap:target id="project-delete-find-index">projects.findIndex(p =&gt; p.id === Number(req.params.id))</oap:target>;
+    if (<oap:target id="project-delete-index-check">index === -1</oap:target>) throw new <oap:target id="project-delete-not-found-error">ApiError</oap:target>('<oap:target id="project-delete-not-found-message">Project not found</oap:target>', <oap:target id="not-found-status-project-delete">404</oap:target>);
+    <oap:target id="project-delete-splice-call">projects.splice(index, 1)</oap:target>;
+    return <oap:target id="project-delete-response">res.status(204).send()</oap:target>;
+  } catch (<oap:target id="project-delete-catch">err</oap:target>) { return <oap:target id="project-delete-next-call">next(err)</oap:target>; }
+});
+</oap:target>
+
+<oap:target id="user-routes-block">
+router.get('<oap:target id="users-list-path">/users</oap:target>', (<oap:target id="users-list-req">req</oap:target>, <oap:target id="users-list-res">res</oap:target>) => {
+  return <oap:target id="users-list-response">res.json(users)</oap:target>;
+});
+
+router.post('<oap:target id="user-create-path">/users</oap:target>', (<oap:target id="user-create-req">req</oap:target>, <oap:target id="user-create-res">res</oap:target>, <oap:target id="user-create-next">next</oap:target>) => {
+  try {
+    <oap:target id="user-create-name-validate">requireString(req.body.name, 'name')</oap:target>;
+    <oap:target id="user-create-email-validate">requireString(req.body.email, 'email')</oap:target>;
+    const <oap:target id="created-user">user</oap:target> = <oap:target id="user-create-model-call">User.create({ name: req.body.name, email: req.body.email })</oap:target>;
+    return <oap:target id="user-create-response">res.status(201).json(user)</oap:target>;
+  } catch (<oap:target id="user-create-catch">err</oap:target>) { return <oap:target id="user-create-next-call">next(err)</oap:target>; }
+});
+</oap:target>
+
+app.use('<oap:target id="api-prefix">/api</oap:target>', <oap:target id="router-use-call">router</oap:target>);
+</oap:target>
+
+<oap:target id="error-middleware-block">
+app.use((<oap:target id="error-req-param">err</oap:target>, <oap:target id="error-req-param-2">req</oap:target>, <oap:target id="error-res-param">res</oap:target>, <oap:target id="error-next-param">next</oap:target>) => {
+  const <oap:target id="error-status-code">statusCode</oap:target> = <oap:target id="error-status-resolution">err.statusCode || 500</oap:target>;
+  const <oap:target id="error-message">message</oap:target> = <oap:target id="error-message-resolution">err.message || 'Internal Server Error'</oap:target>;
+  return <oap:target id="error-response">res.status(statusCode).json({ message })</oap:target>;
+});
+</oap:target>
+
+<oap:target id="server-start-block">
+app.listen(<oap:target id="listen-port">PORT</oap:target>, () => {
+  console.log(`<oap:target id="server-start-message">Task management API server running on port ${PORT}</oap:target>`);
+});
+</oap:target>
+</oap:target>

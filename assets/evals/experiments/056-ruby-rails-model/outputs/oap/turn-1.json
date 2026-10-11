@@ -1,0 +1,25 @@
+{
+  "protocol": "gap",
+  "id": "edit",
+  "version": 1,
+  "name": "edit",
+  "meta": {},
+  "content": [
+    {
+      "content": "    has_many <oap:target id=\"refunds-association\">:refunds</oap:target>",
+      "op": "insert_after",
+      "target": {
+        "type": "id",
+        "value": "payments-association"
+      }
+    },
+    {
+      "content": "\n    def <oap:target id=\"refund-method-name\">refund!</oap:target>\n      <oap:target id=\"refund-method-body\">refunds.create!\\n      update!(status: :refunded)</oap:target>\n    end",
+      "op": "insert_after",
+      "target": {
+        "type": "id",
+        "value": "complete-method-body"
+      }
+    }
+  ]
+}

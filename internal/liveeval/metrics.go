@@ -6,8 +6,8 @@ import (
 	"github.com/urmzd/saige/eval/harness"
 )
 
-// Harness types reused where the JSON wire format is identical to GAP's
-// original local definitions. The GAP-specific per-turn keys
+// Harness types reused where the JSON wire format is identical to OAP's
+// original local definitions. The OAP-specific per-turn keys
 // (envelope_parsed, apply_succeeded, envelope_name) travel in
 // TurnResult.Extra and are flattened into the same JSON object.
 type (
@@ -25,11 +25,11 @@ type Metrics struct {
 	Timestamp     string          `json:"timestamp"`
 	Format        string          `json:"format"`
 	BaseTurn0     *TurnMetrics    `json:"base_turn0,omitempty"`
-	GAPTurn0      *TurnMetrics    `json:"gap_turn0,omitempty"`
+	OAPTurn0      *TurnMetrics    `json:"oap_turn0,omitempty"`
 	StatelessT0   *TurnMetrics    `json:"stateless_turn0,omitempty"`
 	StatelessFlow *FlowMetrics    `json:"stateless_flow,omitempty"`
 	DefaultFlow   *FlowMetrics    `json:"default_flow,omitempty"`
-	GAPFlow       *GapFlowMetrics `json:"gap_flow,omitempty"`
+	OAPFlow       *OapFlowMetrics `json:"oap_flow,omitempty"`
 	Comparison    *Comparison     `json:"comparison,omitempty"`
 	Decomposition *Decomposition  `json:"decomposition,omitempty"`
 	Reliability   *Reliability    `json:"reliability,omitempty"`
@@ -37,7 +37,7 @@ type Metrics struct {
 	Validity      *Validity       `json:"validity,omitempty"`
 }
 
-type GapFlowMetrics struct {
+type OapFlowMetrics struct {
 	FlowMetrics
 	EnvelopeParseRate float64 `json:"envelope_parse_rate"`
 	ApplySuccessRate  float64 `json:"apply_success_rate"`
@@ -75,18 +75,18 @@ type FallbackAdjusted struct {
 type AmortizedEconomics struct {
 	EditTurns                            int     `json:"edit_turns"`
 	BaseInitInclusiveTokens              uint64  `json:"base_init_inclusive_tokens"`
-	GAPInitInclusiveTokens               uint64  `json:"gap_init_inclusive_tokens"`
+	OAPInitInclusiveTokens               uint64  `json:"oap_init_inclusive_tokens"`
 	FallbackInitInclusiveTokens          uint64  `json:"fallback_init_inclusive_tokens"`
 	MeasuredInitInclusiveTokenSavingsPct float64 `json:"measured_init_inclusive_token_savings_pct"`
 	FallbackInitInclusiveTokenSavingsPct float64 `json:"fallback_init_inclusive_token_savings_pct"`
 }
 
 type Validity struct {
-	GAPRunDegenerate  bool `json:"gap_run_degenerate"`
+	OAPRunDegenerate  bool `json:"oap_run_degenerate"`
 	BaseInputMonotone bool `json:"base_input_monotone"`
 }
 
-// assembleMetrics maps the per-flow harness results into the GAP Metrics
+// assembleMetrics maps the per-flow harness results into the OAP Metrics
 // document, then fills the derived analytics.
 func assembleMetrics(model string, exp harness.Script, results map[string]harness.FlowResult) Metrics {
 	metrics := Metrics{
@@ -108,9 +108,9 @@ func assembleMetrics(model string, exp harness.Script, results map[string]harnes
 		metrics.StatelessT0 = &t0
 		metrics.StatelessFlow = &flow
 	}
-	if result, ok := results[gapFlowName]; ok {
+	if result, ok := results[oapFlowName]; ok {
 		t0 := result.Turn0
-		gapMetrics := GapFlowMetrics{
+		oapMetrics := OapFlowMetrics{
 			FlowMetrics: harness.ToFlowMetrics(result.Turns),
 			EnvelopeParseRate: harness.Rate(result.Turns, func(t TurnResult) bool {
 				return extraBool(t.Extra, "envelope_parsed")
@@ -119,26 +119,26 @@ func assembleMetrics(model string, exp harness.Script, results map[string]harnes
 				return extraBool(t.Extra, "apply_succeeded")
 			}),
 		}
-		metrics.GAPTurn0 = &t0
-		metrics.GAPFlow = &gapMetrics
+		metrics.OAPTurn0 = &t0
+		metrics.OAPFlow = &oapMetrics
 	}
 	fillDerived(&metrics)
 	return metrics
 }
 
 func fillDerived(metrics *Metrics) {
-	if metrics.DefaultFlow != nil && metrics.GAPFlow != nil {
-		comparison := harness.Compare(*metrics.DefaultFlow, metrics.GAPFlow.FlowMetrics)
+	if metrics.DefaultFlow != nil && metrics.OAPFlow != nil {
+		comparison := harness.Compare(*metrics.DefaultFlow, metrics.OAPFlow.FlowMetrics)
 		metrics.Comparison = &comparison
-		metrics.Economics = economics(metrics.BaseTurn0, metrics.GAPTurn0, metrics.DefaultFlow, metrics.GAPFlow)
+		metrics.Economics = economics(metrics.BaseTurn0, metrics.OAPTurn0, metrics.DefaultFlow, metrics.OAPFlow)
 	}
-	if metrics.GAPFlow != nil {
-		metrics.Reliability = harness.ComputeReliability(metrics.GAPFlow.PerTurn)
+	if metrics.OAPFlow != nil {
+		metrics.Reliability = harness.ComputeReliability(metrics.OAPFlow.PerTurn)
 	}
-	if metrics.DefaultFlow != nil && metrics.StatelessFlow != nil && metrics.GAPFlow != nil {
+	if metrics.DefaultFlow != nil && metrics.StatelessFlow != nil && metrics.OAPFlow != nil {
 		aIn, aOut := initInclusive(metrics.BaseTurn0, metrics.DefaultFlow)
 		bIn, bOut := initInclusive(metrics.StatelessT0, metrics.StatelessFlow)
-		cIn, cOut := initInclusive(metrics.GAPTurn0, &metrics.GAPFlow.FlowMetrics)
+		cIn, cOut := initInclusive(metrics.OAPTurn0, &metrics.OAPFlow.FlowMetrics)
 		metrics.Decomposition = &Decomposition{
 			InputSavingsBVsAPct:  harness.Pct(aIn, bIn),
 			OutputSavingsCVsBPct: harness.Pct(bOut, cOut),
@@ -146,26 +146,26 @@ func fillDerived(metrics *Metrics) {
 			OutputSavingsCVsAPct: harness.Pct(aOut, cOut),
 		}
 	}
-	if metrics.DefaultFlow != nil || metrics.GAPFlow != nil {
+	if metrics.DefaultFlow != nil || metrics.OAPFlow != nil {
 		metrics.Validity = &Validity{
-			GAPRunDegenerate: gapDegenerate(metrics.GAPFlow),
+			OAPRunDegenerate: oapDegenerate(metrics.OAPFlow),
 			BaseInputMonotone: metrics.DefaultFlow == nil ||
 				inputMonotone(metrics.DefaultFlow.PerTurn),
 		}
 	}
 }
 
-func economics(baseTurn0 *TurnMetrics, gapTurn0 *TurnMetrics, baseFlow *FlowMetrics, gapFlow *GapFlowMetrics) *Economics {
-	baseIn, baseOut, gapIn, gapOut := alignedTotals(baseFlow.PerTurn, gapFlow.PerTurn)
-	fallbackIn, fallbackOut := gapIn, gapOut
+func economics(baseTurn0 *TurnMetrics, oapTurn0 *TurnMetrics, baseFlow *FlowMetrics, oapFlow *OapFlowMetrics) *Economics {
+	baseIn, baseOut, oapIn, oapOut := alignedTotals(baseFlow.PerTurn, oapFlow.PerTurn)
+	fallbackIn, fallbackOut := oapIn, oapOut
 	var missAttemptIn, missAttemptOut, retryIn, retryOut uint64
-	for i, gapTurn := range gapFlow.PerTurn {
-		if i >= len(baseFlow.PerTurn) || !gapTurn.Failed {
+	for i, oapTurn := range oapFlow.PerTurn {
+		if i >= len(baseFlow.PerTurn) || !oapTurn.Failed {
 			continue
 		}
 		baseTurn := baseFlow.PerTurn[i]
-		missAttemptIn += gapTurn.InputTokens
-		missAttemptOut += gapTurn.OutputTokens
+		missAttemptIn += oapTurn.InputTokens
+		missAttemptOut += oapTurn.OutputTokens
 		retryIn += baseTurn.InputTokens
 		retryOut += baseTurn.OutputTokens
 		fallbackIn += baseTurn.InputTokens
@@ -173,11 +173,11 @@ func economics(baseTurn0 *TurnMetrics, gapTurn0 *TurnMetrics, baseFlow *FlowMetr
 	}
 
 	baseTotal := baseIn + baseOut
-	gapTotal := gapIn + gapOut
+	oapTotal := oapIn + oapOut
 	fallbackTotal := fallbackIn + fallbackOut
 	econ := &Economics{
-		FallbackAssumption:           "on each missed GAP edit, run the baseline full-regeneration edit after the failed GAP attempt",
-		MeasuredTotalTokenSavingsPct: harness.Pct(baseTotal, gapTotal),
+		FallbackAssumption:           "on each missed OAP edit, run the baseline full-regeneration edit after the failed OAP attempt",
+		MeasuredTotalTokenSavingsPct: harness.Pct(baseTotal, oapTotal),
 		FallbackAdjusted: &FallbackAdjusted{
 			InputTokens:               fallbackIn,
 			OutputTokens:              fallbackOut,
@@ -193,35 +193,35 @@ func economics(baseTurn0 *TurnMetrics, gapTurn0 *TurnMetrics, baseFlow *FlowMetr
 			TotalTokenSavingsPct:      harness.Pct(baseTotal, fallbackTotal),
 		},
 	}
-	if baseTurn0 != nil && gapTurn0 != nil {
+	if baseTurn0 != nil && oapTurn0 != nil {
 		baseSession := baseTotal + baseTurn0.InputTokens + baseTurn0.OutputTokens
-		gapSession := gapTotal + gapTurn0.InputTokens + gapTurn0.OutputTokens
-		fallbackSession := fallbackTotal + gapTurn0.InputTokens + gapTurn0.OutputTokens
+		oapSession := oapTotal + oapTurn0.InputTokens + oapTurn0.OutputTokens
+		fallbackSession := fallbackTotal + oapTurn0.InputTokens + oapTurn0.OutputTokens
 		econ.Amortized = &AmortizedEconomics{
-			EditTurns:                            len(gapFlow.PerTurn),
+			EditTurns:                            len(oapFlow.PerTurn),
 			BaseInitInclusiveTokens:              baseSession,
-			GAPInitInclusiveTokens:               gapSession,
+			OAPInitInclusiveTokens:               oapSession,
 			FallbackInitInclusiveTokens:          fallbackSession,
-			MeasuredInitInclusiveTokenSavingsPct: harness.Pct(baseSession, gapSession),
+			MeasuredInitInclusiveTokenSavingsPct: harness.Pct(baseSession, oapSession),
 			FallbackInitInclusiveTokenSavingsPct: harness.Pct(baseSession, fallbackSession),
 		}
 	}
 	return econ
 }
 
-func alignedTotals(baseTurns []TurnResult, gapTurns []TurnResult) (uint64, uint64, uint64, uint64) {
-	var baseIn, baseOut, gapIn, gapOut uint64
+func alignedTotals(baseTurns []TurnResult, oapTurns []TurnResult) (uint64, uint64, uint64, uint64) {
+	var baseIn, baseOut, oapIn, oapOut uint64
 	limit := len(baseTurns)
-	if len(gapTurns) < limit {
-		limit = len(gapTurns)
+	if len(oapTurns) < limit {
+		limit = len(oapTurns)
 	}
 	for i := 0; i < limit; i++ {
 		baseIn += baseTurns[i].InputTokens
 		baseOut += baseTurns[i].OutputTokens
-		gapIn += gapTurns[i].InputTokens
-		gapOut += gapTurns[i].OutputTokens
+		oapIn += oapTurns[i].InputTokens
+		oapOut += oapTurns[i].OutputTokens
 	}
-	return baseIn, baseOut, gapIn, gapOut
+	return baseIn, baseOut, oapIn, oapOut
 }
 
 func initInclusive(t0 *TurnMetrics, flow *FlowMetrics) (uint64, uint64) {
@@ -233,7 +233,7 @@ func initInclusive(t0 *TurnMetrics, flow *FlowMetrics) (uint64, uint64) {
 	return in, out
 }
 
-func gapDegenerate(flow *GapFlowMetrics) bool {
+func oapDegenerate(flow *OapFlowMetrics) bool {
 	if flow == nil || len(flow.PerTurn) < 2 {
 		return false
 	}

@@ -9,8 +9,8 @@
 | Prompt | Chars | ~Tokens |
 |---|---|---|
 | Base system | 94 | 23 |
-| GAP init system | 1217 | 304 |
-| GAP maintain system | 267 | 66 |
+| OAP init system | 1217 | 304 |
+| OAP maintain system | 267 | 66 |
 | **Protocol overhead** | | **~347 tokens** |
 
 ## Multi-page targeting patterns exercised

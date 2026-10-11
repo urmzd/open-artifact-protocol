@@ -16,10 +16,10 @@ type Metrics struct {
 		OutputTokenSavingsPct float64 `json:"output_token_savings_pct"`
 		LatencySavingsPct     float64 `json:"latency_savings_pct"`
 	} `json:"comparison,omitempty"`
-	GAPFlow *struct {
+	OAPFlow *struct {
 		EnvelopeParseRate float64 `json:"envelope_parse_rate"`
 		ApplySuccessRate  float64 `json:"apply_success_rate"`
-	} `json:"gap_flow,omitempty"`
+	} `json:"oap_flow,omitempty"`
 	Quality *struct {
 		MeanSequenceSimilarity float64 `json:"mean_sequence_similarity"`
 		MeanTokenF1            float64 `json:"mean_token_f1"`
@@ -119,23 +119,23 @@ func MetricsScorers() []saigeeval.Scorer {
 			}
 			return m.Economics.Amortized.FallbackInitInclusiveTokenSavingsPct / 100, true
 		}),
-		metricScorer("gap_miss_rate", func(m Metrics) (float64, bool) {
+		metricScorer("oap_miss_rate", func(m Metrics) (float64, bool) {
 			if m.Reliability == nil {
 				return 0, false
 			}
 			return m.Reliability.MissRate, true
 		}),
-		metricScorer("gap_envelope_parse_rate", func(m Metrics) (float64, bool) {
-			if m.GAPFlow == nil {
+		metricScorer("oap_envelope_parse_rate", func(m Metrics) (float64, bool) {
+			if m.OAPFlow == nil {
 				return 0, false
 			}
-			return m.GAPFlow.EnvelopeParseRate, true
+			return m.OAPFlow.EnvelopeParseRate, true
 		}),
-		metricScorer("gap_apply_success_rate", func(m Metrics) (float64, bool) {
-			if m.GAPFlow == nil {
+		metricScorer("oap_apply_success_rate", func(m Metrics) (float64, bool) {
+			if m.OAPFlow == nil {
 				return 0, false
 			}
-			return m.GAPFlow.ApplySuccessRate, true
+			return m.OAPFlow.ApplySuccessRate, true
 		}),
 		metricScorer("sequence_similarity", func(m Metrics) (float64, bool) {
 			if m.Quality == nil {

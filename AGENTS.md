@@ -1,10 +1,10 @@
-# generative-artifact-protocol
+# open-artifact-protocol
 
 Guidance for AI coding agents working in this repository. Humans should start with [README.md](README.md).
 
 ## Identity
 
-Generative Artifact Protocol (GAP): an open protocol that lets LLMs declare, diff, and reprovision text artifacts with minimal token spend. The repo contains the normative spec, a native Go core apply engine, and a SAIGE-compatible eval corpus.
+Open Artifact Protocol (OAP): an open protocol that lets LLMs declare, diff, and reprovision text artifacts with minimal token spend. The repo contains the normative spec, a native Go core apply engine, and a SAIGE-compatible eval corpus.
 
 ## Architecture
 
@@ -13,14 +13,14 @@ This is a root Go module:
 | File | Role |
 |---|---|
 | `types.go` | Envelope, artifact, target, edit operation, and handle wire types |
-| `markers.go` | `<gap:target>` marker construction, range lookup, nesting support, and target extraction |
+| `markers.go` | `<oap:target>` marker construction, range lookup, nesting support, and target extraction |
 | `apply.go` | Stateless apply engine for synthesize/edit envelopes |
 | `store.go` | Versioned in-memory artifact store with checksum and rollback |
-| `evalset/` | Loader and scorers that expose the GAP corpus as SAIGE eval observations |
-| `cmd/gap-eval/` | Go live eval runner for OpenAI-compatible providers |
+| `evalset/` | Loader and scorers that expose the OAP corpus as SAIGE eval observations |
+| `cmd/oap-eval/` | Go live eval runner for OpenAI-compatible providers |
 | `internal/liveeval/` | Live eval flow execution, provider client, and metrics writer |
 | `assets/evals/` | Experiment corpus, SAIGE observation set, and committed metrics |
-| `spec/` | Normative GAP and GAP-SSE specifications plus JSON Schemas |
+| `spec/` | Normative OAP and OAP-SSE specifications plus JSON Schemas |
 
 `assets/evals/experiments/go.mod` fences generated Go artifacts from the root module. Those files are eval outputs, not packages to compile.
 
@@ -30,7 +30,7 @@ This is a root Go module:
 just build      # go build ./...
 just test       # go test ./...
 just evalset    # regenerate assets/evals/saige/observations.json
-just run        # run live evals through cmd/gap-eval
+just run        # run live evals through cmd/oap-eval
 just check      # gofmt check + evalset drift check + go vet + go test
 go test ./...   # direct test command
 ```

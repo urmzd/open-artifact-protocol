@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	gap "github.com/urmzd/generative-artifact-protocol"
+	oap "github.com/urmzd/open-artifact-protocol"
 )
 
 const maxInventoryEntries = 180
@@ -27,8 +27,8 @@ func validateSynthesisArtifact(artifact string, format string) error {
 		}
 		return nil
 	}
-	if len(gap.ExtractTargets(artifact, format)) == 0 {
-		return fmt.Errorf("validate_anchors failed: no GAP target markers found")
+	if len(oap.ExtractTargets(artifact, format)) == 0 {
+		return fmt.Errorf("validate_anchors failed: no OAP target markers found")
 	}
 	return nil
 }
@@ -40,10 +40,10 @@ func synthesisRepairPrompt(artifact string, format string, reason error) string 
 
 The artifact must be regenerated before edit turns can run.
 
-For non-JSON formats, wrap stable editable slots with <gap:target id="...">...</gap:target>.
+For non-JSON formats, wrap stable editable slots with <oap:target id="...">...</oap:target>.
 Use deterministic IDs that future edits can address. For records, include IDs for the whole record and common fields, for example record-087 and record-087-price.
 
-For JSON, return valid raw JSON with no GAP marker tags.
+For JSON, return valid raw JSON with no OAP marker tags.
 
 ## Rejected Artifact Preview
 
@@ -69,7 +69,7 @@ func editPrompt(artifact string, format string, instruction string) string {
 
 ## Required Output
 
-Return exactly one JSON GAP edit envelope with `+"`name`"+` set to `+"`edit`"+` and `+"`content`"+` set to an array of edit operations. Each operation must have `+"`op`"+`, `+"`target`"+`, and `+"`content`"+`.
+Return exactly one JSON OAP edit envelope with `+"`name`"+` set to `+"`edit`"+` and `+"`content`"+` set to an array of edit operations. Each operation must have `+"`op`"+`, `+"`target`"+`, and `+"`content`"+`.
 
 Before choosing a target, use the supervisor inventory above:
 - For non-JSON artifacts, target only IDs returned by list_targets().
@@ -85,14 +85,14 @@ validate_edit_envelope failed:
 
 %s
 
-The previous envelope was rejected before apply. Produce a corrected GAP edit envelope.
+The previous envelope was rejected before apply. Produce a corrected OAP edit envelope.
 
 %s`, validationErr.Error(), editPrompt(artifact, format, instruction))
 }
 
-func validateEnvelope(artifact string, format string, envelope gap.Envelope) error {
-	if envelope.Name != gap.NameEdit {
-		return fmt.Errorf("invalid envelope name %q; expected %q", envelope.Name, gap.NameEdit)
+func validateEnvelope(artifact string, format string, envelope oap.Envelope) error {
+	if envelope.Name != oap.NameEdit {
+		return fmt.Errorf("invalid envelope name %q; expected %q", envelope.Name, oap.NameEdit)
 	}
 	if len(envelope.Content) == 0 {
 		return fmt.Errorf("invalid envelope: content must contain at least one edit operation")
@@ -103,10 +103,10 @@ func validateEnvelope(artifact string, format string, envelope gap.Envelope) err
 	}
 	if format == "application/json" {
 		for i, op := range ops {
-			if op.Target.Type != gap.TargetTypePointer {
-				return fmt.Errorf("operation %d: JSON artifacts require target.type=%q; got %q", i, gap.TargetTypePointer, op.Target.Type)
+			if op.Target.Type != oap.TargetTypePointer {
+				return fmt.Errorf("operation %d: JSON artifacts require target.type=%q; got %q", i, oap.TargetTypePointer, op.Target.Type)
 			}
-			if op.Op != gap.OpTypeDelete && op.Content == nil {
+			if op.Op != oap.OpTypeDelete && op.Content == nil {
 				return fmt.Errorf("operation %d: %s requires content", i, op.Op)
 			}
 			if op.Content != nil && !json.Valid([]byte(*op.Content)) {
@@ -118,26 +118,26 @@ func validateEnvelope(artifact string, format string, envelope gap.Envelope) err
 
 	targets := targetSet(artifact, format)
 	if len(targets) == 0 {
-		return fmt.Errorf("list_targets returned no target IDs; regenerate the artifact with GAP markers before editing")
+		return fmt.Errorf("list_targets returned no target IDs; regenerate the artifact with OAP markers before editing")
 	}
 	for i, op := range ops {
-		if op.Target.Type != gap.TargetTypeID {
-			return fmt.Errorf("operation %d: %s artifacts require target.type=%q; got %q", i, format, gap.TargetTypeID, op.Target.Type)
+		if op.Target.Type != oap.TargetTypeID {
+			return fmt.Errorf("operation %d: %s artifacts require target.type=%q; got %q", i, format, oap.TargetTypeID, op.Target.Type)
 		}
 		if _, ok := targets[op.Target.Value]; !ok {
 			return fmt.Errorf("operation %d: validate_target(%q) failed: target ID does not exist", i, op.Target.Value)
 		}
-		if _, _, err := gap.FindTargetRange(artifact, op.Target.Value, format); err != nil {
+		if _, _, err := oap.FindTargetRange(artifact, op.Target.Value, format); err != nil {
 			return fmt.Errorf("operation %d: validate_target(%q) failed: %w", i, op.Target.Value, err)
 		}
 	}
 	return nil
 }
 
-func envelopeOps(envelope gap.Envelope) ([]gap.EditOp, error) {
-	ops := make([]gap.EditOp, 0, len(envelope.Content))
+func envelopeOps(envelope oap.Envelope) ([]oap.EditOp, error) {
+	ops := make([]oap.EditOp, 0, len(envelope.Content))
 	for i, raw := range envelope.Content {
-		var op gap.EditOp
+		var op oap.EditOp
 		if err := json.Unmarshal(raw, &op); err != nil {
 			return nil, fmt.Errorf("operation %d: invalid edit operation: %w", i, err)
 		}
@@ -156,7 +156,7 @@ func supervisorInventory(artifact string, format string, instruction string) str
 	}
 	entries := targetInventory(artifact, format, instruction)
 	if len(entries) == 0 {
-		return "## Supervisor Target Tools\n\nlist_targets() returned no target IDs. The artifact must be regenerated with GAP markers before an ID-targeted edit can apply."
+		return "## Supervisor Target Tools\n\nlist_targets() returned no target IDs. The artifact must be regenerated with OAP markers before an ID-targeted edit can apply."
 	}
 	return "## Supervisor Target Tools\n\nlist_targets() returned these valid target IDs:\n\n" + formatInventory(entries)
 }
@@ -164,12 +164,12 @@ func supervisorInventory(artifact string, format string, instruction string) str
 func targetInventory(artifact string, format string, instruction string) []inventoryEntry {
 	seen := map[string]bool{}
 	var entries []inventoryEntry
-	for _, id := range gap.ExtractTargets(artifact, format) {
+	for _, id := range oap.ExtractTargets(artifact, format) {
 		if seen[id] {
 			continue
 		}
 		seen[id] = true
-		start, end, err := gap.FindTargetRange(artifact, id, format)
+		start, end, err := oap.FindTargetRange(artifact, id, format)
 		snippet := ""
 		if err == nil {
 			snippet = oneLine(artifact[start:end])
@@ -186,7 +186,7 @@ func targetInventory(artifact string, format string, instruction string) []inven
 
 func targetSet(artifact string, format string) map[string]struct{} {
 	targets := map[string]struct{}{}
-	for _, id := range gap.ExtractTargets(artifact, format) {
+	for _, id := range oap.ExtractTargets(artifact, format) {
 		targets[id] = struct{}{}
 	}
 	return targets

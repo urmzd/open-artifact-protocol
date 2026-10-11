@@ -10,7 +10,7 @@
     "latency_ms": 16569,
     "artifact_bytes": 5472
   },
-  "gap_turn0": {
+  "oap_turn0": {
     "input_tokens": 230,
     "output_tokens": 1603,
     "latency_ms": 15258,
@@ -67,7 +67,7 @@
     "total_cached_input_tokens": 18560,
     "total_latency_ms": 105610
   },
-  "gap_flow": {
+  "oap_flow": {
     "per_turn": [
       {
         "turn": 1,
@@ -123,7 +123,7 @@
         "output_bytes": 6005,
         "retried": false,
         "failed": true,
-        "failure_reason": "apply failed: operation 0: target not found: start marker not found for target: gap:target-id-1",
+        "failure_reason": "apply failed: operation 0: target not found: start marker not found for target: oap:target-id-1",
         "envelope_parsed": true,
         "apply_succeeded": false,
         "envelope_name": "edit"
@@ -153,12 +153,12 @@
     "by_reason": {
       "apply failed: operation 0: target not found: start marker not found for target: authentication": 1,
       "apply failed: operation 0: target not found: start marker not found for target: error-codes": 1,
-      "apply failed: operation 0: target not found: start marker not found for target: gap:target-id-1": 1,
+      "apply failed: operation 0: target not found: start marker not found for target: oap:target-id-1": 1,
       "apply failed: operation 0: target not found: start marker not found for target: projects": 1
     }
   },
   "economics": {
-    "fallback_assumption": "on each missed GAP edit, run the baseline full-regeneration edit after the failed GAP attempt",
+    "fallback_assumption": "on each missed OAP edit, run the baseline full-regeneration edit after the failed OAP attempt",
     "measured_total_token_savings_pct": 69.1,
     "fallback_adjusted": {
       "input_tokens": 28382,
@@ -177,14 +177,14 @@
     "amortized": {
       "edit_turns": 4,
       "base_init_inclusive_tokens": 32519,
-      "gap_init_inclusive_tokens": 11341,
+      "oap_init_inclusive_tokens": 11341,
       "fallback_init_inclusive_tokens": 42153,
       "measured_init_inclusive_token_savings_pct": 65.1,
       "fallback_init_inclusive_token_savings_pct": -29.6
     }
   },
   "validity": {
-    "gap_run_degenerate": true,
+    "oap_run_degenerate": true,
     "base_input_monotone": true
   }
 }

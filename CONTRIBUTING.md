@@ -5,8 +5,8 @@ Contributions are welcome. Please follow these guidelines.
 ## Getting started
 
 ```sh
-git clone https://github.com/urmzd/generative-artifact-protocol
-cd generative-artifact-protocol
+git clone https://github.com/urmzd/open-artifact-protocol
+cd open-artifact-protocol
 just build   # compile the Go package
 just test    # run unit tests
 just evalset # regenerate the SAIGE eval observation set
@@ -22,13 +22,13 @@ just check   # format check, vet, and tests (same gate as CI)
 - `store.go`: versioned artifact store
 - `markers.go`: section marker utilities
 - `evalset/`: SAIGE eval observation loader and committed-metrics scorers
-- `cmd/gap-eval/`: live eval runner
+- `cmd/oap-eval/`: live eval runner
 - `internal/liveeval/`: provider client and live eval flow implementation
 - `assets/evals/`: evaluation datasets and experiments
 - `assets/evals/saige/`: generated SAIGE observation set
 - `assets/evals/experiments/go.mod`: module boundary that keeps generated fixtures out of root tests
-- `spec/gap.md`: the protocol specification (wire version `gap/0.1`)
-- `spec/gap-sse.md`: SSE wire format binding
+- `spec/oap.md`: the protocol specification (wire version `oap/0.1`)
+- `spec/oap-sse.md`: SSE wire format binding
 - `spec/schemas/`: JSON Schema files
 - `spec/examples/`: example envelopes
 - `justfile`: task recipes

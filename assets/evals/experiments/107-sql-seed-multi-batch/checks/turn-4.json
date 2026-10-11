@@ -4,7 +4,7 @@
     {
       "kind": "absent",
       "value": "'pending'",
-      "desc": "No order still has status 'pending' — the bulk status change touched every order (GAP's hardest case: many ops or fail)."
+      "desc": "No order still has status 'pending' — the bulk status change touched every order (OAP's hardest case: many ops or fail)."
     },
     {
       "kind": "regex_count",

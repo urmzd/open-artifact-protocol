@@ -1,16 +1,16 @@
-// Package liveeval runs GAP's live eval experiments on top of the generic
+// Package liveeval runs OAP's live eval experiments on top of the generic
 // saige eval harness. The harness owns the chat client, the base and
 // stateless flows, corpus skipping, and output plumbing; this package keeps
-// only the protocol-specific parts: the GAP flow (synthesis plus envelope
+// only the protocol-specific parts: the OAP flow (synthesis plus envelope
 // edit turns with repair loops), the supervisor target inventory, and the
-// GAP metrics document schema.
+// OAP metrics document schema.
 package liveeval
 
 import (
 	"context"
 	"fmt"
 
-	"github.com/urmzd/generative-artifact-protocol/evalset"
+	"github.com/urmzd/open-artifact-protocol/evalset"
 	"github.com/urmzd/saige/eval/harness"
 )
 
@@ -18,15 +18,15 @@ import (
 const (
 	baseFlowName      = "base"
 	statelessFlowName = "stateless"
-	gapFlowName       = "gap"
+	oapFlowName       = "oap"
 )
 
 // System prompt keys used when mapping evalset experiments onto
 // harness.Script.Systems.
 const (
 	baseSystemKey        = baseFlowName
-	gapInitSystemKey     = "gap.init"
-	gapMaintainSystemKey = "gap.maintain"
+	oapInitSystemKey     = "oap.init"
+	oapMaintainSystemKey = "oap.maintain"
 )
 
 type Config struct {
@@ -73,12 +73,12 @@ func flowsFor(flow string) ([]harness.Flow, error) {
 		return []harness.Flow{harness.BaseFlow{}}, nil
 	case statelessFlowName:
 		return []harness.Flow{harness.StatelessFlow{}}, nil
-	case gapFlowName:
-		return []harness.Flow{gapFlow{}}, nil
+	case oapFlowName:
+		return []harness.Flow{oapFlow{}}, nil
 	case "both":
-		return []harness.Flow{harness.BaseFlow{}, gapFlow{}}, nil
+		return []harness.Flow{harness.BaseFlow{}, oapFlow{}}, nil
 	case "abc", "all":
-		return []harness.Flow{harness.BaseFlow{}, harness.StatelessFlow{}, gapFlow{}}, nil
+		return []harness.Flow{harness.BaseFlow{}, harness.StatelessFlow{}, oapFlow{}}, nil
 	default:
 		return nil, fmt.Errorf("unknown flow %q", flow)
 	}
@@ -97,8 +97,8 @@ func toHarnessExperiments(inputs []evalset.ExperimentInput) []harness.Script {
 			Dir:    input.Paths.ExperimentDir,
 			Systems: map[string]string{
 				baseSystemKey:        input.BaseSystem,
-				gapInitSystemKey:     input.GAPInitSystem,
-				gapMaintainSystemKey: input.GAPMaintain,
+				oapInitSystemKey:     input.OAPInitSystem,
+				oapMaintainSystemKey: input.OAPMaintain,
 			},
 			Turns: turns,
 		})

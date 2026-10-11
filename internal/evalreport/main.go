@@ -28,9 +28,9 @@ type metricsFile struct {
 	Model        string       `json:"model"`
 	Timestamp    string       `json:"timestamp"`
 	BaseTurn0    *turnMetrics `json:"base_turn0,omitempty"`
-	GAPTurn0     *turnMetrics `json:"gap_turn0,omitempty"`
+	OAPTurn0     *turnMetrics `json:"oap_turn0,omitempty"`
 	DefaultFlow  *flowMetrics `json:"default_flow,omitempty"`
-	GAPFlow      *gapFlow     `json:"gap_flow,omitempty"`
+	OAPFlow      *oapFlow     `json:"oap_flow,omitempty"`
 	Reliability  *reliability `json:"reliability,omitempty"`
 	Economics    *economics   `json:"economics,omitempty"`
 	Validity     *validity    `json:"validity,omitempty"`
@@ -49,7 +49,7 @@ type flowMetrics struct {
 	TotalOutputTokens uint64       `json:"total_output_tokens"`
 }
 
-type gapFlow struct {
+type oapFlow struct {
 	PerTurn           []turnResult `json:"per_turn"`
 	TotalInputTokens  uint64       `json:"total_input_tokens"`
 	TotalOutputTokens uint64       `json:"total_output_tokens"`
@@ -96,14 +96,14 @@ type fallbackAdjusted struct {
 type amortizedEconomics struct {
 	EditTurns                            int     `json:"edit_turns"`
 	BaseInitInclusiveTokens              uint64  `json:"base_init_inclusive_tokens"`
-	GAPInitInclusiveTokens               uint64  `json:"gap_init_inclusive_tokens"`
+	OAPInitInclusiveTokens               uint64  `json:"oap_init_inclusive_tokens"`
 	FallbackInitInclusiveTokens          uint64  `json:"fallback_init_inclusive_tokens"`
 	MeasuredInitInclusiveTokenSavingsPct float64 `json:"measured_init_inclusive_token_savings_pct"`
 	FallbackInitInclusiveTokenSavingsPct float64 `json:"fallback_init_inclusive_token_savings_pct"`
 }
 
 type validity struct {
-	GAPRunDegenerate bool `json:"gap_run_degenerate"`
+	OAPRunDegenerate bool `json:"oap_run_degenerate"`
 }
 
 type aggregate struct {
@@ -188,18 +188,18 @@ func renderReport(metrics []metricsFile) []byte {
 	reliabilityAgg := aggregateReliability(metrics)
 	econAgg := aggregateMetrics("Comparable economics", comparable)
 
-	fmt.Fprintln(&out, "# GAP Experiment Results")
+	fmt.Fprintln(&out, "# OAP Experiment Results")
 	fmt.Fprintln(&out)
 	fmt.Fprintf(&out, "**Models:** %s | **Metrics files:** %d | **Timestamp range:** %s -> %s\n", strings.Join(models, ", "), len(metrics), emptyDash(first), emptyDash(last))
 	fmt.Fprintln(&out)
-	fmt.Fprintln(&out, "This report is generated from `metrics.json` files in this working tree. Token counts and reliability are measured. Dollar costs are modeled from measured tokens using GPT-4o mini launch rates: input $0.15/M, output $0.60/M. Degenerate GAP runs and runs without both base and GAP economics are excluded from savings aggregates.")
+	fmt.Fprintln(&out, "This report is generated from `metrics.json` files in this working tree. Token counts and reliability are measured. Dollar costs are modeled from measured tokens using GPT-4o mini launch rates: input $0.15/M, output $0.60/M. Degenerate OAP runs and runs without both base and OAP economics are excluded from savings aggregates.")
 	fmt.Fprintln(&out)
 	fmt.Fprintln(&out, "## Validity")
 	fmt.Fprintln(&out)
 	fmt.Fprintln(&out, "| Set | Count |")
 	fmt.Fprintln(&out, "|---|---:|")
 	fmt.Fprintf(&out, "| Metrics files | %d |\n", len(metrics))
-	fmt.Fprintf(&out, "| Degenerate GAP runs excluded from economics | %d |\n", degenerate)
+	fmt.Fprintf(&out, "| Degenerate OAP runs excluded from economics | %d |\n", degenerate)
 	fmt.Fprintf(&out, "| Missing comparable economics excluded from economics | %d |\n", noEconomics)
 	fmt.Fprintf(&out, "| Comparable economics set | %d |\n", len(comparable))
 	fmt.Fprintln(&out)
@@ -212,15 +212,15 @@ func renderReport(metrics []metricsFile) []byte {
 		reliabilityAgg.ParseMisses, reliabilityAgg.ValidationMisses, reliabilityAgg.InvalidEnvelopeMisses,
 		reliabilityAgg.ApplyMisses, reliabilityAgg.RequestMisses, reliabilityAgg.UnknownMisses, reliabilityAgg.Repairs)
 	fmt.Fprintln(&out)
-	fmt.Fprintln(&out, "A miss means the GAP attempt did not produce an applied edit. The production fallback assumption is: pay for the failed GAP attempt, then run the baseline full-regeneration edit.")
+	fmt.Fprintln(&out, "A miss means the OAP attempt did not produce an applied edit. The production fallback assumption is: pay for the failed OAP attempt, then run the baseline full-regeneration edit.")
 	fmt.Fprintln(&out)
 	fmt.Fprintln(&out, "## Economics")
 	fmt.Fprintln(&out)
 	writeEconomicsTable(&out, econAgg)
 	fmt.Fprintln(&out)
-	fmt.Fprintln(&out, "Interpretation: GAP is not a blanket cost win. It reliably reduces output tokens, but small artifacts can lose because target inventory, system instructions, and envelope structure add input overhead.")
+	fmt.Fprintln(&out, "Interpretation: OAP is not a blanket cost win. It reliably reduces output tokens, but small artifacts can lose because target inventory, system instructions, and envelope structure add input overhead.")
 	fmt.Fprintln(&out)
-	fmt.Fprintln(&out, "## Where GAP Saves Most")
+	fmt.Fprintln(&out, "## Where OAP Saves Most")
 	fmt.Fprintln(&out)
 	fmt.Fprintln(&out, "### By Artifact Size")
 	fmt.Fprintln(&out)
@@ -254,8 +254,8 @@ func renderReport(metrics []metricsFile) []byte {
 	fmt.Fprintln(&out)
 	fmt.Fprintln(&out, "## Operating Guidance")
 	fmt.Fprintln(&out)
-	fmt.Fprintln(&out, "- Prefer GAP for artifacts above roughly 2 KB, repeated records/pages, dashboards, catalogs, feeds, API payloads, and code files with stable section boundaries.")
-	fmt.Fprintln(&out, "- Avoid GAP for tiny config files and one-off edits where the marker and supervisor inventory overhead can exceed the full-regeneration baseline.")
+	fmt.Fprintln(&out, "- Prefer OAP for artifacts above roughly 2 KB, repeated records/pages, dashboards, catalogs, feeds, API payloads, and code files with stable section boundaries.")
+	fmt.Fprintln(&out, "- Avoid OAP for tiny config files and one-off edits where the marker and supervisor inventory overhead can exceed the full-regeneration baseline.")
 	fmt.Fprintln(&out, "- Treat fallback-adjusted and init-inclusive savings as the headline economics. Raw output savings alone overstates value when misses or setup overhead are present.")
 	fmt.Fprintln(&out, "- Continue improving miss rate on high-value large HTML/XML/JSON cases first. Those cases dominate absolute token and dollar savings.")
 	return out.Bytes()
@@ -288,8 +288,8 @@ func aggregateReliability(metrics []metricsFile) reliabilityTotals {
 		totals.ApplyMisses += m.Reliability.ApplyMissCount
 		totals.RequestMisses += m.Reliability.RequestFailureCount
 		totals.UnknownMisses += m.Reliability.UnknownMissCount
-		if m.GAPFlow != nil {
-			for _, turn := range m.GAPFlow.PerTurn {
+		if m.OAPFlow != nil {
+			for _, turn := range m.OAPFlow.PerTurn {
 				totals.Repairs += turn.RepairAttempts
 			}
 		}
@@ -307,12 +307,12 @@ func writeEconomicsTable(out *bytes.Buffer, agg aggregate) {
 	fmt.Fprintf(out, "| Edit turns | %d |\n", agg.Turns)
 	fmt.Fprintf(out, "| Misses | %d (%s) |\n", agg.Misses, pctString(agg.MissRate))
 	fmt.Fprintf(out, "| Base edit tokens | %s |\n", intString(agg.BaseTokens))
-	fmt.Fprintf(out, "| GAP fallback-adjusted edit tokens | %s |\n", intString(agg.FallbackTokens))
+	fmt.Fprintf(out, "| OAP fallback-adjusted edit tokens | %s |\n", intString(agg.FallbackTokens))
 	fmt.Fprintf(out, "| Saved edit tokens | %s |\n", intStringSigned(agg.SavedTokens))
 	fmt.Fprintf(out, "| Fallback-adjusted token savings | %s |\n", pctString(agg.WeightedFallbackSavings))
 	fmt.Fprintf(out, "| Init-inclusive fallback token savings | %s |\n", pctString(agg.WeightedAmortizedSavings))
 	fmt.Fprintf(out, "| Base modeled cost | $%.4f |\n", agg.BaseCost)
-	fmt.Fprintf(out, "| GAP fallback modeled cost | $%.4f |\n", agg.FallbackCost)
+	fmt.Fprintf(out, "| OAP fallback modeled cost | $%.4f |\n", agg.FallbackCost)
 	fmt.Fprintf(out, "| Modeled cost saved | $%.4f |\n", agg.SavedCost)
 }
 
@@ -442,7 +442,7 @@ func aggregateMetrics(name string, metrics []metricsFile) aggregate {
 func comparableEconomics(m metricsFile) bool {
 	return !isDegenerate(m) &&
 		m.DefaultFlow != nil &&
-		m.GAPFlow != nil &&
+		m.OAPFlow != nil &&
 		m.Reliability != nil &&
 		m.Economics != nil &&
 		m.Economics.FallbackAdjusted != nil &&
@@ -451,7 +451,7 @@ func comparableEconomics(m metricsFile) bool {
 }
 
 func isDegenerate(m metricsFile) bool {
-	return m.Validity != nil && m.Validity.GAPRunDegenerate
+	return m.Validity != nil && m.Validity.OAPRunDegenerate
 }
 
 func topExperiments(metrics []metricsFile, score func(metricsFile) float64, desc bool, limit int) []metricsFile {

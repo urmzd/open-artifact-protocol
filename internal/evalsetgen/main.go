@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/urmzd/generative-artifact-protocol/evalset"
+	"github.com/urmzd/open-artifact-protocol/evalset"
 )
 
 func main() {

@@ -1,11 +1,11 @@
 # SAIGE Eval Set
 
-This directory contains the GAP benchmark corpus materialized as
+This directory contains the OAP benchmark corpus materialized as
 `github.com/urmzd/saige/eval` observations.
 
-- `observations.json`: one SAIGE observation per multi-turn GAP experiment
+- `observations.json`: one SAIGE observation per multi-turn OAP experiment
 - observation `input`: prompts, format metadata, expected sections, and path refs
-- observation `annotations`: stable `gap.*` keys for metrics, outputs, checks, and source directory
+- observation `annotations`: stable `oap.*` keys for metrics, outputs, checks, and source directory
 
 Regenerate the set after changing `assets/evals/experiments/`:
 
@@ -27,7 +27,7 @@ just run 0 "gpt-6-luna" "004" both
 ```
 
 The previous standalone Rust runner has been removed. Live runs now use the Go
-`cmd/gap-eval` runner and write outputs plus `metrics.json` back into each
+`cmd/oap-eval` runner and write outputs plus `metrics.json` back into each
 experiment directory. SAIGE can consume the generated observations and score
 committed metrics with `evalset.MetricsScorers()`.
 
@@ -37,7 +37,7 @@ miss count/rate, fallback-adjusted savings, retry tax, and init-inclusive
 amortized savings. Treat raw `comparison` savings as the protocol attempt and
 fallback-adjusted savings plus correctness as the honest product view.
 
-The report excludes degenerate GAP runs and runs without comparable base/GAP
+The report excludes degenerate OAP runs and runs without comparable base/OAP
 economics from savings aggregates. Use the generated `results.md` applicability
-tables to decide where GAP is expected to save: larger artifacts, repeated
+tables to decide where OAP is expected to save: larger artifacts, repeated
 records/pages, and repeated edit sessions. Tiny one-off configs can be negative.
