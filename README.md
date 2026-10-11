@@ -1,20 +1,20 @@
 <p align="center">
-  <h1 align="center">Generative Artifact Protocol</h1>
+  <h1 align="center">Open Artifact Protocol</h1>
   <p align="center">
-    Token-efficient artifact updates for LLMs.
+    An open, provider-neutral protocol for LLM artifact updates.
     <br /><br />
     <a href="https://pkg.go.dev/github.com/urmzd/generative-artifact-protocol">Go Docs</a>
     &middot;
-    <a href="https://github.com/urmzd/generative-artifact-protocol/issues">Report Bug</a>
+    <a href="https://github.com/urmzd/open-artifact-protocol/issues">Report Bug</a>
     &middot;
     <a href="spec/gap.md">Specification</a>
   </p>
 </p>
 
 <p align="center">
-  <a href="https://github.com/urmzd/generative-artifact-protocol/actions/workflows/ci.yml"><img src="https://github.com/urmzd/generative-artifact-protocol/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/urmzd/open-artifact-protocol/actions/workflows/ci.yml"><img src="https://github.com/urmzd/open-artifact-protocol/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   &nbsp;
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/urmzd/generative-artifact-protocol" alt="License"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/urmzd/open-artifact-protocol" alt="License"></a>
 </p>
 
 > **Warning**: This project is `v0`: the protocol, schemas, and APIs are subject to breaking changes without notice until a formal release.
@@ -23,7 +23,9 @@
 
 This repository is archived as of 2026-10-10. The specification, the Go apply engine, and the eval corpus remain available and usable under their existing licenses, but the project is no longer under active development.
 
-**Why.** Since GAP was published, the industry has converged on a closely similar mechanism for artifact updates.
+**Naming.** The project was renamed from Generative Artifact Protocol to Open Artifact Protocol on 2026-10-10 to reflect what distinguishes it: an open, provider-neutral spec. The wire format is unchanged, so the protocol string (`gap/0.1`), the `<gap:target>` markers, the Go package name (`gap`), and the Go module path (`github.com/urmzd/generative-artifact-protocol`) all keep the original name. The spec and this README still refer to the protocol as GAP.
+
+**Why archived.** Since GAP was published, the industry has converged on a closely similar mechanism for artifact updates.
 
 | Date | Event |
 |---|---|
@@ -40,7 +42,7 @@ Claude Code Artifacts, like GAP, keeps the artifact body in a store, publishes i
 
 **How to read the committed measurements.** The results under [`assets/evals/`](assets/evals/experiments/EXPERIMENT.md) compare GAP against full regeneration of the artifact. They do not compare GAP against string-replace editing, which is now the common baseline. Treat the savings figures as GAP versus full regeneration only.
 
-Generative Artifact Protocol (GAP) lets LLMs update structured text artifacts by emitting small JSON envelopes instead of regenerating full files. The native implementation is now Go-only: protocol types, `<gap:target>` marker resolution, JSON Pointer edits, a stateless apply engine, and a versioned in-memory store live in the root Go package.
+Open Artifact Protocol, formerly Generative Artifact Protocol (GAP), lets LLMs update structured text artifacts by emitting small JSON envelopes instead of regenerating full files. The native implementation is now Go-only: protocol types, `<gap:target>` marker resolution, JSON Pointer edits, a stateless apply engine, and a versioned in-memory store live in the root Go package.
 
 ## Features
 
@@ -61,8 +63,8 @@ go get github.com/urmzd/generative-artifact-protocol
 From source:
 
 ```sh
-git clone https://github.com/urmzd/generative-artifact-protocol
-cd generative-artifact-protocol
+git clone https://github.com/urmzd/open-artifact-protocol
+cd open-artifact-protocol
 just test
 ```
 
