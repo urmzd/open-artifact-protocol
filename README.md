@@ -17,7 +17,11 @@
   <a href="LICENSE"><img src="https://img.shields.io/github/license/urmzd/open-artifact-protocol" alt="License"></a>
 </p>
 
-> **Warning**: This project is `v0`: the protocol, schemas, and APIs are subject to breaking changes without notice until a formal release.
+> [!WARNING]
+> **This repository is archived and no longer maintained.** Since it was published, the industry has converged on a closely similar mechanism for artifact updates. Read [why it was archived](#status-archived) and the [design notes](#design-notes-what-the-target-ids-were-for) before relying on it.
+
+> [!NOTE]
+> **Disclaimer.** This project is `v0`, and the protocol, schemas, and APIs were never stabilized. The committed measurements compare against full regeneration only, not against string-replace editing. Nothing here is a claim about how any vendor's product works internally.
 
 ## Status: archived
 
