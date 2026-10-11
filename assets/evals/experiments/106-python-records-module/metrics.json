@@ -4,13 +4,13 @@
   "provider": "openai-compatible",
   "timestamp": "2026-07-15T05:18:21Z",
   "format": "text/x-python",
-  "gap_turn0": {
+  "oap_turn0": {
     "input_tokens": 7285,
     "output_tokens": 8951,
     "latency_ms": 123254,
     "artifact_bytes": 15867
   },
-  "gap_flow": {
+  "oap_flow": {
     "per_turn": [
       {
         "turn": 1,
@@ -100,7 +100,7 @@
     "unknown_miss_count": 0
   },
   "validity": {
-    "gap_run_degenerate": false,
+    "oap_run_degenerate": false,
     "base_input_monotone": true
   }
 }

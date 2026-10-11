@@ -1,8 +1,8 @@
-package gap
+package oap
 
 import "encoding/json"
 
-const ProtocolVersion = "gap/0.1"
+const ProtocolVersion = "oap/0.1"
 
 type Name string
 

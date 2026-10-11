@@ -9,8 +9,8 @@
 | Prompt | Chars | ~Tokens |
 |---|---|---|
 | Base system | 97 | 24 |
-| GAP init system | 566 | 142 |
-| GAP maintain system | 952 | 238 |
+| OAP init system | 566 | 142 |
+| OAP maintain system | 952 | 238 |
 | **Protocol overhead** | | **~356 tokens** |
 
 ## Turns
@@ -20,5 +20,5 @@
 | 1 | Change email of user id 67 (page 4, index 66) — single field, single item, non-first page |
 | 2 | Insert new user (id 1001) after id 45 on page 3; total -> 101 |
 | 3 | Delete user id 53 from the middle (page 3); total -> 100 |
-| 4 | Bulk set active=false for ALL 100 users (GAP's hardest case) |
+| 4 | Bulk set active=false for ALL 100 users (OAP's hardest case) |
 | 5 | Append a whole new page 6 (ids 2001-2020); total -> 120, total_pages -> 6 |

@@ -1,0 +1,25 @@
+{
+  "protocol": "gap",
+  "id": "cargo-toml",
+  "version": 1,
+  "name": "edit",
+  "meta": {},
+  "content": [
+    {
+      "content": "\n<oap:target id=\"profile-bench-block\">\n[profile.bench]\n<oap:target id=\"bench-debug\">debug = true</oap:target>\n</oap:target>",
+      "op": "insert_after",
+      "target": {
+        "type": "id",
+        "value": "profile-release-block"
+      }
+    },
+    {
+      "content": "\n<oap:target id=\"release-codegen-units\">codegen-units = 1</oap:target>",
+      "op": "insert_before",
+      "target": {
+        "type": "id",
+        "value": "release-strip"
+      }
+    }
+  ]
+}

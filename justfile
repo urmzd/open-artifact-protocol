@@ -4,7 +4,7 @@ build:
 test:
     go test ./...
 
-# Materialize the GAP corpus as SAIGE eval observations
+# Materialize the OAP corpus as SAIGE eval observations
 evalset:
     go run ./internal/evalsetgen
 
@@ -12,7 +12,7 @@ evalset:
 report:
     go run ./internal/evalreport
 
-# Run live OpenAI-compatible eval experiments. flow ∈ base|stateless|gap|both|abc|all
+# Run live OpenAI-compatible eval experiments. flow ∈ base|stateless|oap|both|abc|all
 run count="0" model="" id="" flow="both" api-base="" api-key="" force="false":
     #!/usr/bin/env sh
     set -eu
@@ -23,11 +23,11 @@ run count="0" model="" id="" flow="both" api-base="" api-key="" force="false":
     [ -z '{{api-base}}' ] || set -- "$@" --api-base '{{api-base}}'
     [ -z '{{api-key}}' ] || set -- "$@" --api-key '{{api-key}}'
     [ '{{force}}' = "false" ] || set -- "$@" --force
-    go run ./cmd/gap-eval "$@"
+    go run ./cmd/oap-eval "$@"
 
 # Format check, vet, and tests (same gate as CI)
 check:
-    test -z "$(gofmt -l *.go cmd/gap-eval/*.go evalset/*.go internal/evalsetgen/*.go internal/evalreport/*.go internal/liveeval/*.go)"
+    test -z "$(gofmt -l *.go cmd/oap-eval/*.go evalset/*.go internal/evalsetgen/*.go internal/evalreport/*.go internal/liveeval/*.go)"
     go run ./internal/evalsetgen
     git diff --exit-code -- assets/evals/saige/observations.json
     go run ./internal/evalreport

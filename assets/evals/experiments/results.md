@@ -1,15 +1,15 @@
-# GAP Experiment Results
+# OAP Experiment Results
 
 **Models:** gpt-4o-mini | **Metrics files:** 96 | **Timestamp range:** 2026-07-15T01:53:06Z -> 2026-07-15T18:35:28Z
 
-This report is generated from `metrics.json` files in this working tree. Token counts and reliability are measured. Dollar costs are modeled from measured tokens using GPT-4o mini launch rates: input $0.15/M, output $0.60/M. Degenerate GAP runs and runs without both base and GAP economics are excluded from savings aggregates.
+This report is generated from `metrics.json` files in this working tree. Token counts and reliability are measured. Dollar costs are modeled from measured tokens using GPT-4o mini launch rates: input $0.15/M, output $0.60/M. Degenerate OAP runs and runs without both base and OAP economics are excluded from savings aggregates.
 
 ## Validity
 
 | Set | Count |
 |---|---:|
 | Metrics files | 96 |
-| Degenerate GAP runs excluded from economics | 28 |
+| Degenerate OAP runs excluded from economics | 28 |
 | Missing comparable economics excluded from economics | 1 |
 | Comparable economics set | 67 |
 
@@ -19,7 +19,7 @@ This report is generated from `metrics.json` files in this working tree. Token c
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | All runs with reliability | 290 | 115 | 39.7% | 0 | 0 | 0 | 115 | 0 | 0 | 0 |
 
-A miss means the GAP attempt did not produce an applied edit. The production fallback assumption is: pay for the failed GAP attempt, then run the baseline full-regeneration edit.
+A miss means the OAP attempt did not produce an applied edit. The production fallback assumption is: pay for the failed OAP attempt, then run the baseline full-regeneration edit.
 
 ## Economics
 
@@ -29,17 +29,17 @@ A miss means the GAP attempt did not produce an applied edit. The production fal
 | Edit turns | 195 |
 | Misses | 29 (14.9%) |
 | Base edit tokens | 1,393,218 |
-| GAP fallback-adjusted edit tokens | 867,185 |
+| OAP fallback-adjusted edit tokens | 867,185 |
 | Saved edit tokens | 526,033 |
 | Fallback-adjusted token savings | 37.8% |
 | Init-inclusive fallback token savings | 34.0% |
 | Base modeled cost | $0.3896 |
-| GAP fallback modeled cost | $0.2127 |
+| OAP fallback modeled cost | $0.2127 |
 | Modeled cost saved | $0.1770 |
 
-Interpretation: GAP is not a blanket cost win. It reliably reduces output tokens, but small artifacts can lose because target inventory, system instructions, and envelope structure add input overhead.
+Interpretation: OAP is not a blanket cost win. It reliably reduces output tokens, but small artifacts can lose because target inventory, system instructions, and envelope structure add input overhead.
 
-## Where GAP Saves Most
+## Where OAP Saves Most
 
 ### By Artifact Size
 
@@ -143,7 +143,7 @@ Interpretation: GAP is not a blanket cost win. It reliably reduces output tokens
 
 ## Operating Guidance
 
-- Prefer GAP for artifacts above roughly 2 KB, repeated records/pages, dashboards, catalogs, feeds, API payloads, and code files with stable section boundaries.
-- Avoid GAP for tiny config files and one-off edits where the marker and supervisor inventory overhead can exceed the full-regeneration baseline.
+- Prefer OAP for artifacts above roughly 2 KB, repeated records/pages, dashboards, catalogs, feeds, API payloads, and code files with stable section boundaries.
+- Avoid OAP for tiny config files and one-off edits where the marker and supervisor inventory overhead can exceed the full-regeneration baseline.
 - Treat fallback-adjusted and init-inclusive savings as the headline economics. Raw output savings alone overstates value when misses or setup overhead are present.
 - Continue improving miss rate on high-value large HTML/XML/JSON cases first. Those cases dominate absolute token and dollar savings.

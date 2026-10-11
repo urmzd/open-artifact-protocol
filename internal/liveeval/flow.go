@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	gap "github.com/urmzd/generative-artifact-protocol"
+	oap "github.com/urmzd/open-artifact-protocol"
 	"github.com/urmzd/saige/eval/harness"
 )
 
@@ -17,22 +17,22 @@ const (
 	maxEditAttempts      = 3
 )
 
-// gapFlow drives an experiment through the GAP protocol: turn 0 synthesizes
-// a marked artifact, later turns request a JSON GAP edit envelope
+// oapFlow drives an experiment through the OAP protocol: turn 0 synthesizes
+// a marked artifact, later turns request a JSON OAP edit envelope
 // (constrained via json_schema), validate it against the supervisor target
 // inventory, and apply it, with repair loops on parse, validation, and apply
-// failures. Outputs land in <exp.Dir>/outputs/gap.
-type gapFlow struct{}
+// failures. Outputs land in <exp.Dir>/outputs/oap.
+type oapFlow struct{}
 
-func (gapFlow) Name() string { return gapFlowName }
+func (oapFlow) Name() string { return oapFlowName }
 
-func (gapFlow) Run(ctx context.Context, client *harness.Client, exp harness.Script, _ *harness.FlowContext) (harness.FlowResult, error) {
-	outDir := filepath.Join(exp.Dir, "outputs", gapFlowName)
+func (oapFlow) Run(ctx context.Context, client *harness.Client, exp harness.Script, _ *harness.FlowContext) (harness.FlowResult, error) {
+	outDir := filepath.Join(exp.Dir, "outputs", oapFlowName)
 	if err := os.MkdirAll(outDir, 0o750); err != nil {
 		return harness.FlowResult{}, err
 	}
 	ext := harness.FormatExt(exp.Format)
-	t0, artifact, err := runGAPSynthesis(ctx, client, exp)
+	t0, artifact, err := runOAPSynthesis(ctx, client, exp)
 	if err != nil {
 		return harness.FlowResult{}, err
 	}
@@ -43,7 +43,7 @@ func (gapFlow) Run(ctx context.Context, client *harness.Client, exp harness.Scri
 	var turns []harness.TurnResult
 	version := uint64(1)
 	for _, turn := range exp.Turns[1:] {
-		tr, nextArtifact, nextVersion, envelope, envelopeText := runGAPEditTurn(ctx, client, exp, artifact, version, turn)
+		tr, nextArtifact, nextVersion, envelope, envelopeText := runOAPEditTurn(ctx, client, exp, artifact, version, turn)
 		if envelope != nil {
 			_ = harness.WriteJSON(envelopePath(outDir, turn.Index, ext), *envelope)
 		} else if envelopeText != "" {
@@ -59,10 +59,10 @@ func (gapFlow) Run(ctx context.Context, client *harness.Client, exp harness.Scri
 	return harness.FlowResult{Turn0: t0, Turns: turns, Artifact: artifact}, nil
 }
 
-func runGAPSynthesis(ctx context.Context, client *harness.Client, exp harness.Script) (harness.TurnMetrics, string, error) {
+func runOAPSynthesis(ctx context.Context, client *harness.Client, exp harness.Script) (harness.TurnMetrics, string, error) {
 	start := time.Now()
 	messages := []harness.Message{
-		{Role: "system", Content: exp.Systems[gapInitSystemKey]},
+		{Role: "system", Content: exp.Systems[oapInitSystemKey]},
 		{Role: "user", Content: exp.Turns[0].Prompt},
 	}
 	var aggregate harness.ChatResult
@@ -86,10 +86,10 @@ func runGAPSynthesis(ctx context.Context, client *harness.Client, exp harness.Sc
 	return turnMetrics(aggregate, start, artifact), artifact, nil
 }
 
-func runGAPEditTurn(ctx context.Context, client *harness.Client, exp harness.Script, artifact string, version uint64, turn harness.Turn) (harness.TurnResult, string, uint64, *gap.Envelope, string) {
+func runOAPEditTurn(ctx context.Context, client *harness.Client, exp harness.Script, artifact string, version uint64, turn harness.Turn) (harness.TurnResult, string, uint64, *oap.Envelope, string) {
 	start := time.Now()
 	messages := []harness.Message{
-		{Role: "system", Content: exp.Systems[gapMaintainSystemKey]},
+		{Role: "system", Content: exp.Systems[oapMaintainSystemKey]},
 		{Role: "user", Content: editPrompt(artifact, exp.Format, turn.Prompt)},
 	}
 	var aggregate harness.ChatResult
@@ -99,11 +99,11 @@ func runGAPEditTurn(ctx context.Context, client *harness.Client, exp harness.Scr
 	var repairAttempts int
 	var lastErr error
 	var validationErr error
-	var lastEnvelope *gap.Envelope
+	var lastEnvelope *oap.Envelope
 	var lastEnvelopeText string
 
 	for attempt := 0; attempt < maxEditAttempts; attempt++ {
-		result, err := client.Chat(ctx, messages, harness.WithJSONSchema("gap_envelope", envelopeSchema()))
+		result, err := client.Chat(ctx, messages, harness.WithJSONSchema("oap_envelope", envelopeSchema()))
 		addChatResult(&aggregate, result)
 		if err != nil {
 			lastErr = err
@@ -111,7 +111,7 @@ func runGAPEditTurn(ctx context.Context, client *harness.Client, exp harness.Scr
 		}
 		envelopeText := harness.CleanArtifact(result.Text)
 		lastEnvelopeText = envelopeText
-		envelope, parseErr := gap.EnvelopeFromJSON([]byte(harness.ExtractJSONObject(envelopeText)))
+		envelope, parseErr := oap.EnvelopeFromJSON([]byte(harness.ExtractJSONObject(envelopeText)))
 		if parseErr != nil {
 			lastErr = fmt.Errorf("envelope parse failed: %w", parseErr)
 			validationErr = lastErr
@@ -130,7 +130,7 @@ func runGAPEditTurn(ctx context.Context, client *harness.Client, exp harness.Scr
 			messages = appendRepairMessages(messages, result.Text, artifact, exp.Format, turn.Prompt, err)
 			continue
 		}
-		newArtifact, _, applyErr := gap.Apply(&gap.Artifact{
+		newArtifact, _, applyErr := oap.Apply(&oap.Artifact{
 			ID:      exp.ID,
 			Version: version,
 			Format:  exp.Format,
@@ -151,7 +151,7 @@ func runGAPEditTurn(ctx context.Context, client *harness.Client, exp harness.Scr
 			tr.ValidationError = &value
 		}
 		tr.OutputBytes = len(newArtifact.Body)
-		tr.Extra = gapTurnExtra(parsed, applied, envelopeName)
+		tr.Extra = oapTurnExtra(parsed, applied, envelopeName)
 		return tr, newArtifact.Body, newArtifact.Version, &envelope, lastEnvelopeText
 	}
 
@@ -169,13 +169,13 @@ func runGAPEditTurn(ctx context.Context, client *harness.Client, exp harness.Scr
 		value := validationErr.Error()
 		tr.ValidationError = &value
 	}
-	tr.Extra = gapTurnExtra(parsed, applied, envelopeName)
+	tr.Extra = oapTurnExtra(parsed, applied, envelopeName)
 	return tr, artifact, version, lastEnvelope, lastEnvelopeText
 }
 
-// gapTurnExtra carries the GAP-specific per-turn keys; the harness flattens
+// oapTurnExtra carries the OAP-specific per-turn keys; the harness flattens
 // them into the TurnResult JSON object exactly as before.
-func gapTurnExtra(parsed bool, applied bool, envelopeName string) map[string]any {
+func oapTurnExtra(parsed bool, applied bool, envelopeName string) map[string]any {
 	return map[string]any{
 		"envelope_parsed": parsed,
 		"apply_succeeded": applied,
@@ -198,8 +198,8 @@ func addChatResult(total *harness.ChatResult, result harness.ChatResult) {
 	total.Retried = total.Retried || result.Retried
 }
 
-func normalizeEnvelope(envelope gap.Envelope, exp harness.Script, version uint64) gap.Envelope {
-	envelope.Protocol = gap.ProtocolVersion
+func normalizeEnvelope(envelope oap.Envelope, exp harness.Script, version uint64) oap.Envelope {
+	envelope.Protocol = oap.ProtocolVersion
 	envelope.ID = exp.ID
 	if envelope.Version < version {
 		envelope.Version = version
@@ -246,7 +246,7 @@ func truncate(s string, maxLen int) string {
 	return harness.Truncate(s, maxLen)
 }
 
-// envelopeSchema is the strict JSON schema for GAP edit envelopes, sent via
+// envelopeSchema is the strict JSON schema for OAP edit envelopes, sent via
 // response_format json_schema on every edit turn.
 func envelopeSchema() map[string]any {
 	return map[string]any{

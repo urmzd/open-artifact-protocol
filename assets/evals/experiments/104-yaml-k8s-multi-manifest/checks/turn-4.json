@@ -10,7 +10,7 @@
       "kind": "regex_count",
       "pattern": "(?m)^\\s*tier:\\s*platform\\b",
       "expected": 40,
-      "desc": "every one of the 40 resources now carries tier: platform (bulk change applied to ALL items, GAP's hardest case)"
+      "desc": "every one of the 40 resources now carries tier: platform (bulk change applied to ALL items, OAP's hardest case)"
     },
     {
       "kind": "regex_count",

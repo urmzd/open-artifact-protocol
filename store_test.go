@@ -1,4 +1,4 @@
-package gap
+package oap
 
 import (
 	"strings"
@@ -7,7 +7,7 @@ import (
 
 func TestArtifactStoreApplyAndVersionConflict(t *testing.T) {
 	store := NewArtifactStore(10)
-	if _, _, err := store.Apply(synthEnv(t, "t", 1, "text/html", `<gap:target id="msg">hello</gap:target>`)); err != nil {
+	if _, _, err := store.Apply(synthEnv(t, "t", 1, "text/html", `<oap:target id="msg">hello</oap:target>`)); err != nil {
 		t.Fatalf("synthesize: %v", err)
 	}
 	if version, ok := store.CurrentVersion("t"); !ok || version != 1 {

@@ -9,8 +9,8 @@
 | Prompt | Chars | ~Tokens |
 |---|---|---|
 | Base system | 89 | 22 |
-| GAP init system | 225 | 56 |
-| GAP maintain system | 378 | 94 |
+| OAP init system | 225 | 56 |
+| OAP maintain system | 378 | 94 |
 | **Protocol overhead** | | **~128 tokens** |
 
 ## Turns

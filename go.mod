@@ -1,4 +1,4 @@
-module github.com/urmzd/generative-artifact-protocol
+module github.com/urmzd/open-artifact-protocol
 
 go 1.26.9
 

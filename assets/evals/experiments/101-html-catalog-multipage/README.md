@@ -9,8 +9,8 @@
 | Prompt | Chars | ~Tokens |
 |---|---|---|
 | Base system | 90 | 22 |
-| GAP init system | 1217 | 304 |
-| GAP maintain system | 267 | 67 |
+| OAP init system | 1217 | 304 |
+| OAP maintain system | 267 | 67 |
 | **Protocol overhead** | | **~349 tokens** |
 
 ## Turns
@@ -29,7 +29,7 @@
 1. **Single field, non-first page** (turn 1): isolate one value on page 4 without touching the other 119 products.
 2. **Insert at position** (turn 2): add one item mid-document on page 2; count must rise to exactly 121.
 3. **Delete from middle** (turn 3): remove one item from page 3; count must fall to exactly 120; neighbors P0054/P0056 must survive un-renumbered.
-4. **Bulk field change** (turn 4): the hardest GAP case — many ops or a full pass; "Filters" must be entirely absent afterward.
+4. **Bulk field change** (turn 4): the hardest OAP case — many ops or a full pass; "Filters" must be entirely absent afterward.
 5. **Add whole page** (turn 5): a new section of 12 items plus header/nav updates; count must reach exactly 132.
 
 ## Correctness oracle

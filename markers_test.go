@@ -1,4 +1,4 @@
-package gap
+package oap
 
 import "testing"
 
@@ -7,7 +7,7 @@ func TestMarkersFor(t *testing.T) {
 	if err != nil {
 		t.Fatalf("MarkersFor returned error: %v", err)
 	}
-	if start != `<gap:target id="nav">` || end != `</gap:target>` {
+	if start != `<oap:target id="nav">` || end != `</oap:target>` {
 		t.Fatalf("markers = %q %q", start, end)
 	}
 	if _, _, err := MarkersFor("data", "application/json"); err == nil {
@@ -16,7 +16,7 @@ func TestMarkersFor(t *testing.T) {
 }
 
 func TestFindTargetRangeNested(t *testing.T) {
-	content := `<gap:target id="outer" type="section"><gap:target id="inner" type="value">val</gap:target></gap:target>`
+	content := `<oap:target id="outer" type="section"><oap:target id="inner" type="value">val</oap:target></oap:target>`
 	start, end, err := FindTargetRange(content, "inner", "text/html")
 	if err != nil {
 		t.Fatalf("find inner: %v", err)
@@ -28,25 +28,25 @@ func TestFindTargetRangeNested(t *testing.T) {
 	if err != nil {
 		t.Fatalf("find outer: %v", err)
 	}
-	want := `<gap:target id="inner" type="value">val</gap:target>`
+	want := `<oap:target id="inner" type="value">val</oap:target>`
 	if got := content[start:end]; got != want {
 		t.Fatalf("outer content = %q, want %q", got, want)
 	}
 }
 
 func TestFindTargetRangeInclusive(t *testing.T) {
-	content := `before<gap:target id="x">data</gap:target>after`
+	content := `before<oap:target id="x">data</oap:target>after`
 	start, end, err := FindTargetRangeInclusive(content, "x", "text/html")
 	if err != nil {
 		t.Fatalf("FindTargetRangeInclusive: %v", err)
 	}
-	if got := content[start:end]; got != `<gap:target id="x">data</gap:target>` {
+	if got := content[start:end]; got != `<oap:target id="x">data</oap:target>` {
 		t.Fatalf("inclusive range = %q", got)
 	}
 }
 
 func TestExtractTargets(t *testing.T) {
-	content := `<gap:target id="outer" type="section"><gap:target id="inner" type="value">v</gap:target></gap:target>`
+	content := `<oap:target id="outer" type="section"><oap:target id="inner" type="value">v</oap:target></oap:target>`
 	got := ExtractTargets(content, "text/html")
 	want := []string{"outer", "inner"}
 	if len(got) != len(want) {

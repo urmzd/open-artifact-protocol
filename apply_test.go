@@ -1,4 +1,4 @@
-package gap
+package oap
 
 import (
 	"encoding/json"
@@ -7,7 +7,7 @@ import (
 )
 
 func TestApplySynthesizeThenEdit(t *testing.T) {
-	env := synthEnv(t, "greeting", 1, "text/html", `<gap:target id="msg">hello</gap:target>`)
+	env := synthEnv(t, "greeting", 1, "text/html", `<oap:target id="msg">hello</oap:target>`)
 	artifact, handle, err := Apply(nil, env)
 	if err != nil {
 		t.Fatalf("synthesize: %v", err)
@@ -31,13 +31,13 @@ func TestApplySynthesizeThenEdit(t *testing.T) {
 	if !strings.Contains(updated.Body, "world") {
 		t.Fatalf("updated body = %q", updated.Body)
 	}
-	if !strings.Contains(updated.Body, `<gap:target id="msg">`) {
+	if !strings.Contains(updated.Body, `<oap:target id="msg">`) {
 		t.Fatalf("edit should preserve markers: %q", updated.Body)
 	}
 }
 
 func TestApplyEditOperations(t *testing.T) {
-	base := `<gap:target id="x">middle</gap:target>`
+	base := `<oap:target id="x">middle</oap:target>`
 	tests := []struct {
 		name string
 		op   EditOp
@@ -46,22 +46,22 @@ func TestApplyEditOperations(t *testing.T) {
 		{
 			name: "replace",
 			op:   EditOp{Op: OpTypeReplace, Target: Target{Type: TargetTypeID, Value: "x"}, Content: stringPtr("new")},
-			want: `<gap:target id="x">new</gap:target>`,
+			want: `<oap:target id="x">new</oap:target>`,
 		},
 		{
 			name: "delete",
 			op:   EditOp{Op: OpTypeDelete, Target: Target{Type: TargetTypeID, Value: "x"}},
-			want: `<gap:target id="x"></gap:target>`,
+			want: `<oap:target id="x"></oap:target>`,
 		},
 		{
 			name: "insert before",
 			op:   EditOp{Op: OpTypeInsertBefore, Target: Target{Type: TargetTypeID, Value: "x"}, Content: stringPtr("pre-")},
-			want: `<gap:target id="x">pre-middle</gap:target>`,
+			want: `<oap:target id="x">pre-middle</oap:target>`,
 		},
 		{
 			name: "insert after",
 			op:   EditOp{Op: OpTypeInsertAfter, Target: Target{Type: TargetTypeID, Value: "x"}, Content: stringPtr("-post")},
-			want: `<gap:target id="x">middle-post</gap:target>`,
+			want: `<oap:target id="x">middle-post</oap:target>`,
 		},
 	}
 	for _, tt := range tests {
@@ -165,7 +165,7 @@ func TestApplyRejectsInvalidInputs(t *testing.T) {
 }
 
 func TestHandleIncludesTargetsForTextButNotJSON(t *testing.T) {
-	artifact, handle, err := Apply(nil, synthEnv(t, "x", 1, "text/html", `<gap:target id="a">one</gap:target>`))
+	artifact, handle, err := Apply(nil, synthEnv(t, "x", 1, "text/html", `<oap:target id="a">one</oap:target>`))
 	if err != nil {
 		t.Fatalf("synthesize: %v", err)
 	}

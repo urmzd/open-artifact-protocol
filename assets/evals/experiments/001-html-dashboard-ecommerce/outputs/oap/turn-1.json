@@ -1,0 +1,17 @@
+{
+  "protocol": "gap",
+  "id": "edit",
+  "version": 1,
+  "name": "edit",
+  "meta": {},
+  "content": [
+    {
+      "content": "<article class=\"card\">\n                  <div class=\"stat-head\">\n                    <div class=\"stat-label\">Total Revenue</div>\n                    <div class=\"stat-icon bg-blue\">R</div>\n                  </div>\n                  <div class=\"stat-value\"><oap:target id=\"stat-total-revenue-value\">$215,430</oap:target></div>\n                  <div class=\"trend up\">▲ <oap:target id=\"stat-total-revenue-trend\">12.3% from last month</oap:target></div>\n                </article>",
+      "op": "replace",
+      "target": {
+        "type": "id",
+        "value": "stat-total-revenue-card"
+      }
+    }
+  ]
+}

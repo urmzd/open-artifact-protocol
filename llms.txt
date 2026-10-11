@@ -1,23 +1,23 @@
-# Generative Artifact Protocol
+# Open Artifact Protocol
 
-> Open protocol and Go implementation for token-efficient artifact generation and updates by LLMs. Producers emit JSON envelopes targeting `<gap:target>` markers or JSON Pointers; the stateless Go apply engine resolves them without regenerating the whole artifact.
+> Open protocol and Go implementation for token-efficient artifact generation and updates by LLMs. Producers emit JSON envelopes targeting `<oap:target>` markers or JSON Pointers; the stateless Go apply engine resolves them without regenerating the whole artifact.
 
 ## Docs
 
 - [README](README.md): Installation, quick start, commands, and package overview
 - [AGENTS.md](AGENTS.md): Architecture, commands, and conventions for AI agents
-- [GAP specification](spec/gap.md): Normative wire format, envelopes, conformance levels
-- [GAP-SSE binding](spec/gap-sse.md): SSE transport binding for streaming envelopes
+- [OAP specification](spec/oap.md): Normative wire format, envelopes, conformance levels
+- [OAP-SSE binding](spec/oap-sse.md): SSE transport binding for streaming envelopes
 - [Experiment methodology](assets/evals/experiments/EXPERIMENT.md): Eval dataset layout and validity gates
-- [SAIGE eval set](assets/evals/saige/README.md): Generated SAIGE observations for the GAP corpus
+- [SAIGE eval set](assets/evals/saige/README.md): Generated SAIGE observations for the OAP corpus
 
 ## Key Files
 
 - [types.go](types.go): Envelope, artifact, and edit-op wire types
 - [apply.go](apply.go): Stateless `Apply(base, envelope)` implementation
-- [markers.go](markers.go): `<gap:target>` marker resolution
+- [markers.go](markers.go): `<oap:target>` marker resolution
 - [store.go](store.go): Versioned in-memory artifact store
-- [cmd/gap-eval](cmd/gap-eval/): Live OpenAI-compatible eval runner
+- [cmd/oap-eval](cmd/oap-eval/): Live OpenAI-compatible eval runner
 - [internal/liveeval](internal/liveeval/): Provider client, flow runner, metrics writer
 - [evalset](evalset/): Loader and committed-metrics scorers for `github.com/urmzd/saige/eval`
 - [observations.json](assets/evals/saige/observations.json): Generated SAIGE observation set

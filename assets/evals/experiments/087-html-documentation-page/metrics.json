@@ -10,7 +10,7 @@
     "latency_ms": 18605,
     "artifact_bytes": 7313
   },
-  "gap_turn0": {
+  "oap_turn0": {
     "input_tokens": 228,
     "output_tokens": 1939,
     "latency_ms": 19522,
@@ -68,7 +68,7 @@
     "total_cached_input_tokens": 23424,
     "total_latency_ms": 96866
   },
-  "gap_flow": {
+  "oap_flow": {
     "per_turn": [
       {
         "turn": 1,
@@ -158,7 +158,7 @@
     }
   },
   "economics": {
-    "fallback_assumption": "on each missed GAP edit, run the baseline full-regeneration edit after the failed GAP attempt",
+    "fallback_assumption": "on each missed OAP edit, run the baseline full-regeneration edit after the failed OAP attempt",
     "measured_total_token_savings_pct": 70.5,
     "fallback_adjusted": {
       "input_tokens": 33015,
@@ -177,14 +177,14 @@
     "amortized": {
       "edit_turns": 4,
       "base_init_inclusive_tokens": 37022,
-      "gap_init_inclusive_tokens": 12422,
+      "oap_init_inclusive_tokens": 12422,
       "fallback_init_inclusive_tokens": 47205,
       "measured_init_inclusive_token_savings_pct": 66.4,
       "fallback_init_inclusive_token_savings_pct": -27.5
     }
   },
   "validity": {
-    "gap_run_degenerate": true,
+    "oap_run_degenerate": true,
     "base_input_monotone": true
   }
 }

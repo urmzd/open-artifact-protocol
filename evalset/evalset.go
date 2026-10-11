@@ -1,4 +1,4 @@
-// Package evalset exposes the GAP benchmark corpus as SAIGE eval observations.
+// Package evalset exposes the OAP benchmark corpus as SAIGE eval observations.
 package evalset
 
 import (
@@ -17,13 +17,13 @@ import (
 const (
 	OperationConversation = "conversation"
 
-	AnnotationExperimentDir    = "gap.experiment_dir"
-	AnnotationFormat           = "gap.format"
-	AnnotationSizeHint         = "gap.size_hint"
-	AnnotationExpectedSections = "gap.expected_sections"
-	AnnotationMetricsPath      = "gap.metrics_path"
-	AnnotationCheckPaths       = "gap.check_paths"
-	AnnotationOutputPaths      = "gap.output_paths"
+	AnnotationExperimentDir    = "oap.experiment_dir"
+	AnnotationFormat           = "oap.format"
+	AnnotationSizeHint         = "oap.size_hint"
+	AnnotationExpectedSections = "oap.expected_sections"
+	AnnotationMetricsPath      = "oap.metrics_path"
+	AnnotationCheckPaths       = "oap.check_paths"
+	AnnotationOutputPaths      = "oap.output_paths"
 )
 
 type ExperimentInput struct {
@@ -33,8 +33,8 @@ type ExperimentInput struct {
 	SizeHint         string      `json:"size_hint"`
 	ExpectedSections []string    `json:"expected_sections,omitempty"`
 	BaseSystem       string      `json:"base_system"`
-	GAPInitSystem    string      `json:"gap_init_system"`
-	GAPMaintain      string      `json:"gap_maintain_system"`
+	OAPInitSystem    string      `json:"oap_init_system"`
+	OAPMaintain      string      `json:"oap_maintain_system"`
 	Turns            []TurnInput `json:"turns"`
 	Paths            Paths       `json:"paths"`
 }
@@ -51,7 +51,7 @@ type Paths struct {
 	Checks         []string `json:"checks,omitempty"`
 	BaseOutputs    []string `json:"base_outputs,omitempty"`
 	StatelessFiles []string `json:"stateless_outputs,omitempty"`
-	GAPOutputs     []string `json:"gap_outputs,omitempty"`
+	OAPOutputs     []string `json:"oap_outputs,omitempty"`
 }
 
 var (
@@ -148,11 +148,11 @@ func loadExperiment(dir string) (ExperimentInput, error) {
 	if err != nil {
 		return ExperimentInput{}, err
 	}
-	gapInit, err := readText(filepath.Join(dir, "inputs", "gap", "init-system.md"))
+	oapInit, err := readText(filepath.Join(dir, "inputs", "oap", "init-system.md"))
 	if err != nil {
 		return ExperimentInput{}, err
 	}
-	gapMaintain, err := readText(filepath.Join(dir, "inputs", "gap", "maintain-system.md"))
+	oapMaintain, err := readText(filepath.Join(dir, "inputs", "oap", "maintain-system.md"))
 	if err != nil {
 		return ExperimentInput{}, err
 	}
@@ -165,8 +165,8 @@ func loadExperiment(dir string) (ExperimentInput, error) {
 		SizeHint:         sizeHint,
 		ExpectedSections: parseSections(readme),
 		BaseSystem:       baseSystem,
-		GAPInitSystem:    gapInit,
-		GAPMaintain:      gapMaintain,
+		OAPInitSystem:    oapInit,
+		OAPMaintain:      oapMaintain,
 		Turns:            turns,
 		Paths: Paths{
 			ExperimentDir:  slash(dir),
@@ -174,7 +174,7 @@ func loadExperiment(dir string) (ExperimentInput, error) {
 			Checks:         globSlash(filepath.Join(dir, "checks", "turn-*.json")),
 			BaseOutputs:    expectedOutputs(dir, "base", ext, turns, false),
 			StatelessFiles: expectedOutputs(dir, "stateless", ext, turns, false),
-			GAPOutputs:     expectedOutputs(dir, "gap", ext, turns, true),
+			OAPOutputs:     expectedOutputs(dir, "oap", ext, turns, true),
 		},
 	}, nil
 }
@@ -214,7 +214,7 @@ func annotationsFor(exp ExperimentInput) (map[string]json.RawMessage, error) {
 	outputs := map[string][]string{
 		"base":      exp.Paths.BaseOutputs,
 		"stateless": exp.Paths.StatelessFiles,
-		"gap":       exp.Paths.GAPOutputs,
+		"oap":       exp.Paths.OAPOutputs,
 	}
 	values := map[string]any{
 		AnnotationExperimentDir:    exp.Paths.ExperimentDir,

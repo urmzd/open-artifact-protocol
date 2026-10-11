@@ -1,0 +1,262 @@
+<oap:target id="pom-project">
+  <oap:target id="model-version">4.0.0</oap:target>
+
+  <oap:target id="parent-block">
+    <parent>
+      <oap:target id="parent-group-id">org.springframework.boot</oap:target>
+      <oap:target id="parent-artifact-id">spring-boot-starter-parent</oap:target>
+      <oap:target id="parent-version">3.3.5</oap:target>
+      <oap:target id="parent-relative-path"/>
+    </parent>
+  </oap:target>
+
+  <oap:target id="coordinates-block">
+    <oap:target id="group-id">com.example</oap:target>
+    <oap:target id="artifact-id">spring-boot-web-app</oap:target>
+    <oap:target id="version">0.0.1-SNAPSHOT</oap:target>
+    <oap:target id="packaging">jar</oap:target>
+    <oap:target id="name">spring-boot-web-app</oap:target>
+    <oap:target id="description">Spring Boot 3 Web Application</oap:target>
+  </oap:target>
+
+  <oap:target id="properties-block">
+    <properties>
+      <oap:target id="java-version">21</oap:target>
+      <oap:target id="mapstruct-version">1.6.3</oap:target>
+      <oap:target id="springdoc-openapi-version">2.6.0</oap:target>
+      <oap:target id="testcontainers-version">1.20.3</oap:target>
+      <oap:target id="lombok-version">1.18.34</oap:target>
+      <oap:target id="maven-compiler-plugin-version">3.13.0</oap:target>
+      <oap:target id="jacoco-maven-plugin-version">0.8.12</oap:target>
+      <oap:target id="spring-boot-maven-plugin-version">3.3.5</oap:target>
+      <oap:target id="postgresql-version">42.7.4</oap:target>
+      <oap:target id="flyway-version">10.20.1</oap:target>
+    </properties>
+  </oap:target>
+
+  <oap:target id="dependencies-block">
+    <dependencies>
+      <oap:target id="dependency-spring-boot-web">
+        <dependency>
+          <oap:target id="dependency-spring-boot-web-group-id">org.springframework.boot</oap:target>
+          <oap:target id="dependency-spring-boot-web-artifact-id">spring-boot-starter-web</oap:target>
+        </dependency>
+      </oap:target>
+
+      <oap:target id="dependency-spring-boot-jpa">
+        <dependency>
+          <oap:target id="dependency-spring-boot-jpa-group-id">org.springframework.boot</oap:target>
+          <oap:target id="dependency-spring-boot-jpa-artifact-id">spring-boot-starter-data-jpa</oap:target>
+        </dependency>
+      </oap:target>
+
+      <oap:target id="dependency-spring-boot-security">
+        <dependency>
+          <oap:target id="dependency-spring-boot-security-group-id">org.springframework.boot</oap:target>
+          <oap:target id="dependency-spring-boot-security-artifact-id">spring-boot-starter-security</oap:target>
+        </dependency>
+      </oap:target>
+
+      <oap:target id="dependency-spring-boot-validation">
+        <dependency>
+          <oap:target id="dependency-spring-boot-validation-group-id">org.springframework.boot</oap:target>
+          <oap:target id="dependency-spring-boot-validation-artifact-id">spring-boot-starter-validation</oap:target>
+        </dependency>
+      </oap:target>
+
+      <oap:target id="dependency-postgresql">
+        <dependency>
+          <oap:target id="dependency-postgresql-group-id">org.postgresql</oap:target>
+          <oap:target id="dependency-postgresql-artifact-id">postgresql</oap:target>
+          <oap:target id="dependency-postgresql-version">${postgresql.version}</oap:target>
+        </dependency>
+      </oap:target>
+
+      <oap:target id="dependency-flyway">
+        <dependency>
+          <oap:target id="dependency-flyway-group-id">org.flywaydb</oap:target>
+          <oap:target id="dependency-flyway-artifact-id">flyway-core</oap:target>
+          <oap:target id="dependency-flyway-version">${flyway.version}</oap:target>
+        </dependency>
+      </oap:target>
+
+      <oap:target id="dependency-lombok">
+        <dependency>
+          <oap:target id="dependency-lombok-group-id">org.projectlombok</oap:target>
+          <oap:target id="dependency-lombok-artifact-id">lombok</oap:target>
+          <oap:target id="dependency-lombok-version">${lombok.version}</oap:target>
+          <oap:target id="dependency-lombok-scope">provided</oap:target>
+        </dependency>
+      </oap:target>
+
+      <oap:target id="dependency-mapstruct">
+        <dependency>
+          <oap:target id="dependency-mapstruct-group-id">org.mapstruct</oap:target>
+          <oap:target id="dependency-mapstruct-artifact-id">mapstruct</oap:target>
+          <oap:target id="dependency-mapstruct-version">${mapstruct.version}</oap:target>
+        </dependency>
+      </oap:target>
+
+      <oap:target id="dependency-springdoc-openapi">
+        <dependency>
+          <oap:target id="dependency-springdoc-openapi-group-id">org.springdoc</oap:target>
+          <oap:target id="dependency-springdoc-openapi-artifact-id">springdoc-openapi-starter-webmvc-ui</oap:target>
+          <oap:target id="dependency-springdoc-openapi-version">${springdoc-openapi.version}</oap:target>
+        </dependency>
+      </oap:target>
+    </dependencies>
+  </oap:target>
+
+  <oap:target id="test-dependencies-block">
+    <dependencies>
+      <oap:target id="dependency-spring-boot-test">
+        <dependency>
+          <oap:target id="dependency-spring-boot-test-group-id">org.springframework.boot</oap:target>
+          <oap:target id="dependency-spring-boot-test-artifact-id">spring-boot-starter-test</oap:target>
+          <oap:target id="dependency-spring-boot-test-scope">test</oap:target>
+        </dependency>
+      </oap:target>
+
+      <oap:target id="dependency-testcontainers">
+        <dependency>
+          <oap:target id="dependency-testcontainers-group-id">org.testcontainers</oap:target>
+          <oap:target id="dependency-testcontainers-artifact-id">testcontainers</oap:target>
+          <oap:target id="dependency-testcontainers-version">${testcontainers.version}</oap:target>
+          <oap:target id="dependency-testcontainers-scope">test</oap:target>
+        </dependency>
+      </oap:target>
+
+      <oap:target id="dependency-testcontainers-junit-jupiter">
+        <dependency>
+          <oap:target id="dependency-testcontainers-junit-jupiter-group-id">org.testcontainers</oap:target>
+          <oap:target id="dependency-testcontainers-junit-jupiter-artifact-id">junit-jupiter</oap:target>
+          <oap:target id="dependency-testcontainers-junit-jupiter-version">${testcontainers.version}</oap:target>
+          <oap:target id="dependency-testcontainers-junit-jupiter-scope">test</oap:target>
+        </dependency>
+      </oap:target>
+    </dependencies>
+  </oap:target>
+
+  <oap:target id="build-block">
+    <build>
+      <oap:target id="plugins-block">
+        <plugins>
+          <oap:target id="plugin-spring-boot-maven">
+            <plugin>
+              <oap:target id="plugin-spring-boot-maven-group-id">org.springframework.boot</oap:target>
+              <oap:target id="plugin-spring-boot-maven-artifact-id">spring-boot-maven-plugin</oap:target>
+              <oap:target id="plugin-spring-boot-maven-version">${spring-boot-maven-plugin.version}</oap:target>
+            </plugin>
+          </oap:target>
+
+          <oap:target id="plugin-mapstruct-processor">
+            <plugin>
+              <oap:target id="plugin-maven-compiler-group-id">org.apache.maven.plugins</oap:target>
+              <oap:target id="plugin-maven-compiler-artifact-id">maven-compiler-plugin</oap:target>
+              <oap:target id="plugin-maven-compiler-version">${maven-compiler-plugin.version}</oap:target>
+              <oap:target id="plugin-maven-compiler-configuration">
+                <configuration>
+                  <oap:target id="compiler-source">${java.version}</oap:target>
+                  <oap:target id="compiler-target">${java.version}</oap:target>
+                  <oap:target id="compiler-annotation-processor-paths">
+                    <annotationProcessorPaths>
+                      <oap:target id="processor-mapstruct">
+                        <path>
+                          <oap:target id="processor-mapstruct-group-id">org.mapstruct</oap:target>
+                          <oap:target id="processor-mapstruct-artifact-id">mapstruct-processor</oap:target>
+                          <oap:target id="processor-mapstruct-version">${mapstruct.version}</oap:target>
+                        </path>
+                      </oap:target>
+                      <oap:target id="processor-lombok">
+                        <path>
+                          <oap:target id="processor-lombok-group-id">org.projectlombok</oap:target>
+                          <oap:target id="processor-lombok-artifact-id">lombok</oap:target>
+                          <oap:target id="processor-lombok-version">${lombok.version}</oap:target>
+                        </path>
+                      </oap:target>
+                    </annotationProcessorPaths>
+                  </oap:target>
+                </configuration>
+              </oap:target>
+            </plugin>
+          </oap:target>
+
+          <oap:target id="plugin-jacoco">
+            <plugin>
+              <oap:target id="plugin-jacoco-group-id">org.jacoco</oap:target>
+              <oap:target id="plugin-jacoco-artifact-id">jacoco-maven-plugin</oap:target>
+              <oap:target id="plugin-jacoco-version">${jacoco-maven-plugin.version}</oap:target>
+              <oap:target id="plugin-jacoco-executions">
+                <executions>
+                  <oap:target id="jacoco-agent-execution">
+                    <execution>
+                      <oap:target id="jacoco-agent-id">prepare-agent</oap:target>
+                      <oap:target id="jacoco-agent-goals">
+                        <goal>prepare-agent</goal>
+                      </oap:target>
+                    </execution>
+                  </oap:target>
+                  <oap:target id="jacoco-report-execution">
+                    <execution>
+                      <oap:target id="jacoco-report-id">report</oap:target>
+                      <oap:target id="jacoco-report-phase">test</oap:target>
+                      <oap:target id="jacoco-report-goals">
+                        <goal>report</goal>
+                      </oap:target>
+                    </execution>
+                  </oap:target>
+                </executions>
+              </oap:target>
+            </plugin>
+          </oap:target>
+        </plugins>
+      </oap:target>
+    </build>
+  </oap:target>
+
+  <oap:target id="profiles-block">
+    <profiles>
+      <oap:target id="profile-dev">
+        <profile>
+          <oap:target id="profile-dev-id">dev</oap:target>
+          <oap:target id="profile-dev-properties">
+            <properties>
+              <oap:target id="dev-active-profile">spring.profiles.active=dev</oap:target>
+              <oap:target id="dev-hibernate-ddl-auto">spring.jpa.hibernate.ddl-auto=update</oap:target>
+              <oap:target id="dev-show-sql">spring.jpa.show-sql=true</oap:target>
+              <oap:target id="dev-flyway-enabled">spring.flyway.enabled=true</oap:target>
+            </properties>
+          </oap:target>
+        </profile>
+      </oap:target>
+
+      <oap:target id="profile-staging">
+        <profile>
+          <oap:target id="profile-staging-id">staging</oap:target>
+          <oap:target id="profile-staging-properties">
+            <properties>
+              <oap:target id="staging-active-profile">spring.profiles.active=staging</oap:target>
+              <oap:target id="staging-hibernate-ddl-auto">spring.jpa.hibernate.ddl-auto=validate</oap:target>
+              <oap:target id="staging-show-sql">spring.jpa.show-sql=false</oap:target>
+              <oap:target id="staging-flyway-enabled">spring.flyway.enabled=true</oap:target>
+            </properties>
+          </oap:target>
+        </profile>
+      </oap:target>
+
+      <oap:target id="profile-production">
+        <profile>
+          <oap:target id="profile-production-id">production</oap:target>
+          <oap:target id="profile-production-properties">
+            <properties>
+              <oap:target id="production-active-profile">spring.profiles.active=production</oap:target>
+              <oap:target id="production-hibernate-ddl-auto">spring.jpa.hibernate.ddl-auto=validate</oap:target>
+              <oap:target id="production-show-sql">spring.jpa.show-sql=false</oap:target>
+              <oap:target id="production-flyway-enabled">spring.flyway.enabled=true</oap:target>
+            </properties>
+          </oap:target>
+        </profile>
+      </oap:target>
+    </profiles>
+  </oap:target>
+</oap:target>
