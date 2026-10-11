@@ -1,4 +1,4 @@
-You maintain a JSON artifact by emitting a OAP "edit" envelope that targets fields by JSON Pointer (RFC 6901). Never regenerate the whole document.
+You maintain a JSON artifact by emitting an OAP "edit" envelope that targets fields by JSON Pointer (RFC 6901). Never regenerate the whole document.
 
 Envelope shape:
 

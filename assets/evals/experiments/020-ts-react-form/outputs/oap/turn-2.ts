@@ -1,69 +1,69 @@
-<oap:target id="checkout-form-component">
-  <oap:target id="types-section">
-    export interface <oap:target id="form-data-type-name">FormData</oap:target> {
-      <oap:target id="full-name-field">fullName</oap:target>: string;
-      <oap:target id="email-field">email</oap:target>: string;
-      <oap:target id="address-field">address</oap:target>: string;
-      <oap:target id="city-field">city</oap:target>: string;
-      <oap:target id="state-field">state</oap:target>: string;
-      <oap:target id="zip-field">zip</oap:target>: string;
-      <oap:target id="country-field">country</oap:target>: string;
-      <oap:target id="shipping-method-field">shippingMethod</oap:target>: string;
-      <oap:target id="card-name-field">cardName</oap:target>: string;
-      <oap:target id="card-number-field">cardNumber</oap:target>: string;
-      <oap:target id="card-expiry-field">cardExpiry</oap:target>: string;
-      <oap:target id="card-cvv-field">cardCvv</oap:target>: string;
+<gap:target id="checkout-form-component">
+  <gap:target id="types-section">
+    export interface <gap:target id="form-data-type-name">FormData</gap:target> {
+      <gap:target id="full-name-field">fullName</gap:target>: string;
+      <gap:target id="email-field">email</gap:target>: string;
+      <gap:target id="address-field">address</gap:target>: string;
+      <gap:target id="city-field">city</gap:target>: string;
+      <gap:target id="state-field">state</gap:target>: string;
+      <gap:target id="zip-field">zip</gap:target>: string;
+      <gap:target id="country-field">country</gap:target>: string;
+      <gap:target id="shipping-method-field">shippingMethod</gap:target>: string;
+      <gap:target id="card-name-field">cardName</gap:target>: string;
+      <gap:target id="card-number-field">cardNumber</gap:target>: string;
+      <gap:target id="card-expiry-field">cardExpiry</gap:target>: string;
+      <gap:target id="card-cvv-field">cardCvv</gap:target>: string;
     }
 
-    export interface <oap:target id="validation-errors-type-name">ValidationErrors</oap:target> {
-      <oap:target id="validation-full-name-key">fullName</oap:target>?: string;
-      <oap:target id="validation-email-key">email</oap:target>?: string;
-      <oap:target id="validation-address-key">address</oap:target>?: string;
-      <oap:target id="validation-city-key">city</oap:target>?: string;
-      <oap:target id="validation-state-key">state</oap:target>?: string;
-      <oap:target id="validation-zip-key">zip</oap:target>?: string;
-      <oap:target id="validation-country-key">country</oap:target>?: string;
-      <oap:target id="validation-shipping-method-key">shippingMethod</oap:target>?: string;
-      <oap:target id="validation-card-name-key">cardName</oap:target>?: string;
-      <oap:target id="validation-card-number-key">cardNumber</oap:target>?: string;
-      <oap:target id="validation-card-expiry-key">cardExpiry</oap:target>?: string;
-      <oap:target id="validation-card-cvv-key">cardCvv</oap:target>?: string;
-      <oap:target id="validation-form-key">form</oap:target>?: string;
+    export interface <gap:target id="validation-errors-type-name">ValidationErrors</gap:target> {
+      <gap:target id="validation-full-name-key">fullName</gap:target>?: string;
+      <gap:target id="validation-email-key">email</gap:target>?: string;
+      <gap:target id="validation-address-key">address</gap:target>?: string;
+      <gap:target id="validation-city-key">city</gap:target>?: string;
+      <gap:target id="validation-state-key">state</gap:target>?: string;
+      <gap:target id="validation-zip-key">zip</gap:target>?: string;
+      <gap:target id="validation-country-key">country</gap:target>?: string;
+      <gap:target id="validation-shipping-method-key">shippingMethod</gap:target>?: string;
+      <gap:target id="validation-card-name-key">cardName</gap:target>?: string;
+      <gap:target id="validation-card-number-key">cardNumber</gap:target>?: string;
+      <gap:target id="validation-card-expiry-key">cardExpiry</gap:target>?: string;
+      <gap:target id="validation-card-cvv-key">cardCvv</gap:target>?: string;
+      <gap:target id="validation-form-key">form</gap:target>?: string;
     }
 
-    export interface <oap:target id="cart-item-type-name">CartItem</oap:target> {
-      <oap:target id="cart-item-id-field">id</oap:target>: string;
-      <oap:target id="cart-item-name-field">name</oap:target>: string;
-      <oap:target id="cart-item-price-field">price</oap:target>: number;
-      <oap:target id="cart-item-quantity-field">quantity</oap:target>: number;
+    export interface <gap:target id="cart-item-type-name">CartItem</gap:target> {
+      <gap:target id="cart-item-id-field">id</gap:target>: string;
+      <gap:target id="cart-item-name-field">name</gap:target>: string;
+      <gap:target id="cart-item-price-field">price</gap:target>: number;
+      <gap:target id="cart-item-quantity-field">quantity</gap:target>: number;
     }
 
-    export interface <oap:target id="shipping-option-type-name">ShippingOption    export interface ShippingOptionV2 {
+    export interface <gap:target id="shipping-option-type-name">ShippingOption    export interface ShippingOptionV2 {
       id: string;
       name: string;
       price: number;
       estimated_days: string;
       carrier: string;
     }
-</oap:target> {
-      <oap:target id="shipping-option-id-field">id</oap:target>: string;
-      <oap:target id="shipping-option-label-field">label</oap:target>: string;
-      <oap:target id="shipping-option-price-field">price</oap:target>: number;
-      <oap:target id="shipping-option-days-field">days</oap:target>: string;
+</gap:target> {
+      <gap:target id="shipping-option-id-field">id</gap:target>: string;
+      <gap:target id="shipping-option-label-field">label</gap:target>: string;
+      <gap:target id="shipping-option-price-field">price</gap:target>: number;
+      <gap:target id="shipping-option-days-field">days</gap:target>: string;
     }
-  </oap:target>
+  </gap:target>
 
-  <oap:target id="validation-section">
-    <oap:target id="required-field-validator-name">required</oap:target> = (value: string, fieldName: string): string | null => {
+  <gap:target id="validation-section">
+    <gap:target id="required-field-validator-name">required</gap:target> = (value: string, fieldName: string): string | null => {
       return value.trim() ? null : `${fieldName} is required.`;
     };
 
-    <oap:target id="email-validator-name">validateEmail</oap:target> = (email: string): string | null => {
+    <gap:target id="email-validator-name">validateEmail</gap:target> = (email: string): string | null => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return emailRegex.test(email.trim()) ? null : "Please enter a valid email address.";
     };
 
-    <oap:target id="luhn-validator-name">validateCreditCard</oap:target> = (cardNumber: string): string | null => {
+    <gap:target id="luhn-validator-name">validateCreditCard</gap:target> = (cardNumber: string): string | null => {
       const digits = cardNumber.replace(/\D/g, "");
       if (!digits) return "Card number is required.";
       let sum = 0;
@@ -82,7 +82,7 @@
       return sum % 10 === 0 ? null : "Please enter a valid credit card number.";
     };
 
-    <oap:target id="expiry-validator-name">validateExpiryDate</oap:target> = (expiry: string): string | null => {
+    <gap:target id="expiry-validator-name">validateExpiryDate</gap:target> = (expiry: string): string | null => {
       const match = expiry.match(/^(\d{2})\/(\d{2})$/);
       if (!match) return "Use MM/YY format.";
 
@@ -100,17 +100,17 @@
 
       return null;
     };
-  </oap:target>
+  </gap:target>
 
-  <oap:target id="form-field-components-section">
-    const <oap:target id="text-input-component-name">TextInput</oap:target>: React.FC<{
-      <oap:target id="text-input-label-prop">label</oap:target>: string;
-      <oap:target id="text-input-name-prop">name</oap:target>: string;
-      <oap:target id="text-input-type-prop">type</oap:target>?: string;
-      <oap:target id="text-input-value-prop">value</oap:target>: string;
-      <oap:target id="text-input-onchange-prop">onChange</oap:target>: (e: React.ChangeEvent<HTMLInputElement>) => void;
-      <oap:target id="text-input-error-prop">error</oap:target>?: string;
-      <oap:target id="text-input-placeholder-prop">placeholder</oap:target>?: string;
+  <gap:target id="form-field-components-section">
+    const <gap:target id="text-input-component-name">TextInput</gap:target>: React.FC<{
+      <gap:target id="text-input-label-prop">label</gap:target>: string;
+      <gap:target id="text-input-name-prop">name</gap:target>: string;
+      <gap:target id="text-input-type-prop">type</gap:target>?: string;
+      <gap:target id="text-input-value-prop">value</gap:target>: string;
+      <gap:target id="text-input-onchange-prop">onChange</gap:target>: (e: React.ChangeEvent<HTMLInputElement>) => void;
+      <gap:target id="text-input-error-prop">error</gap:target>?: string;
+      <gap:target id="text-input-placeholder-prop">placeholder</gap:target>?: string;
     }> = ({ label, name, type = "text", value, onChange, error, placeholder }) => (
       <div style={styles.field}>
         <label style={styles.label} htmlFor={name}>{label}</label>
@@ -127,13 +127,13 @@
       </div>
     );
 
-    const <oap:target id="select-component-name">SelectInput</oap:target>: React.FC<{
-      <oap:target id="select-label-prop">label</oap:target>: string;
-      <oap:target id="select-name-prop">name</oap:target>: string;
-      <oap:target id="select-value-prop">value</oap:target>: string;
-      <oap:target id="select-onchange-prop">onChange</oap:target>: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-      <oap:target id="select-options-prop">options</oap:target>: { value: string; label: string }[];
-      <oap:target id="select-error-prop">error</oap:target>?: string;
+    const <gap:target id="select-component-name">SelectInput</gap:target>: React.FC<{
+      <gap:target id="select-label-prop">label</gap:target>: string;
+      <gap:target id="select-name-prop">name</gap:target>: string;
+      <gap:target id="select-value-prop">value</gap:target>: string;
+      <gap:target id="select-onchange-prop">onChange</gap:target>: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+      <gap:target id="select-options-prop">options</gap:target>: { value: string; label: string }[];
+      <gap:target id="select-error-prop">error</gap:target>?: string;
     }> = ({ label, name, value, onChange, options, error }) => (
       <div style={styles.field}>
         <label style={styles.label} htmlFor={name}>{label}</label>
@@ -144,7 +144,7 @@
           onChange={onChange}
           style={{ ...styles.input, ...(error ? styles.inputError : {}) }}
         >
-          {options.map(<oap:target id="select-option-render-function">option</oap:target> => (
+          {options.map(<gap:target id="select-option-render-function">option</gap:target> => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
@@ -154,12 +154,12 @@
       </div>
     );
 
-    const <oap:target id="card-number-component-name">CardNumberInput</oap:target>: React.FC<{
-      <oap:target id="card-number-label-prop">label</oap:target>: string;
-      <oap:target id="card-number-name-prop">name</oap:target>: string;
-      <oap:target id="card-number-value-prop">value</oap:target>: string;
-      <oap:target id="card-number-onchange-prop">onChange</oap:target>: (value: string) => void;
-      <oap:target id="card-number-error-prop">error</oap:target>?: string;
+    const <gap:target id="card-number-component-name">CardNumberInput</gap:target>: React.FC<{
+      <gap:target id="card-number-label-prop">label</gap:target>: string;
+      <gap:target id="card-number-name-prop">name</gap:target>: string;
+      <gap:target id="card-number-value-prop">value</gap:target>: string;
+      <gap:target id="card-number-onchange-prop">onChange</gap:target>: (value: string) => void;
+      <gap:target id="card-number-error-prop">error</gap:target>?: string;
     }> = ({ label, name, value, onChange, error }) => {
       const formatCardNumber = (input: string) => {
         const digits = input.replace(/\D/g, "").slice(0, 16);
@@ -185,12 +185,12 @@
       );
     };
 
-    const <oap:target id="expiry-picker-component-name">ExpiryPicker</oap:target>: React.FC<{
-      <oap:target id="expiry-picker-label-prop">label</oap:target>: string;
-      <oap:target id="expiry-picker-name-prop">name</oap:target>: string;
-      <oap:target id="expiry-picker-value-prop">value</oap:target>: string;
-      <oap:target id="expiry-picker-onchange-prop">onChange</oap:target>: (value: string) => void;
-      <oap:target id="expiry-picker-error-prop">error</oap:target>?: string;
+    const <gap:target id="expiry-picker-component-name">ExpiryPicker</gap:target>: React.FC<{
+      <gap:target id="expiry-picker-label-prop">label</gap:target>: string;
+      <gap:target id="expiry-picker-name-prop">name</gap:target>: string;
+      <gap:target id="expiry-picker-value-prop">value</gap:target>: string;
+      <gap:target id="expiry-picker-onchange-prop">onChange</gap:target>: (value: string) => void;
+      <gap:target id="expiry-picker-error-prop">error</gap:target>?: string;
     }> = ({ label, name, value, onChange, error }) => (
       <div style={styles.field}>
         <label style={styles.label} htmlFor={name}>{label}</label>
@@ -212,18 +212,18 @@
         {error && <div style={styles.errorText}>{error}</div>}
       </div>
     );
-  </oap:target>
+  </gap:target>
 
-  <oap:target id="checkout-component-section">
+  <gap:target id="checkout-component-section">
     import React, { useMemo, useState } from "react";
 
-    const <oap:target id="shipping-options-const-name">shippingOptions</oap:target>: ShippingOption[] = [
+    const <gap:target id="shipping-options-const-name">shippingOptions</gap:target>: ShippingOption[] = [
       { id: "standard", label: "Standard Shipping", price: 5.99, days: "5-7 business days" },
       { id: "express", label: "Express Shipping", price: 14.99, days: "2-3 business days" },
       { id: "overnight", label: "Overnight Shipping", price: 29.99, days: "1 business day" },
     ];
 
-    const <oap:target id="initial-form-state-name">initialFormData</oap:target>: FormData = {
+    const <gap:target id="initial-form-state-name">initialFormData</gap:target>: FormData = {
       fullName: "",
       email: "",
       address: "",
@@ -238,9 +238,9 @@
       cardCvv: "",
     };
 
-    export const <oap:target id="checkout-component-name">CheckoutForm</oap:target>: React.FC<{
-      <oap:target id="checkout-cart-items-prop">cartItems</oap:target>: CartItem[];
-      <oap:target id="checkout-on-submit-prop">onSubmitOrder</oap:target>: (data: FormData) => Promise<void>;
+    export const <gap:target id="checkout-component-name">CheckoutForm</gap:target>: React.FC<{
+      <gap:target id="checkout-cart-items-prop">cartItems</gap:target>: CartItem[];
+      <gap:target id="checkout-on-submit-prop">onSubmitOrder</gap:target>: (data: FormData) => Promise<void>;
     }> = ({ cartItems, onSubmitOrder }) => {
       const [formData, setFormData] = useState<FormData>(initialFormData);
       const [errors, setErrors] = useState<ValidationErrors>({});
@@ -489,5 +489,5 @@
         paddingTop: "8px",
       },
     };
-  </oap:target>
-</oap:target>
+  </gap:target>
+</gap:target>

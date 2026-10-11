@@ -6,7 +6,7 @@
   "meta": {},
   "content": [
     {
-      "content": "    scope <oap:target id=\"by-payment-method-scope-name\">:by_payment_method</oap:target>, ->(payment_method) { where(<oap:target id=\"payment-method-column\">payment_method</oap:target>: payment_method) }\n",
+      "content": "    scope <gap:target id=\"by-payment-method-scope-name\">:by_payment_method</gap:target>, ->(payment_method) { where(<gap:target id=\"payment-method-column\">payment_method</gap:target>: payment_method) }\n",
       "op": "insert_after",
       "target": {
         "type": "id",

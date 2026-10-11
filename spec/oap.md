@@ -5,6 +5,8 @@
 **Date**: 2026-04-02
 **Revision history**: this document is versioned with the reference implementation. Normative changes since the 2026-04-02 draft ship in module releases and are recorded in the [CHANGELOG](../CHANGELOG.md); the wire identifier stays `oap/0.1` until the next wire-breaking revision.
 
+> **Archived 2026-10-10.** This specification was published as the Generative Artifact Protocol (GAP) and renamed to Open Artifact Protocol (OAP) on 2026-10-10, when the wire identifier changed from `gap/0.1` to `oap/0.1` and markers from `<gap:target>` to `<oap:target>`. The text below is otherwise the draft as it stood. Cost and savings figures in this document, modeled or measured, are relative to full regeneration. For project status, motivation, and evaluation limits, see the [README](../README.md#status-archived).
+
 ## 1. Introduction
 
 Large language models regenerate entire artifacts on every edit — a report, a dashboard, a source file — even when only a single value changed. This wastes tokens, increases latency, and inflates cost.

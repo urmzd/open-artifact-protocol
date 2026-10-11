@@ -6,7 +6,7 @@
   "meta": {},
   "content": [
     {
-      "content": "- <oap:target id=\"usage-example-squash\">dbmigrate squash</oap:target>: squash multiple migrations\n- <oap:target id=\"usage-example-diff\">dbmigrate diff</oap:target>: show pending changes",
+      "content": "- <gap:target id=\"usage-example-squash\">dbmigrate squash</gap:target>: squash multiple migrations\n- <gap:target id=\"usage-example-diff\">dbmigrate diff</gap:target>: show pending changes",
       "op": "insert_after",
       "target": {
         "type": "id",

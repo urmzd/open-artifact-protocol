@@ -6,7 +6,7 @@
   "meta": {},
   "content": [
     {
-      "content": "\n    <oap:target id=\"deactivate-user-endpoint\">\n      <oap:target id=\"deactivate-user-method\">PATCH</oap:target>\n      <oap:target id=\"deactivate-user-path\">/users/{id}/deactivate</oap:target>\n      @router.patch(\"/{user_id}/deactivate\", response_model=UserResponse)\n      def deactivate_user_endpoint(user_id: int, db: Session = Depends(get_db)):\n          user = get_user(db, user_id)\n          user.is_active = False\n          db.commit()\n          db.refresh(user)\n          return user\n    </oap:target>\n",
+      "content": "\n    <gap:target id=\"deactivate-user-endpoint\">\n      <gap:target id=\"deactivate-user-method\">PATCH</gap:target>\n      <gap:target id=\"deactivate-user-path\">/users/{id}/deactivate</gap:target>\n      @router.patch(\"/{user_id}/deactivate\", response_model=UserResponse)\n      def deactivate_user_endpoint(user_id: int, db: Session = Depends(get_db)):\n          user = get_user(db, user_id)\n          user.is_active = False\n          db.commit()\n          db.refresh(user)\n          return user\n    </gap:target>\n",
       "op": "insert_after",
       "target": {
         "type": "id",

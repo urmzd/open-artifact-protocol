@@ -5,6 +5,8 @@
 **Date**: 2026-04-03
 **Companion to**: [Open Artifact Protocol (OAP)](oap.md)
 
+> **Archived 2026-10-10.** Published as GAP-SSE and renamed with the protocol. Event names changed from `gap:*` to `oap:*`. See the [README](../README.md#status-archived).
+
 ---
 
 ## 1. Overview

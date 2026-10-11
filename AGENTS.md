@@ -2,6 +2,10 @@
 
 Guidance for AI coding agents working in this repository. Humans should start with [README.md](README.md).
 
+## Status
+
+Archived on 2026-10-10 and read-only on GitHub. Formerly Generative Artifact Protocol (GAP). See the README Status section before proposing changes. Recorded model outputs under `assets/evals/` keep the original `gap` identifiers on purpose: do not rename them.
+
 ## Identity
 
 Open Artifact Protocol (OAP): an open protocol that lets LLMs declare, diff, and reprovision text artifacts with minimal token spend. The repo contains the normative spec, a native Go core apply engine, and a SAIGE-compatible eval corpus.

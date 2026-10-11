@@ -1,77 +1,77 @@
-<oap:target id="design-system-root">
-  <oap:target id="design-tokens-block">
-    <oap:target id="css-custom-properties-block">
+<gap:target id="design-system-root">
+  <gap:target id="design-tokens-block">
+    <gap:target id="css-custom-properties-block">
       :root {
-        <oap:target id="color-primary">#4f46e5</oap:target>
-        <oap:target id="color-primary-hover">#4338ca</oap:target>
-        <oap:target id="color-secondary">#f59e0b</oap:target>
-        <oap:target id="color-secondary-hover">#d97706</oap:target>
+        <gap:target id="color-primary">#4f46e5</gap:target>
+        <gap:target id="color-primary-hover">#4338ca</gap:target>
+        <gap:target id="color-secondary">#f59e0b</gap:target>
+        <gap:target id="color-secondary-hover">#d97706</gap:target>
 
-        <oap:target id="neutral-50">#fafafa</oap:target>
-        <oap:target id="neutral-100">#f5f5f5</oap:target>
-        <oap:target id="neutral-200">#e5e5e5</oap:target>
-        <oap:target id="neutral-300">#d4d4d4</oap:target>
-        <oap:target id="neutral-400">#a3a3a3</oap:target>
-        <oap:target id="neutral-500">#737373</oap:target>
-        <oap:target id="neutral-600">#525252</oap:target>
-        <oap:target id="neutral-700">#404040</oap:target>
-        <oap:target id="neutral-800">#262626</oap:target>
-        <oap:target id="neutral-900">#171717</oap:target>
+        <gap:target id="neutral-50">#fafafa</gap:target>
+        <gap:target id="neutral-100">#f5f5f5</gap:target>
+        <gap:target id="neutral-200">#e5e5e5</gap:target>
+        <gap:target id="neutral-300">#d4d4d4</gap:target>
+        <gap:target id="neutral-400">#a3a3a3</gap:target>
+        <gap:target id="neutral-500">#737373</gap:target>
+        <gap:target id="neutral-600">#525252</gap:target>
+        <gap:target id="neutral-700">#404040</gap:target>
+        <gap:target id="neutral-800">#262626</gap:target>
+        <gap:target id="neutral-900">#171717</gap:target>
 
-        <oap:target id="color-success">#16a34a</oap:target>
-        <oap:target id="color-warning">#f59e0b</oap:target>
-        <oap:target id="color-danger">#dc2626</oap:target>
-        <oap:target id="color-info">#0ea5e9</oap:target>
+        <gap:target id="color-success">#16a34a</gap:target>
+        <gap:target id="color-warning">#f59e0b</gap:target>
+        <gap:target id="color-danger">#dc2626</gap:target>
+        <gap:target id="color-info">#0ea5e9</gap:target>
 
-        <oap:target id="space-0">0</oap:target>
-        <oap:target id="space-1">0.25rem</oap:target>
-        <oap:target id="space-2">0.5rem</oap:target>
-        <oap:target id="space-3">0.75rem</oap:target>
-        <oap:target id="space-4">1rem</oap:target>
-        <oap:target id="space-5">1.25rem</oap:target>
-        <oap:target id="space-6">1.5rem</oap:target>
-        <oap:target id="space-8">2rem</oap:target>
-        <oap:target id="space-10">2.5rem</oap:target>
-        <oap:target id="space-12">3rem</oap:target>
-        <oap:target id="space-16">4rem</oap:target>
-        <oap:target id="space-20">5rem</oap:target>
+        <gap:target id="space-0">0</gap:target>
+        <gap:target id="space-1">0.25rem</gap:target>
+        <gap:target id="space-2">0.5rem</gap:target>
+        <gap:target id="space-3">0.75rem</gap:target>
+        <gap:target id="space-4">1rem</gap:target>
+        <gap:target id="space-5">1.25rem</gap:target>
+        <gap:target id="space-6">1.5rem</gap:target>
+        <gap:target id="space-8">2rem</gap:target>
+        <gap:target id="space-10">2.5rem</gap:target>
+        <gap:target id="space-12">3rem</gap:target>
+        <gap:target id="space-16">4rem</gap:target>
+        <gap:target id="space-20">5rem</gap:target>
 
-        <oap:target id="font-size-xs">0.75rem</oap:target>
-        <oap:target id="font-size-sm">0.875rem</oap:target>
-        <oap:target id="font-size-base">1rem</oap:target>
-        <oap:target id="font-size-lg">1.125rem</oap:target>
-        <oap:target id="font-size-xl">1.25rem</oap:target>
-        <oap:target id="font-size-2xl">1.5rem</oap:target>
-        <oap:target id="font-size-3xl">1.875rem</oap:target>
-        <oap:target id="font-size-4xl">2.25rem</oap:target>
-        <oap:target id="font-size-5xl">3rem</oap:target>
+        <gap:target id="font-size-xs">0.75rem</gap:target>
+        <gap:target id="font-size-sm">0.875rem</gap:target>
+        <gap:target id="font-size-base">1rem</gap:target>
+        <gap:target id="font-size-lg">1.125rem</gap:target>
+        <gap:target id="font-size-xl">1.25rem</gap:target>
+        <gap:target id="font-size-2xl">1.5rem</gap:target>
+        <gap:target id="font-size-3xl">1.875rem</gap:target>
+        <gap:target id="font-size-4xl">2.25rem</gap:target>
+        <gap:target id="font-size-5xl">3rem</gap:target>
 
-        <oap:target id="radius-sm">0.25rem</oap:target>
-        <oap:target id="radius-md">0.5rem</oap:target>
-        <oap:target id="radius-lg">0.75rem</oap:target>
-        <oap:target id="radius-xl">1rem</oap:target>
-        <oap:target id="radius-full">9999px</oap:target>
+        <gap:target id="radius-sm">0.25rem</gap:target>
+        <gap:target id="radius-md">0.5rem</gap:target>
+        <gap:target id="radius-lg">0.75rem</gap:target>
+        <gap:target id="radius-xl">1rem</gap:target>
+        <gap:target id="radius-full">9999px</gap:target>
 
-        <oap:target id="shadow-sm">0 1px 2px rgba(0, 0, 0, 0.05)</oap:target>
-        <oap:target id="shadow-md">0 4px 6px rgba(0, 0, 0, 0.08)</oap:target>
-        <oap:target id="shadow-lg">0 10px 15px rgba(0, 0, 0, 0.1)</oap:target>
-        <oap:target id="shadow-xl">0 20px 25px rgba(0, 0, 0, 0.12)</oap:target>
+        <gap:target id="shadow-sm">0 1px 2px rgba(0, 0, 0, 0.05)</gap:target>
+        <gap:target id="shadow-md">0 4px 6px rgba(0, 0, 0, 0.08)</gap:target>
+        <gap:target id="shadow-lg">0 10px 15px rgba(0, 0, 0, 0.1)</gap:target>
+        <gap:target id="shadow-xl">0 20px 25px rgba(0, 0, 0, 0.12)</gap:target>
 
-        <oap:target id="breakpoint-sm">576px</oap:target>
-        <oap:target id="breakpoint-md">768px</oap:target>
-        <oap:target id="breakpoint-lg">992px</oap:target>
-        <oap:target id="breakpoint-xl">1200px</oap:target>
-        <oap:target id="breakpoint-2xl">1400px</oap:target>
+        <gap:target id="breakpoint-sm">576px</gap:target>
+        <gap:target id="breakpoint-md">768px</gap:target>
+        <gap:target id="breakpoint-lg">992px</gap:target>
+        <gap:target id="breakpoint-xl">1200px</gap:target>
+        <gap:target id="breakpoint-2xl">1400px</gap:target>
 
-        <oap:target id="font-family-base">system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif</oap:target>
-        <oap:target id="line-height-base">1.5</oap:target>
-        <oap:target id="line-height-heading">1.2</oap:target>
-        <oap:target id="container-max-width">1200px</oap:target>
+        <gap:target id="font-family-base">system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif</gap:target>
+        <gap:target id="line-height-base">1.5</gap:target>
+        <gap:target id="line-height-heading">1.2</gap:target>
+        <gap:target id="container-max-width">1200px</gap:target>
       }
-    </oap:target>
-  </oap:target>
+    </gap:target>
+  </gap:target>
 
-  <oap:target id="reset-normalize-block">
+  <gap:target id="reset-normalize-block">
     *,
     *::before,
     *::after {
@@ -130,9 +130,9 @@
     pre {
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
-  </oap:target>
+  </gap:target>
 
-  <oap:target id="typography-block">
+  <gap:target id="typography-block">
     h1,
     .h1 {
       font-size: var(--font-size-4xl);
@@ -213,9 +213,9 @@
       color: var(--neutral-50);
       border-radius: var(--radius-md);
     }
-  </oap:target>
+  </gap:target>
 
-  <oap:target id="layout-block">
+  <gap:target id="layout-block">
     .container {
       width: min(100% - 2rem, var(--container-max-width));
       margin-inline: auto;
@@ -230,7 +230,7 @@
       grid-template-columns: repeat(12, minmax(0, 1fr));
     }
 
-    <oap:target id="grid-column-span-classes">
+    <gap:target id="grid-column-span-classes">
       .col-1 { grid-column: span 1; }
       .col-2 { grid-column: span 2; }
       .col-3 { grid-column: span 3; }
@@ -243,7 +243,7 @@
       .col-10 { grid-column: span 10; }
       .col-11 { grid-column: span 11; }
       .col-12 { grid-column: span 12; }
-    </oap:target>
+    </gap:target>
 
     .flex { display: flex; }
     .inline-flex { display: inline-flex; }
@@ -260,9 +260,9 @@
     .gap-2 { gap: var(--space-2); }
     .gap-3 { gap: var(--space-3); }
     .gap-4 { gap: var(--space-4); }
-  </oap:target>
+  </gap:target>
 
-  <oap:target id="spacing-utilities-block">
+  <gap:target id="spacing-utilities-block">
     .m-0 { margin: 0; }
     .mt-1 { margin-top: var(--space-1); }
     .mt-2 { margin-top: var(--space-2); }
@@ -280,10 +280,10 @@
     .px-4 { padding-inline: var(--space-4); }
     .py-2 { padding-block: var(--space-2); }
     .py-4 { padding-block: var(--space-4); }
-  </oap:target>
+  </gap:target>
 
-  <oap:target id="components-block">
-    <oap:target id="buttons-component-block">
+  <gap:target id="components-block">
+    <gap:target id="buttons-component-block">
       .btn {
         display: inline-flex;
         align-items: center;
@@ -335,9 +335,9 @@
       .btn-md { padding: 0.625rem 1rem; font-size: var(--font-size-base); }
       .btn-lg { padding: 0.875rem 1.25rem; font-size: var(--font-size-lg); }
       .btn-block { width: 100%; }
-    </oap:target>
+    </gap:target>
 
-    <oap:target id="cards-component-block">
+    <gap:target id="cards-component-block">
       .card {
         background: white;
         border: 1px solid var(--neutral-200);
@@ -356,9 +356,9 @@
         border-bottom: 1px solid var(--neutral-200);
         font-weight: 600;
       }
-    </oap:target>
+    </gap:target>
 
-    <oap:target id="badges-component-block">
+    <gap:target id="badges-component-block">
       .badge {
         display: inline-flex;
         align-items: center;
@@ -374,9 +374,9 @@
       .badge-warning { background: color-mix(in srgb, var(--color-warning) 12%, white); color: var(--color-warning); }
       .badge-danger { background: color-mix(in srgb, var(--color-danger) 12%, white); color: var(--color-danger); }
       .badge-info { background: color-mix(in srgb, var(--color-info) 12%, white); color: var(--color-info); }
-    </oap:target>
+    </gap:target>
 
-    <oap:target id="alerts-component-block">
+    <gap:target id="alerts-component-block">
       .alert {
         padding: var(--space-4);
         border-radius: var(--radius-md);
@@ -387,9 +387,9 @@
       .alert-success { background: color-mix(in srgb, var(--color-success) 10%, white); border-color: color-mix(in srgb, var(--color-success) 25%, white); }
       .alert-warning { background: color-mix(in srgb, var(--color-warning) 10%, white); border-color: color-mix(in srgb, var(--color-warning) 25%, white); }
       .alert-danger { background: color-mix(in srgb, var(--color-danger) 10%, white); border-color: color-mix(in srgb, var(--color-danger) 25%, white); }
-    </oap:target>
+    </gap:target>
 
-    <oap:target id="forms-component-block">
+    <gap:target id="forms-component-block">
       .form-control {
         width: 100%;
         padding: 0.625rem 0.875rem;
@@ -416,9 +416,9 @@
         font-size: var(--font-size-sm);
         color: var(--neutral-600);
       }
-    </oap:target>
+    </gap:target>
 
-    <oap:target id="tables-component-block">
+    <gap:target id="tables-component-block">
       .table {
         width: 100%;
         border-collapse: collapse;
@@ -436,9 +436,9 @@
         background: var(--neutral-100);
         font-weight: 600;
       }
-    </oap:target>
+    </gap:target>
 
-    <oap:target id="navigation-component-block">
+    <gap:target id="navigation-component-block">
       .nav {
         display: flex;
         align-items: center;
@@ -454,9 +454,9 @@
       .nav a:hover {
         color: var(--color-primary);
       }
-    </oap:target>
+    </gap:target>
 
-    <oap:target id="modals-component-block">
+    <gap:target id="modals-component-block">
       .modal-backdrop {
         position: fixed;
         inset: 0;
@@ -490,9 +490,9 @@
         justify-content: flex-end;
         gap: var(--space-2);
       }
-    </oap:target>
+    </gap:target>
 
-    <oap:target id="tooltips-component-block">
+    <gap:target id="tooltips-component-block">
       .tooltip {
         position: relative;
         display: inline-flex;
@@ -512,11 +512,11 @@
         white-space: nowrap;
         box-shadow: var(--shadow-md);
       }
-    </oap:target>
-  </oap:target>
+    </gap:target>
+  </gap:target>
 
-  <oap:target id="utility-classes-block">
-    <oap:target id="breadcrumbs-component-block">
+  <gap:target id="utility-classes-block">
+    <gap:target id="breadcrumbs-component-block">
       .breadcrumbs {
         display: flex;
         align-items: center;
@@ -587,7 +587,7 @@
           max-width: 10rem;
         }
       }
-    </oap:target>
+    </gap:target>
 
     .block { display: block; }
     .inline-block { display: inline-block; }
@@ -608,5 +608,5 @@
     .bg-secondary { background: var(--color-secondary); }
     .bg-neutral-100 { background: var(--neutral-100); }
     .bg-neutral-900 { background: var(--neutral-900); color: white; }
-  </oap:target>
-</oap:target>
+  </gap:target>
+</gap:target>
