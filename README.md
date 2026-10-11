@@ -44,6 +44,26 @@ Claude Code Artifacts, like OAP, keeps the artifact body in a store, publishes i
 
 **How to read the committed measurements.** The results under [`assets/evals/`](assets/evals/experiments/EXPERIMENT.md) compare OAP against full regeneration of the artifact. They do not compare OAP against string-replace editing, which is now the common baseline. Treat the savings figures as OAP versus full regeneration only.
 
+### Design notes: what the target IDs were for
+
+These notes record the intent behind the design and what was and was not tested. They are context for readers, not measured results.
+
+**Targets mark data points.** A `<oap:target>` ID names one value or region in the artifact: a metric, a price, a table row, a section. The IDs were meant as stable handles on the data, so that a producer, a reviewer, or another program can look a value up, change it, and check it by name. Cheaper edits were one use of that, not the whole purpose.
+
+**Lookup, iteration, and validation, not only recall.** A string-replace edit is a recall task: the model must reproduce the existing text exactly, and the match fails on any slip. An ID edit is a lookup: the model picks a short name from a list it was just shown. When this protocol was designed, verbatim recall over long artifacts was a real weakness in the models available. Current models with long context have largely outgrown it, and string-replace editing now works reliably in practice. The recall argument for IDs is therefore much weaker than it was.
+
+**Where IDs may still help.** These are possibilities, not findings.
+
+- **Validation.** A check can be written against a named data point ("`total-revenue` equals the sum of the rows") instead of against a text pattern.
+- **Classifiers and references.** A classifier, a reviewer, or a second model can point at a target by ID when it flags a problem, and the producer can act on exactly that region.
+- **Goals and self-correction.** A goal can be stated as the expected state of named targets. The producer can then compare the artifact to the goal target by target and correct itself, with no need to re-read and re-judge the whole artifact.
+
+**The split this was built for.** OAP separates two roles: an orchestrator that holds only a handle (ID, version, target list), and a maintain context that holds the artifact and edits it. IDs are what make that split possible, because an agent that never saw the body can still address a target by name. String-replace editing cannot do that, since quoting text requires seeing it. Claude Code Artifacts made the opposite choice: one agent writes the file, keeps it in its own context, and edits it by quoting.
+
+**What the evals did not test.** The live OAP flow in this repository sent the maintain context the full artifact on every edit, together with the target list. With the whole body in view, IDs offer little over quoting, which is consistent with the small margins observed. Editing from the handle and target list alone, where input scales with the number of targets instead of the size of the artifact, was never run.
+
+**An open hypothesis.** On small open models, ID addressing may reach a higher exact-match rate than string-replace editing, with the difference closing as models get stronger. This has not been measured here.
+
 Open Artifact Protocol (OAP), formerly Generative Artifact Protocol (GAP), lets LLMs update structured text artifacts by emitting small JSON envelopes instead of regenerating full files. The native implementation is now Go-only: protocol types, `<oap:target>` marker resolution, JSON Pointer edits, a stateless apply engine, and a versioned in-memory store live in the root Go package.
 
 ## Features
