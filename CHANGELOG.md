@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.19.0 (2026-10-11)
+
+### Breaking
+
+- rename GAP to Open Artifact Protocol (OAP) and add archived status note (#20) ([0fb74ed](https://github.com/urmzd/generative-artifact-protocol/commit/0fb74ed6651cdfa7b5e8f4675c72eb474f47f8b0))
+
+### Misc
+
+- **deps**: bump saige to v0.34.0 (#19) ([7190fbd](https://github.com/urmzd/generative-artifact-protocol/commit/7190fbdaa6a4b3e84196ad27a2d15d39fd289a61))
+- **release**: read the sr-releaser key from the release environment (#18) ([a848aa7](https://github.com/urmzd/generative-artifact-protocol/commit/a848aa71b0a7ea29a39c5701c40d8347f7082baf))
+- **deps**: bump saige to v0.24.0 (#17) ([fea567a](https://github.com/urmzd/generative-artifact-protocol/commit/fea567a453f9d743bc95635caafab19df44c7326))
+- upgrade urmzd/sr action to v9 (#16) ([d1e0fc2](https://github.com/urmzd/generative-artifact-protocol/commit/d1e0fc2914bcc8612ce4232bfba9f8740d3000eb))
+
+[Full Changelog](https://github.com/urmzd/generative-artifact-protocol/compare/v0.18.0...v0.19.0)
+
+
 ## 0.18.0 (2026-10-09)
 
 ### Features
