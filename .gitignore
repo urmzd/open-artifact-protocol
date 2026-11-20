@@ -7,3 +7,8 @@
 __pycache__/
 *.pyc
 assets/inputs/
+
+# Repo skills load in Claude Code from .claude/skills (links into skills/)
+!.claude/
+.claude/*
+!.claude/skills/
